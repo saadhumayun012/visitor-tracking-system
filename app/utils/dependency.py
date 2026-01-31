@@ -14,6 +14,9 @@ def get_db():
     db = SessionLocal()
     try:
         yield db
+    except: 
+        db.rollback()
+        raise
     finally:
         db.close()
 db_dependency = Annotated[Session, Depends(get_db)]

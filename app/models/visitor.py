@@ -1,13 +1,7 @@
-import enum
 from sqlalchemy import Column, String, Integer, Date, Identity, Enum, ForeignKey, Boolean
 from app.utils import CreatedAtMixin, TimestampMixin, Base
 
-
-class GenderType(enum.Enum):
-    MALE = "male"
-    FEMALE = "female"
-    OTHER = "other"
-
+from app.enum import GenderType
 
 #visitors model
 class Visitors(Base, TimestampMixin):

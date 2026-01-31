@@ -1,12 +1,7 @@
 from sqlalchemy import Column, Integer, String, Identity, Enum
 from app.utils import TimestampMixin, Base
-import enum
 
-class BadgeStatus(enum.Enum):
-    AVAILABLE = "available"
-    IN_USE = "in_use"
-    LOST = "lost"
-    DISABLED = "disabled"
+from app.enum import BadgeStatus
 
 class Badges(Base, TimestampMixin):
     __tablename__ = "badges"

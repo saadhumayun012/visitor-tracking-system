@@ -1,104 +1,66 @@
 from fastapi import APIRouter, HTTPException, status
 from passlib.context import CryptContext
-from enum import Enum
 
 from app.models import Users, Branches
 from app.schemas import CreateUserRequest, CreateBranchRequest
 from app.utils import db_dependency, user_dependency
+
+from app.enum import UserRoles
 
 router = APIRouter(
     prefix="/admin",
     tags= ["Admin"],
 )
 
-class UserRoles(str, Enum):
-    ADMIN = "admin"
-    RECEPTIONIST = "receptionist"
-    BRANCH_OFFICER = "branch_officer"
-
 bcrypt_pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# admin can create all types of user including admin
 @router.post("/users", status_code=status.HTTP_201_CREATED)
-def create_admin(
+def create_user(
     db: db_dependency,
     user: user_dependency,
     request: CreateUserRequest
 ):
-    if user.user_role.value != "admin":
-        raise HTTPException(
-            status_code=403,
-            detail="Only admin can perform this action"
-        )
-
-    new_user = Users(
-        username= request.username,
-        password_hash= bcrypt_pwd_context.hash(request.password),
-        user_role= "ADMIN"
-    )
-
-
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-
-    return{
-        "message": "admin added successfully"
-    }
-
-@router.post("/users/receptionist", status_code=status.HTTP_201_CREATED)
-def create_receptionist(
-    db: db_dependency,
-    user: user_dependency,
-    request: CreateUserRequest
-):
-    if user.user_role.value != "admin":
-        raise HTTPException(
-            status_code=403,
-            detail="Only admin can perform this action"
-        )
-
-    new_user = Users(
-        username= request.username,
-        password_hash= bcrypt_pwd_context.hash(request.password),
-        user_role= "RECEPTIONIST"
-    )
-
-
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-
-    return{
-        "message": "receptionist added successfully"
-    }
-    
-@router.post("/users/branchOfficer", status_code=status.HTTP_201_CREATED)
-def create_branch_officer(
-    db: db_dependency,
-    user: user_dependency,
-    request: CreateUserRequest
-):
-    if user.user_role.value != "admin":
+    if user.user_role!= UserRoles.ADMIN:
         raise HTTPException(
             status_code=403,
             detail="Only admin can perform this action"
         )
     
+    if request.user_role == UserRoles.BRANCH_OFFICER and not request.branch_id:
+        raise HTTPException(
+            status_code=400,
+            detail="For Branch officer, Branch id is required"
+        )
+    
+    if request.user_role != UserRoles.BRANCH_OFFICER and request.branch_id:
+        raise HTTPException(
+            status_code=400,
+            detail="Branch id allowed only for Branch officer"
+        )
+
     new_user = Users(
         username= request.username,
         password_hash= bcrypt_pwd_context.hash(request.password),
-        branch_id = request.branch_id,
-        user_role= "BRANCH_OFFICER"
+        user_role= request.user_role,
+        branch_id= None if request.branch_id == 0 else request.branch_id # i have do this because swagger puts by default 0 due to int
     )
+
+    if (db.query(Users).filter(Users.username == new_user.username).first()):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="User is already registered"
+        )
 
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
     return{
-        "message": "brach officer added successfully"
+        "message": f"User: {request.user_role.value}, created successfully"
     }
 
+# admin can add new branches
 @router.post("/branch", status_code=status.HTTP_201_CREATED)
 def add_branch(
     db: db_dependency,
@@ -133,6 +95,7 @@ def add_branch(
     db.commit()
     db.refresh(new_branch)
 
+# admin can view all branches
 @router.get("/branches", status_code=status.HTTP_200_OK)
 def get_branches(
     db: db_dependency,

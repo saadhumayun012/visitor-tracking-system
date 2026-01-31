@@ -18,7 +18,7 @@ Base.metadata.create_all(bind=engine)
 # pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # print(pwd.hash("admin123"))
 # app.include_router(user_ocr_data.router)
-app.include_router(user_router.router)
+# app.include_router(user_router.router)
 app.include_router(auth.router)
 app.include_router(admin.router)
 

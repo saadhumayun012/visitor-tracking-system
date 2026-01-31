@@ -1,11 +1,7 @@
 from sqlalchemy import Column, Integer, String, Identity, Boolean, func, DateTime, ForeignKey, Enum
 from app.utils import TimestampMixin, CreatedAtMixin, Base
-import enum
 
-class UserRoles(enum.Enum):
-    RECEPTIONIST = "receptionist"
-    BRANCH_OFFICER = "branch_officer"
-    ADMIN = "admin"
+from app.enum import UserRoles
 
 class Users(Base, TimestampMixin):
     __tablename__ = "users"

@@ -1,12 +1,7 @@
-import enum
-from sqlalchemy import Column, String, Integer, Date, Identity, DateTime, func, Enum, ForeignKey, Boolean
+from sqlalchemy import Column, String, Integer, Date, Identity, DateTime, func, Enum, ForeignKey
 from app.utils import CreatedAtMixin, TimestampMixin, Base
 
-class VisitStatus(enum.Enum):
-    CHECKED_IN = "checked_in"
-    CHECKED_OUT = "checked_out"
-    FORCE_CLOSED = "force_closed"
-    CANCELLED = "cancelled"
+from app.enum import VisitStatus
 
 #visitors visits model
 class Visits(Base, TimestampMixin):

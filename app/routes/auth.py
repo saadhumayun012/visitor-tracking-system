@@ -53,6 +53,10 @@ async def login_user(
         data={"user_id": user.user_id}
     )
 
+    # user last login time?
+    user.last_login_at = datetime.now(timezone.utc)
+    db.commit()
+
     return {
         "access_token": token,
         "token_type": "bearer"
