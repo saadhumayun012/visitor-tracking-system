@@ -96,7 +96,7 @@ def add_branch(
     db.refresh(new_branch)
 
 # admin can view all branches
-@router.get("/branches", status_code=status.HTTP_200_OK)
+@router.get("/all_branches", status_code=status.HTTP_200_OK)
 def get_branches(
     db: db_dependency,
     user: user_dependency
@@ -110,3 +110,19 @@ def get_branches(
     all_branches = db.query(Branches).all()
 
     return { "All Branches List": all_branches }
+
+# admin can view all users
+@router.get("/all_users", status_code=status.HTTP_200_OK)
+def get_user(
+    db: db_dependency,
+    user: user_dependency
+):
+    if user.user_role != UserRoles.ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admin can perform this action"
+        )
+
+    return {
+        "Users List": db.query(Users).all()
+    }

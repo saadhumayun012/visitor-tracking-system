@@ -19,12 +19,13 @@ class Visitors(Base, TimestampMixin):
     )
     father_name = Column(
         String(30), 
-        nullable=False
+        nullable=True
     )
     gender = Column(Enum(GenderType), nullable=True)
     cnic_number = Column(
         String(20), 
-        index=True, 
+        index=True,
+        unique=True, 
         nullable=False
     )
     date_of_birth = Column(Date)
@@ -36,11 +37,6 @@ class Visitors(Base, TimestampMixin):
     phone_number = Column(
         String(15), 
         index=True, 
-        nullable=False
-    )
-    is_primary_identity = Column(
-        Boolean, 
-        default=True, 
         nullable=False
     )
 
