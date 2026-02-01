@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
 from passlib.context import CryptContext
 
-from app.models import Users, Branches
-from app.schemas import CreateUserRequest, CreateBranchRequest
+from app.models import Users, Branches, Document_Types
+from app.schemas import CreateUserRequest, CreateBranchRequest, CreateDocumentTypeRequest
 from app.utils import db_dependency, user_dependency
 
 from app.enum import UserRoles
@@ -12,6 +12,7 @@ router = APIRouter(
     tags= ["Admin"],
 )
 
+# To hash the password
 bcrypt_pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # admin can create all types of user including admin
@@ -94,6 +95,45 @@ def add_branch(
     db.add(new_branch)
     db.commit()
     db.refresh(new_branch)
+
+# admin can add the types of documents which are needed
+@router.post("/documents", status_code=status.HTTP_201_CREATED)
+def add_documents_types(
+    db: db_dependency,
+    user: user_dependency,
+    request: CreateDocumentTypeRequest
+):
+    if (user.user_role != UserRoles.ADMIN):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admin can perform this action"
+        )
+    
+    new_document_type = Document_Types(
+        document_code = request.document_code,
+        document_name = request.document_name,
+        is_required = request.is_required
+    )
+
+    existing_type = (
+        db.query(Document_Types)
+        .filter(Document_Types.document_code == new_document_type.document_code)
+        .first()
+    )
+
+    if existing_type:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="This document is already added, check the document_code"
+        )
+    
+    db.add(new_document_type)
+    db.commit()
+    db.refresh(new_document_type)
+
+    return {
+        "Message": f"Document Type: {new_document_type.document_name} added successfully"
+    }
 
 # admin can view all branches
 @router.get("/all_branches", status_code=status.HTTP_200_OK)

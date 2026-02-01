@@ -15,8 +15,8 @@ router = APIRouter(
     tags= ["Authentication"]
 )
 
+# For verify password
 bcrypt_pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 # create the access token and return it
 def create_access_token(data: dict):

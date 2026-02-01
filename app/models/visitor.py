@@ -43,6 +43,7 @@ class Visitors(Base, TimestampMixin):
 #visitors documents types
 class Document_Types(Base, CreatedAtMixin):
     __tablename__ = "document_types"
+    
     document_type_id = Column(
         Integer,
         Identity(always=True),
@@ -52,7 +53,6 @@ class Document_Types(Base, CreatedAtMixin):
     document_code = Column(String(20), unique=True, nullable=False)
     document_name = Column(String(30))
     is_required = Column(Boolean, default=False)
-    is_active = Column(Boolean, default=False)
 
 #visitors documents
 class Visitors_Documents(Base, CreatedAtMixin):
