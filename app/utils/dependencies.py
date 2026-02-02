@@ -9,7 +9,9 @@ from app.models.user import Users
 from app.database import SessionLocal
 from app.config import settings
 
+from app.enum import UserRoles
 
+# db dependency
 def get_db():
     db = SessionLocal()
     try:
@@ -22,7 +24,9 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 
 
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/login")
+# user_dependency
+oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/login") # this will though exception 401 "Not Authenticated" if we try to login without credentials
+
 def get_current_user(
     db: db_dependency,
     token: Annotated[str, Depends(oauth2_bearer)]
@@ -55,6 +59,18 @@ def get_current_user(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token"
+        )   
+user_dependency = Annotated[Users, Depends(get_current_user) ]
+
+# require admin dependency
+def require_admin(
+    user: user_dependency
+):
+    if user.user_role != UserRoles.ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admin can perform this action"
         )
-    
-user_dependency = Annotated[dict, Depends(get_current_user) ]
+    return user
+
+admin_dependency = Annotated[Users, Depends(require_admin)]

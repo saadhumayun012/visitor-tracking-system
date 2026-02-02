@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 from datetime import date, datetime
 
-from app.enum import GenderType
+from app.enum import GenderType, VisitStatus
 
 class CreateVisitorRequest(BaseModel):
     visitor_name: str = Field(...)
@@ -45,3 +45,12 @@ class CreateVisitorRequest(BaseModel):
             ]
         }
     )
+
+
+# class CreateVisitRequest(BaseModel):
+#     purpose: str = Field(...)
+#     description: str = Field(min_length=4, max_length=100)
+#     status: VisitStatus = VisitStatus.CHECKED_IN
+#     visitor_id: int = Field(...)
+#     branch_id: int = Field(...)
+

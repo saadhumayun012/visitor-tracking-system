@@ -18,7 +18,7 @@ class Badges(Base, TimestampMixin):
         index=True,
         nullable=False
     )
-    status = Column(
+    badge_status = Column(
         Enum(BadgeStatus), 
         default=BadgeStatus.AVAILABLE, 
         nullable=False

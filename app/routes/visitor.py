@@ -7,11 +7,12 @@ from app.utils import db_dependency, user_dependency
 from app.enum import UserRoles
 
 router = APIRouter(
-    prefix="/visitor",
+    prefix="/visitors",
     tags=["Visitors"]
 )
 
-@router.post("/visitors", status_code=status.HTTP_200_OK)
+# receptionist add the visitor (it is only visitor details)
+@router.post("/visitor", status_code=status.HTTP_201_CREATED)
 def create_visitor(
     db: db_dependency,
     user: user_dependency,
@@ -53,3 +54,13 @@ def create_visitor(
     return {
         "Message": f"Visitor: {new_visitor.visitor_name} added successfully"
     }
+
+# receptionist add the visits details of visitors
+# @router.post("/visits", status_code=status.HTTP_201_CREATED)
+# def add_visits(
+#     db: db_dependency,
+#     user: user_dependency,
+
+# ):
+#     pass
+
