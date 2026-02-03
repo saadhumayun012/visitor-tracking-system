@@ -3,7 +3,7 @@ from passlib.context import CryptContext
 
 from app.models import Users
 from app.schemas import CreateUserRequest
-from app.utils import db_dependency, admin_dependency
+from app.utils import db_dependency, require_admin_dependency
 
 from app.enum import UserRoles
 
@@ -19,7 +19,7 @@ bcrypt_pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 @router.post("/", status_code=status.HTTP_201_CREATED)
 def create_user(
     db: db_dependency,
-    _: admin_dependency,
+    _: require_admin_dependency,
     request: CreateUserRequest
 ):  
     if request.user_role == UserRoles.BRANCH_OFFICER and not request.branch_id:
@@ -38,7 +38,7 @@ def create_user(
         username= request.username,
         password_hash= bcrypt_pwd_context.hash(request.password),
         user_role= request.user_role,
-        branch_id= None if request.branch_id == 0 else request.branch_id # i have do this because swagger puts by default 0 due to int
+        branch_id= request.branch_id #None if == 0 else request.branch_id # i have do this because swagger puts by default 0 due to int
     )
 
     if (db.query(Users).filter(Users.username == new_user.username).first()):
@@ -52,16 +52,17 @@ def create_user(
     db.refresh(new_user)
 
     return{
-        "message": f"User: {request.user_role.value}, created successfully"
+        "message": f"User: {request.user_role.value}, created successfully",
+        "details": new_user
     }
 
 # admin can view all users
-@router.get("/all_users", status_code=status.HTTP_200_OK)
+@router.get("/", status_code=status.HTTP_200_OK)
 def get_user(
     db: db_dependency,
-    _: admin_dependency
+    _: require_admin_dependency
 ):
     all_users = db.query(Users).all()
     return {
-        "Users List": all_users
+        "users": all_users
     }

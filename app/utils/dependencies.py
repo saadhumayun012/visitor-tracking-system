@@ -73,4 +73,17 @@ def require_admin(
         )
     return user
 
-admin_dependency = Annotated[Users, Depends(require_admin)]
+require_admin_dependency = Annotated[Users, Depends(require_admin)]
+
+# require receptionist dependency
+def require_receptionist(
+    user: user_dependency
+):
+    if user.user_role != UserRoles.RECEPTIONIST:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only Receptionist can perform this action"
+        )
+    return user
+
+require_receptionist_dependency = Annotated[Users, Depends(require_receptionist)]

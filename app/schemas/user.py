@@ -7,10 +7,7 @@ class CreateUserRequest(BaseModel):
     username: str = Field(..., min_length=3)
     password: str = Field(..., min_length=4)
     user_role: UserRoles
-    branch_id: Optional[int] = Field(
-        default=None,
-        description="Required only for branch officer"
-    )
+    branch_id: Optional[int] = None
 
 
 class LoginUserRequest(BaseModel):

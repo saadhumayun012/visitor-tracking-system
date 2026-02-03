@@ -47,10 +47,8 @@ class CreateVisitorRequest(BaseModel):
     )
 
 
-# class CreateVisitRequest(BaseModel):
-#     purpose: str = Field(...)
-#     description: str = Field(min_length=4, max_length=100)
-#     status: VisitStatus = VisitStatus.CHECKED_IN
-#     visitor_id: int = Field(...)
-#     branch_id: int = Field(...)
-
+class CreateVisitorDocuments(BaseModel):
+    file_path: str = Field(...)
+    document_type_id: int = Field(...)
+    visitor_id: int = Field(...)
+    uploaded_by: int = Field(...)

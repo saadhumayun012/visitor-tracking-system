@@ -15,7 +15,7 @@ class Visits(Base, TimestampMixin):
     )
     
     purpose = Column(String(50))
-    description = Column(String(500))
+    purpose_description = Column(String(500))
     
     check_in_time = Column(DateTime(timezone=True), server_default=func.now())
     check_out_time = Column(DateTime(timezone=True), nullable=True)
@@ -89,7 +89,7 @@ class Visits_Items(Base, CreatedAtMixin):
         primary_key=True,
         index=True
     )
-    description = Column(String)
+    items_description = Column(String)
     # foreign key
     visit_id = Column(
         Integer, 

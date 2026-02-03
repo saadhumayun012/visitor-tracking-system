@@ -1,29 +1,22 @@
 from fastapi import APIRouter, HTTPException, status
 
-from app.models import Visitors
-from app.schemas import CreateVisitorRequest
-from app.utils import db_dependency, user_dependency
+from app.models import Visitors, Visits
+from app.schemas import CreateVisitorRequest, CreateVisitRequest
+from app.utils import db_dependency, require_receptionist_dependency
 
-from app.enum import UserRoles
 
 router = APIRouter(
     prefix="/visitors",
-    tags=["Visitors"]
+    tags=["Visitor - Receptionist"]
 )
 
 # receptionist add the visitor (it is only visitor details)
-@router.post("/visitor", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def create_visitor(
     db: db_dependency,
-    user: user_dependency,
+    _: require_receptionist_dependency,
     request: CreateVisitorRequest
-):
-    if (user.user_role != UserRoles.RECEPTIONIST):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only Receptionist can perform this action"
-        )
-    
+):  
     new_visitor = Visitors(
         visitor_name= request.visitor_name,
         father_name= request.father_name,
@@ -44,7 +37,7 @@ def create_visitor(
     if existing_visitor:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="This visitor is already exits plz contact to admin to see details"
+            detail="This visitor is already exists, contact to admin to see details"
         )
     
     db.add(new_visitor)
@@ -52,15 +45,7 @@ def create_visitor(
     db.refresh(new_visitor)
 
     return {
-        "Message": f"Visitor: {new_visitor.visitor_name} added successfully"
+        "message": f"Visitor: {new_visitor.visitor_name} added successfully",
+        "details": new_visitor
     }
-
-# receptionist add the visits details of visitors
-# @router.post("/visits", status_code=status.HTTP_201_CREATED)
-# def add_visits(
-#     db: db_dependency,
-#     user: user_dependency,
-
-# ):
-#     pass
 

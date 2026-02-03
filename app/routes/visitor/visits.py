@@ -1,0 +1,104 @@
+from fastapi import APIRouter, HTTPException, status
+
+from app.models import Visitors, Visits, Visits_Vehicles, Visits_Items
+from app.schemas import CreateVisitRequest, CreateVisitVehicleRequest, CreateVisitItemRequest
+from app.utils import db_dependency, require_receptionist_dependency
+
+router = APIRouter(
+    prefix="/visits",
+    tags=["Visitor - Receptionist"]
+)
+
+#receptionist add the visits details of visitors
+@router.post("/", status_code=status.HTTP_201_CREATED)
+def add_visits(
+    db: db_dependency,
+    _: require_receptionist_dependency,
+    request: CreateVisitRequest
+):
+    visitor = db.query(Visitors).filter(Visitors.visitor_id == int(request.visitor_id)).first()
+
+    if not visitor:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Visitor Not Found"
+        )
+    
+    new_visit = Visits(
+        purpose = request.purpose,
+        purpose_description = request.purpose_description,
+        status = request.status,
+        visitor_id = request.visitor_id,
+        branch_id = request.branch_id,
+        badge_id = request.badge_id
+    )
+
+    db.add(new_visit)
+    db.commit()
+    db.refresh(new_visit)
+
+    return{
+        "Message": "Visit added successfully",
+        "Details": new_visit
+    }
+
+# add visitor vehicle details in the time of its visit
+@router.post("/vehicle", status_code=status.HTTP_201_CREATED)
+def add_vehicle(
+    db: db_dependency,
+    _: require_receptionist_dependency,
+    request: CreateVisitVehicleRequest
+):
+    visit = db.query(Visits).filter(Visits.visit_id == int(request.visit_id)).first()
+
+    if not visit:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Visit Not Found"
+        )
+    
+    vehicle = Visits_Vehicles(
+        vehicle_number = request.vehicle_number,
+        vehicle_color = request.vehicle_color,
+        vehicle_type = request.vehicle_type,
+        visit_id = request.visit_id
+    )
+
+    db.add(vehicle)
+    db.commit()
+    db.refresh(vehicle)
+
+    return {
+        "message": "vehicle added successfully",
+        "details": vehicle
+    }
+
+# add visitor vehicle details in the time of its visit
+@router.post("/items", status_code=status.HTTP_201_CREATED)
+def add_item(
+    db: db_dependency,
+    _: require_receptionist_dependency,
+    request: CreateVisitItemRequest
+):
+    visit = db.query(Visits).filter(Visits.visit_id == int(request.visit_id)).first()
+
+    if not visit:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Visit Not Found"
+        )
+    
+    items = Visits_Items(
+        items_description = request.items_description,
+        visit_id = request.visit_id
+    )
+
+    db.add(items)
+    db.commit()
+    db.refresh(items)
+
+    return {
+        "message": "items description added successfully",
+        "details": items
+    }
+

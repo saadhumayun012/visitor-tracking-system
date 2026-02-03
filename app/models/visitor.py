@@ -64,17 +64,17 @@ class Visitors_Documents(Base, CreatedAtMixin):
         primary_key=True,
         index=True
     )
+    file_path = Column(String)
+    #foreign key
     visitor_id = Column(
         Integer,
         ForeignKey("visitors.visitor_id"),
         nullable=False
     )
-    file_path = Column(String)
     uploaded_by = Column(
         Integer,
         ForeignKey("users.user_id")
     )
-    #foreign key
     document_type_id = Column(
         Integer,
         ForeignKey("document_types.document_type_id"),
