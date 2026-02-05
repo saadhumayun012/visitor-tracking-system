@@ -1,4 +1,6 @@
-from sqlalchemy import Column, String, Integer, Date, Identity, DateTime, func, Enum, ForeignKey
+from sqlalchemy import Column, String, Integer, Identity, DateTime, func, Enum, ForeignKey
+from sqlalchemy.orm import relationship
+
 from app.utils import CreatedAtMixin, TimestampMixin, Base
 
 from app.enum import VisitStatus
@@ -51,10 +53,16 @@ class Visits(Base, TimestampMixin):
         ForeignKey("users.user_id"),
         nullable=True
     )
+    # relationships
+    # many to one
+    visitor = relationship("Visitors", back_populates="visits")
+    # one to one
+    visit_vehicle = relationship("Visit_Vehicles", back_populates="visit", uselist=False)
+    visit_item = relationship("Visit_Items", back_populates="visit", uselist=False)
 
 #visitors -> visits -> vehicle model
-class Visits_Vehicles(Base, CreatedAtMixin):
-    __tablename__ = "visits_vehicles"
+class Visit_Vehicles(Base, CreatedAtMixin):
+    __tablename__ = "visit_vehicles"
 
     visit_vehicle_id = Column(
         Integer,
@@ -78,9 +86,12 @@ class Visits_Vehicles(Base, CreatedAtMixin):
         ForeignKey("visits.visit_id", ondelete="CASCADE"),
         nullable=False
     )
+    #relationships
+    # one to one
+    visit = relationship("Visits", back_populates="visit_vehicle", uselist=False)
 
 #visitors -> visits -> Items model
-class Visits_Items(Base, CreatedAtMixin):
+class Visit_Items(Base, CreatedAtMixin):
     __tablename__ = "visits_items"
 
     visit_item_id = Column(
@@ -96,4 +107,7 @@ class Visits_Items(Base, CreatedAtMixin):
         ForeignKey("visits.visit_id", ondelete="CASCADE"), 
         nullable=False
     )
+    #relationships
+    # one to one
+    visit = relationship("Visits", back_populates="visit_item", uselist=False)
     

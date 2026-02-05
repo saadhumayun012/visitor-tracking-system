@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 
-from app.models import Visitors, Visits, Visits_Vehicles, Visits_Items
+from app.models import Visitors, Visits, Visit_Vehicles, Visit_Items
 from app.schemas import CreateVisitRequest, CreateVisitVehicleRequest, CreateVisitItemRequest
 from app.utils import db_dependency, require_receptionist_dependency
 
@@ -13,7 +13,7 @@ router = APIRouter(
 @router.post("/", status_code=status.HTTP_201_CREATED)
 def add_visits(
     db: db_dependency,
-    _: require_receptionist_dependency,
+    user: require_receptionist_dependency,
     request: CreateVisitRequest
 ):
     visitor = db.query(Visitors).filter(Visitors.visitor_id == int(request.visitor_id)).first()
@@ -30,7 +30,8 @@ def add_visits(
         status = request.status,
         visitor_id = request.visitor_id,
         branch_id = request.branch_id,
-        badge_id = request.badge_id
+        badge_id = request.badge_id,
+        created_by = user.user_id
     )
 
     db.add(new_visit)
@@ -57,7 +58,7 @@ def add_vehicle(
             detail="Visit Not Found"
         )
     
-    vehicle = Visits_Vehicles(
+    vehicle = Visit_Vehicles(
         vehicle_number = request.vehicle_number,
         vehicle_color = request.vehicle_color,
         vehicle_type = request.vehicle_type,
@@ -88,7 +89,7 @@ def add_item(
             detail="Visit Not Found"
         )
     
-    items = Visits_Items(
+    items = Visit_Items(
         items_description = request.items_description,
         visit_id = request.visit_id
     )

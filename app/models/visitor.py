@@ -1,4 +1,6 @@
 from sqlalchemy import Column, String, Integer, Date, Identity, Enum, ForeignKey, Boolean
+from sqlalchemy.orm import relationship
+
 from app.utils import CreatedAtMixin, TimestampMixin, Base
 
 from app.enum import GenderType
@@ -39,6 +41,8 @@ class Visitors(Base, TimestampMixin):
         index=True, 
         nullable=False
     )
+    #relationships
+    visits = relationship("Visits", back_populates="visitor")
 
 #visitors documents types
 class Document_Types(Base, CreatedAtMixin):

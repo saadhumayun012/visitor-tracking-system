@@ -38,7 +38,8 @@ def create_user(
         username= request.username,
         password_hash= bcrypt_pwd_context.hash(request.password),
         user_role= request.user_role,
-        branch_id= request.branch_id #None if == 0 else request.branch_id # i have do this because swagger puts by default 0 due to int
+        branch_id= None if request.branch_id == 0 else request.branch_id
+        # request.branch_id #None if == 0 else request.branch_id # i have do this because swagger puts by default 0 due to int
     )
 
     if (db.query(Users).filter(Users.username == new_user.username).first()):

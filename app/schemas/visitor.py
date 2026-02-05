@@ -34,8 +34,8 @@ class CreateVisitorRequest(BaseModel):
         json_schema_extra = {
             "examples": [
                 {
-                    "visitor_name": "Donald",
-                    "father_name": "Trump",
+                    "visitor_name": "Saad",
+                    "father_name": "Humayun",
                     "gender": "male",
                     "cnic_number": "12345-1234557-1",
                     "date_of_birth": "01.01.2000",
