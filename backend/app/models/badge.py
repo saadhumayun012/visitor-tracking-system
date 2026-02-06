@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Identity, Enum
+from sqlalchemy.orm import relationship
 from app.utils import TimestampMixin, Base
 
 from app.enum import BadgeStatus

@@ -1,0 +1,71 @@
+from pydantic import BaseModel, Field, field_validator, ConfigDict, model_validator
+from datetime import date, datetime
+from app.enum import GenderType
+
+class CreateVisitorRequest(BaseModel):
+    visitor_name: str = Field(...)
+    father_name: str | None = None
+    gender: GenderType 
+    date_of_birth: date
+    cnic_number: str = Field(..., pattern=r"^\d{5}-\d{7}-\d$")
+    cnic_date_of_issue: date
+    cnic_date_of_expiry: date 
+    current_address: str = Field(..., min_length=10)
+    permanent_address: str | None = None
+    phone_number: str = Field(...)
+
+    @field_validator(
+        "date_of_birth",
+        "cnic_date_of_issue",
+        "cnic_date_of_expiry",
+        mode="before"
+    )
+    @classmethod
+    def parse_date(cls, v):
+        if v is None or isinstance(v, (date, datetime)):
+            return v
+        for fmt in ("%d.%m.%Y", "%d/%m/%Y", "%d-%m-%Y"):
+            try:
+                return datetime.strptime(v, fmt).date()
+            except:
+                pass
+        raise ValueError("Invalid date format. Use DD.MM.YYYY, DD/MM/YYYY, or DD-MM-YYYY")
+
+    @model_validator(mode="after")
+    def check_logic(self):
+        if self.cnic_date_of_expiry <= self.cnic_date_of_issue:
+            raise ValueError("CNIC expiry date must come after issue date")
+        
+        if self.cnic_date_of_expiry < date.today():
+            raise ValueError("CNIC expired.")
+                  
+        return self
+
+    model_config = ConfigDict(
+        json_schema_extra = {
+            "examples": [
+                {
+                    "visitor_name": "Saad Humayun",
+                    "father_name": "Humayun Khan",
+                    "gender": "male",
+                    "cnic_number": "12345-1234567-1",
+                    "date_of_birth": "01.01.1995",
+                    "cnic_date_of_issue": "01.01.2015",
+                    "cnic_date_of_expiry": "01.01.2030",
+                    "current_address": "House 123, Street 5, Islamabad",
+                    "permanent_address": "Near Road",
+                    "phone_number": "03001234567"
+                }
+            ]
+        }
+    )
+
+
+class FindVisitorResponse(BaseModel):
+    visitor_name: str
+    father_name: str
+    cnic_number: str
+    purpose: str
+    status: str
+    check_in_time: datetime
+    total_time: datetime | None

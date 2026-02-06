@@ -1,6 +1,6 @@
 from .user import CreateUserRequest, LoginUserRequest
 from .branch import CreateBranchRequest
-from .visitor import CreateVisitorRequest
+from .visitor import CreateVisitorRequest, FindVisitorResponse
 from .visit import CreateVisitRequest, CreateVisitItemRequest, CreateVisitVehicleRequest
 from .document import CreateDocumentTypeRequest
 from .badge import CreateBadgeRequest
@@ -14,5 +14,6 @@ __all__ = [
     CreateBadgeRequest,
     CreateVisitRequest,
     CreateVisitVehicleRequest,
-    CreateVisitItemRequest
+    CreateVisitItemRequest,
+    FindVisitorResponse
 ]

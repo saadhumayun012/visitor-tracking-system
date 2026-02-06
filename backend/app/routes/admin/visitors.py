@@ -19,9 +19,8 @@ def all_visits_of_visitor(
     visitor = (
         db.query(Visitors)
         .options(
-            joinedload(Visitors.visits)
-            .joinedload(Visits.visits_item)
-            .joinedload(Visits.visits_vehicle)
+            joinedload(Visitors.visits).joinedload(Visits.visit_item),
+            joinedload(Visitors.visits).joinedload(Visits.visit_vehicle)
         )
         .filter(Visitors.visitor_id == visitor_id)
         .first()

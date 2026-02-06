@@ -1,8 +1,10 @@
 from fastapi import APIRouter, HTTPException, status
-
-from app.models import Visitors, Visits, Visit_Vehicles, Visit_Items
+from datetime import datetime, timezone
+from app.models import Visitors, Visits, Visit_Vehicles, Visit_Items, Badges, Branches
 from app.schemas import CreateVisitRequest, CreateVisitVehicleRequest, CreateVisitItemRequest
 from app.utils import db_dependency, require_receptionist_dependency
+
+from app.enum import VisitStatus, BadgeStatus
 
 router = APIRouter(
     prefix="/visits",
@@ -16,30 +18,61 @@ def add_visits(
     user: require_receptionist_dependency,
     request: CreateVisitRequest
 ):
-    visitor = db.query(Visitors).filter(Visitors.visitor_id == int(request.visitor_id)).first()
+    visitor_exists = (
+        db.query(Visitors)
+        .filter(Visitors.visitor_id == int(request.visitor_id))
+        .first()
+    )
 
-    if not visitor:
+    if not visitor_exists:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Visitor Not Found"
         )
     
+    badge = (
+        db.query(Badges)
+        .filter(
+            Badges.badge_id == request.badge_id,
+            Badges.badge_status == BadgeStatus.AVAILABLE
+        )
+        .first()
+    )
+
+    if not badge:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Badge not available"
+        )
+    
+    branch = (
+        db.query(Branches)
+        .filter(Branches.branch_id == request.branch_id)
+        .first()
+    )
+
+    if not branch:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Branch Not Found"
+        )
+    
     new_visit = Visits(
         purpose = request.purpose,
         purpose_description = request.purpose_description,
-        status = request.status,
+        status = VisitStatus.CHECKED_IN,
         visitor_id = request.visitor_id,
         branch_id = request.branch_id,
         badge_id = request.badge_id,
         created_by = user.user_id
     )
 
+    badge.badge_status = BadgeStatus.IN_USE
     db.add(new_visit)
     db.commit()
     db.refresh(new_visit)
 
     return{
-        "Message": "Visit added successfully",
+        "message": "Visit added successfully",
         "Details": new_visit
     }
 
@@ -103,3 +136,35 @@ def add_item(
         "details": items
     }
 
+
+# check out the visitor
+@router.patch("/checkout/{visit_id}", status_code= status.HTTP_200_OK)
+def check_out(
+    db: db_dependency,
+    _: require_receptionist_dependency,
+    visit_id: int
+):
+    visit = db.query(Visits).filter(
+        Visits.visit_id == visit_id,
+        Visits.status == VisitStatus.CHECKED_IN
+    ).first()
+
+    if not visit:
+        raise HTTPException(status_code=404, detail="Active visit not found")
+
+    visit.status = VisitStatus.CHECKED_OUT
+    visit.check_out_time = datetime.now(timezone.utc)
+
+    db.query(Badges)\
+    .filter(Badges.badge_id == visit.badge_id)\
+    .update(
+        {
+            Badges.badge_status: BadgeStatus.AVAILABLE
+        }
+    )
+
+    db.commit()
+
+    return {
+        "message": "Visitor checked out successfully"
+    }

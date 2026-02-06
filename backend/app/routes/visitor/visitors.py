@@ -23,6 +23,8 @@ def create_visitor(
         gender= request.gender,
         cnic_number= request.cnic_number,
         date_of_birth= request.date_of_birth,
+        cnic_date_of_issue= request.cnic_date_of_issue,
+        cnic_date_of_expiry= request.cnic_date_of_expiry,
         current_address= request.current_address,
         permanent_address= request.permanent_address,
         phone_number= request.phone_number
@@ -48,4 +50,3 @@ def create_visitor(
         "message": f"Visitor: {new_visitor.visitor_name} added successfully",
         "details": new_visitor
     }
-

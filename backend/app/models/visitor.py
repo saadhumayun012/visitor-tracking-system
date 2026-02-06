@@ -24,13 +24,24 @@ class Visitors(Base, TimestampMixin):
         nullable=True
     )
     gender = Column(Enum(GenderType), nullable=True)
+    date_of_birth = Column(
+        Date,
+        nullable=False
+    )
     cnic_number = Column(
         String(20), 
         index=True,
         unique=True, 
         nullable=False
     )
-    date_of_birth = Column(Date)
+    cnic_date_of_issue = Column(
+        Date,
+        nullable=True
+    )
+    cnic_date_of_expiry = Column(
+        Date,
+        nullable=True
+    )
     current_address = Column(
         String, 
         nullable=False
