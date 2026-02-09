@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
@@ -25,15 +25,23 @@ db_dependency = Annotated[Session, Depends(get_db)]
 
 
 # user_dependency
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/login") # this will though exception 401 "Not Authenticated" if we try to login without credentials
+
+#oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/login") # this will through exception 401 "Not Authenticated" if we try to login without credentials
 
 def get_current_user(
     db: db_dependency,
-    token: Annotated[str, Depends(oauth2_bearer)]
+    request: Request,
 ):
+    access_token = request.cookies.get("access_token")
+    
+    if access_token is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated"
+        )
     try:
         payload = jwt.decode(
-            token,
+            access_token,
             settings.secret_key,
             algorithms=[settings.algorithm]
         )
@@ -59,7 +67,8 @@ def get_current_user(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token"
-        )   
+        )
+   
 user_dependency = Annotated[Users, Depends(get_current_user) ]
 
 # require admin dependency

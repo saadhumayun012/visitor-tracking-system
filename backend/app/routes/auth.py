@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, HTTPException, status, Depends, Response
 from datetime import datetime, timezone, timedelta
 from jose import jwt
 from passlib.context import CryptContext
@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordRequestForm #will remove when saving 
 from typing import Annotated
 
 from app.config import settings
-from app.utils import db_dependency
+from app.utils import db_dependency, user_dependency
 from app.models import Users
 
 
@@ -34,9 +34,10 @@ def create_access_token(data: dict):
     return encoded_jwt
 
 # login the user and get the token
-@router.post("/login", status_code=status.HTTP_200_OK)
+@router.post("/token", status_code=status.HTTP_200_OK)
 async def login_user(
     db: db_dependency,
+    response: Response,
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ):
     user = db.query(Users).filter(
@@ -53,11 +54,44 @@ async def login_user(
         data={"user_id": user.user_id}
     )
 
+    # set token in cookie
+    response.set_cookie(
+        key= "access_token",
+        value= token,
+        httponly=True,
+        secure= False,
+        samesite= "lax",
+        max_age= 3600 * settings.access_token_expire_hours
+    )
+
     # user last login time?
     user.last_login_at = datetime.now(timezone.utc)
     db.commit()
 
+    # return {
+    #     "access_token": token,
+    #     "token_type": "bearer"
+    # }
+
     return {
-        "access_token": token,
-        "token_type": "bearer"
+        "message": "Login successfully"
+    }
+
+@router.post("/logout")
+def logout(
+    response: Response
+):
+    response.delete_cookie("access_token")
+    return {
+        "message": "Logout successfully"
+    }
+
+@router.get("/me")
+def get_current_user(
+    current_user: user_dependency
+):
+    return {
+        "user_id": current_user.user_id,
+        "username": current_user.username,
+        "user_role": current_user.user_role,
     }

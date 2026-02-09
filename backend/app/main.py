@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.admin import router as admin_routers
 from app.routes.visitor import router as visitor_routers
@@ -13,6 +14,18 @@ app = FastAPI(
 )
 
 Base.metadata.create_all(bind=engine)
+
+origins = [
+    "http://localhost:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # print(pwd.hash("admin123"))
