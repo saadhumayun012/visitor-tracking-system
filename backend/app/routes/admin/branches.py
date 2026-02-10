@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 # admin can add new branches
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/branch", status_code=status.HTTP_201_CREATED)
 def add_branch(
     db: db_dependency,
     _: require_admin_dependency,

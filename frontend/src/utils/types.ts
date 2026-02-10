@@ -1,3 +1,5 @@
+//in types i am using snake case (which is linked with backend) instead of camel case because, so can backend names and frontend names are same
+
 export interface User {
     user_id: number;
     username: string;
@@ -17,4 +19,15 @@ export type UserRoles = "admin" | "receptionist" | "branch_officer";
 export interface LoginFormData {
     username: string;
     password: string;
+}
+
+export interface Branch {
+    branch_id: number;
+    branch_code: string;
+    branch_name: string;
+}
+
+export interface CreateBranch {
+    branch_code: string;
+    branch_name: string;
 }

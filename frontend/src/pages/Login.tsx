@@ -41,9 +41,9 @@ export const Login = () => {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-                {errors.root && (
-                    <div style={{ color: "red" }}>{errors.root.message}</div>
-                )}
+                <h1>Log In</h1>
+
+                {errors.root && <div>{errors.root.message}</div>}
 
                 {/* Username */}
                 <div>
@@ -55,11 +55,7 @@ export const Login = () => {
                             required: "Username is required",
                         })}
                     />
-                    {errors.username && (
-                        <span style={{ color: "red" }}>
-                            {errors.username.message}
-                        </span>
-                    )}
+                    {errors.username && <span>{errors.username.message}</span>}
                 </div>
 
                 {/* Password */}
@@ -69,7 +65,6 @@ export const Login = () => {
                         id="password"
                         type="password"
                         {...register("password", {
-                            
                             required: "Password is required",
                             minLength: {
                                 value: 4,
@@ -78,15 +73,11 @@ export const Login = () => {
                             },
                         })}
                     />
-                    {errors.password && (
-                        <span style={{ color: "red" }}>
-                            {errors.password.message}
-                        </span>
-                    )}
+                    {errors.password && <span>{errors.password.message}</span>}
                 </div>
 
                 <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Loading..." : "Log In"}
+                    {isSubmitting ? "loading..." : "Log in"}
                 </button>
             </form>
         </div>

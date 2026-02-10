@@ -25,7 +25,6 @@ export const NavBar = () => {
                 </div>
             </nav>
             <Outlet />
-            <div>Footer</div>
         </>
     );
 };
