@@ -7,15 +7,24 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import {
-    BranchForm,
-    BranchList,
     NavBar,
     ProtectedRoute,
     RoleProtectedRoute,
 } from "./components";
-import { AdminDashboard, Dashboard, Login, NotFound, OfficerDashboard, ReceptionistDashboard } from "./pages";
+import { 
+    AdminDashboard, 
+    Dashboard, Login, 
+    NotFound, 
+    OfficerDashboard, 
+    ReceptionistDashboard,  
+    BranchForm,
+    BranchList,
+    BadgeList, 
+    BadgeForm
+} from "./pages";
 import { AuthProvider } from "./context/AuthContext";
 import { getBranches } from "./api/branch.api";
+import { getBadges } from "./api/badge.api";
 
 
 
@@ -24,6 +33,11 @@ export const branchesLoader = async () => {
     const branches = await getBranches();
     return { branches };
 };
+
+export const badgesLoader = async () => {
+    const badges = await getBadges();
+    return { badges };
+}
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -39,6 +53,8 @@ const router = createBrowserRouter(
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/admin/branches-list" element={<BranchList />} loader={branchesLoader} />
                     <Route path="/admin/branch-form" element={<BranchForm />} />
+                    <Route path="/admin/badges-list" element={<BadgeList />} loader={badgesLoader} />
+                    <Route path="/admin/badge-form" element={<BadgeForm />} />
                 </Route>
 
                 {/* receptionist section  */}

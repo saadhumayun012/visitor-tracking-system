@@ -31,3 +31,16 @@ export interface CreateBranch {
     branch_code: string;
     branch_name: string;
 }
+
+export type BadgeStatus = "available" | "is_use" | "lost" | "disabled"
+
+export interface Badge {
+    badge_id: number;
+    badge_code: string,
+    badge_status: BadgeStatus
+}
+
+export interface CreateBadge {
+    badge_code: string,
+    badge_status: BadgeStatus
+}

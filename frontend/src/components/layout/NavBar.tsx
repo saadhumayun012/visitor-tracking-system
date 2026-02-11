@@ -12,19 +12,35 @@ export const NavBar = () => {
 
     return (
         <>
-            <nav>
-                <div onClick={() => navigate("/")}>Home</div>
+            <nav className="nav-wrapper">
+                {/* Logo / Home Link */}
+                <div className="nav-logo">
+                    Visitor Tracking
+                </div>
+
                 <div>
                     {isAuthenticated ? (
-                        <button onClick={handleLogout}>Logout</button>
+                        <button
+                            className="nav-link-btn btn-logout"
+                            onClick={handleLogout}
+                        >
+                            LOGOUT
+                        </button>
                     ) : (
-                        <button onClick={() => navigate("/login")}>
-                            Login
+                        <button
+                            className="nav-link-btn btn-login"
+                            onClick={() => navigate("/login")}
+                        >
+                            LOGIN
                         </button>
                     )}
                 </div>
             </nav>
-            <Outlet />
+
+            {/* Main Content Area */}
+            <main className="min-h-[calc(100-3.5rem)] bg-gray-50">
+                <Outlet />
+            </main>
         </>
     );
 };

@@ -1,4 +1,109 @@
 @import "tailwindcss";
 
+@layer components {
+    /* Main Layout Container */
+    .page-container {
+        @apply min-h-screen flex flex-col items-center bg-gray-50 p-4 pt-12;
+    }
+
+    /* Adjusted: Increased max-width and changed padding to favor a professional rectangle shape */
+    .form-card {
+        @apply w-full max-w-2xl bg-white border border-gray-200 p-8 shadow-sm flex flex-col gap-6 h-fit;
+    }
+
+    /* Rest of your classes remain the same... */
+    .error-root {
+        @apply bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-sm font-medium mb-2;
+    }
+
+    .form-title {
+        @apply text-xl font-black text-gray-900 border-b pb-2 mb-2 uppercase tracking-tight;
+    }
+
+    .input-group-container {
+        @apply flex flex-col gap-4;
+    }
+
+    .nav-back {
+        @apply text-sm font-semibold text-blue-600 cursor-pointer mb-4 inline-block hover:underline;
+    }
+
+    .list-container {
+        @apply flex flex-col gap-2 w-full max-w-2xl;
+    }
+
+    .list-item {
+        @apply p-4 border border-gray-200 bg-white rounded-sm flex flex-col gap-1;
+    }
+
+    .list-item-label {
+        @apply text-xs font-bold uppercase text-gray-500;
+    }
+
+    .list-item-value {
+        @apply text-sm text-gray-900 mb-2 last:mb-0;
+    }
+
+    .nav-wrapper {
+        @apply w-full h-14 bg-white border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-50;
+    }
+
+    .nav-logo {
+        @apply text-lg font-black tracking-tighter text-gray-900 cursor-pointer;
+    }
+
+    .nav-link-btn {
+        @apply text-sm font-bold px-4 py-1.5 rounded-sm transition-none;
+    }
+
+    .btn-login {
+        @apply bg-blue-600 text-white hover:bg-blue-700;
+    }
+
+    .btn-logout {
+        @apply bg-red-600 text-white hover:bg-red-700;
+    }
+
+    /* Table Wrapper */
+    .table-container {
+        @apply overflow-x-auto border border-gray-200 bg-white w-full;
+    }
+
+    .data-table {
+        @apply w-full text-left border-collapse;
+    }
+
+    /* Header Styles */
+    .table-thead {
+        @apply bg-gray-50 border-b border-gray-200;
+    }
+
+    .table-th {
+        @apply px-4 py-3 text-xs font-bold uppercase text-gray-600;
+    }
+
+    /* Row/Cell Styles */
+    .table-tr {
+        @apply border-b border-gray-100 last:border-0 transition-none;
+    }
+
+    .table-td {
+        @apply px-4 py-3 text-sm text-gray-900;
+    }
+
+    .table-td-muted {
+        @apply px-4 py-3 text-sm text-gray-500;
+    }
+
+    .table-td-mono {
+        @apply px-4 py-3 text-sm text-blue-600 font-mono;
+    }
+
+    /* Action Styles */
+    .btn-delete-text {
+        @apply text-red-600 font-bold text-xs hover:underline uppercase;
+    }
+    
+}
  
     
