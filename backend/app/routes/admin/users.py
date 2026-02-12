@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from passlib.context import CryptContext
 
-from app.models import Users
+from app.models import Users, Branches
 from app.schemas import CreateUserRequest
 from app.utils import db_dependency, require_admin_dependency
 
@@ -16,7 +16,7 @@ router = APIRouter(
 bcrypt_pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # admin can create all types of user including admin
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/user", status_code=status.HTTP_201_CREATED)
 def create_user(
     db: db_dependency,
     _: require_admin_dependency,
@@ -47,6 +47,12 @@ def create_user(
             status_code=status.HTTP_409_CONFLICT,
             detail="User is already registered"
         )
+
+    # if (db.query(Branches).filter(Branches.branch_id != new_user.branch_id)):
+    #     raise HTTPException(
+    #         status_code=status.HTTP_404_NOT_FOUND,
+    #         detail="Branch Not Found"
+    #     )
 
     db.add(new_user)
     db.commit()

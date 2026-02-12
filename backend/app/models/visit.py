@@ -6,7 +6,7 @@ from app.utils import CreatedAtMixin, TimestampMixin, Base
 from app.enum import VisitStatus
 
 #visitors visits model
-class Visits(Base, TimestampMixin):
+class Visits(Base, CreatedAtMixin):
     __tablename__ = "visits"
 
     visit_id = Column(

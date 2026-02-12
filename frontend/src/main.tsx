@@ -20,11 +20,21 @@ import {
     BranchForm,
     BranchList,
     BadgeList, 
-    BadgeForm
+    BadgeForm,
+    UserList,
+    UserForm,
+    VisitorList,
+    VisitList
 } from "./pages";
+import { 
+    getBranches, 
+    getBadges, 
+    getUsers, 
+    getVisitors,
+    getVisitsOfVisitor
+} from "./api";
 import { AuthProvider } from "./context/AuthContext";
-import { getBranches } from "./api/branch.api";
-import { getBadges } from "./api/badge.api";
+
 
 
 
@@ -37,6 +47,21 @@ export const branchesLoader = async () => {
 export const badgesLoader = async () => {
     const badges = await getBadges();
     return { badges };
+}
+
+export const userLoader = async () => {
+    const users = await getUsers();
+    return { users };
+}
+
+export const visitorLoader = async () => {
+    const visitors = await getVisitors();
+    return { visitors };
+}
+
+export const visitLoader = async ({params}: {params: any}) => {
+    const visits = await getVisitsOfVisitor(params.visitor_id);
+    return { visits }
 }
 
 const router = createBrowserRouter(
@@ -55,6 +80,10 @@ const router = createBrowserRouter(
                     <Route path="/admin/branch-form" element={<BranchForm />} />
                     <Route path="/admin/badges-list" element={<BadgeList />} loader={badgesLoader} />
                     <Route path="/admin/badge-form" element={<BadgeForm />} />
+                    <Route path="/admin/users-list" element={<UserList />} loader={userLoader} />
+                    <Route path="/admin/user-form" element={<UserForm />} loader={branchesLoader} />
+                    <Route path="/admin/visitors-list" element={<VisitorList />} loader={visitorLoader} />
+                    <Route path="/admin/visitors/:visitor_id/visits" element={<VisitList />} loader={visitLoader} />
                 </Route>
 
                 {/* receptionist section  */}

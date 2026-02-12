@@ -3,7 +3,7 @@ import type { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 
 const API_BASE_URL = "http://localhost:8000";
 
-const api: AxiosInstance = axios.create({
+export const api: AxiosInstance = axios.create({
     baseURL: API_BASE_URL,
     withCredentials: true,
 });
@@ -21,5 +21,3 @@ api.interceptors.response.use(
         return Promise.reject(error);
     },
 );
-
-export default api;

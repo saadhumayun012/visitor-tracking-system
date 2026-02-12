@@ -11,7 +11,7 @@ router = APIRouter(
 )
 
 # receptionist add the visitor (it is only visitor details)
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/visitor", status_code=status.HTTP_201_CREATED)
 def create_visitor(
     db: db_dependency,
     _: require_receptionist_dependency,

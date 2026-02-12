@@ -25,6 +25,8 @@ export interface Branch {
     branch_id: number;
     branch_code: string;
     branch_name: string;
+    created_at: string;
+    update_at: string | null;
 }
 
 export interface CreateBranch {
@@ -32,15 +34,84 @@ export interface CreateBranch {
     branch_name: string;
 }
 
-export type BadgeStatus = "available" | "is_use" | "lost" | "disabled"
+export type BadgeStatus = "available" | "is_use" | "lost" | "disabled";
 
 export interface Badge {
     badge_id: number;
-    badge_code: string,
-    badge_status: BadgeStatus
+    badge_code: string;
+    badge_status: BadgeStatus;
+    created_at: string;
+    update_at: string | null;
 }
 
 export interface CreateBadge {
-    badge_code: string,
-    badge_status: BadgeStatus
+    badge_code: string;
+}
+
+export interface UserListType {
+    user_id: number;
+    username: string;
+    user_role: UserRoles;
+    branch_id: number;
+    last_login_at: string;
+    created_at: string;
+    update_at: string | null;
+}
+
+export interface CreateUser {
+    username: string;
+    password: string;
+    user_role: UserRoles;
+    branch_id: number | null;
+}
+
+export type GenderType = "male" | "female" | "other";
+
+export interface Visitor {
+    visitor_id: number;
+    visitor_name: string;
+    father_name: string | null;
+    gender: GenderType| null;
+    cnic_number: string;
+    date_of_birth: string;
+    cnic_date_of_issue: string | null;
+    cnic_date_of_expiry: string | null;
+    current_address: string;
+    permanent_address: string | null;
+    phone_number: string;
+    created_at: string;
+    update_at: string | null;
+}
+
+export interface Visit {
+    visit_id: number;
+    visitor_id: number;
+    purpose: string;
+    purpose_description: string;
+    check_in_time: string;
+    check_out_time: string | null;
+    status: string;
+    branch_id: number;
+    badge_id: number;
+    created_by: number;
+    updated_by: number | null;
+    created_at: string;
+    visit_vehicle: VisitVehicle | null;
+    visit_item: VisitItem | null;
+}
+
+export interface VisitVehicle {
+    visit_vehicle_id: number;
+    vehicle_number: string;
+    vehicle_type: string;
+    vehicle_color: string;
+    visit_id: number;
+    created_at: string;
+}
+
+export interface VisitItem {
+    visit_item_id: number;
+    items_description: string;
+    visit_id: number;
+    created_at: string;
 }

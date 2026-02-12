@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 # admin add the badges which are given to visitor
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/badge", status_code=status.HTTP_201_CREATED)
 def add_badge(
     db: db_dependency,
     _: require_admin_dependency,

@@ -9,8 +9,20 @@ router = APIRouter(
     tags=["Admin - Visitors"]
 )
 
+# visitors
+@router.get("/", status_code=status.HTTP_200_OK)
+def get_visitor(
+    db: db_dependency,
+    _: require_admin_dependency
+):
+    all_visitors = db.query(Visitors).all()
+
+    return {
+        "visitors": all_visitors
+    }
+
 # visitors all visits
-@router.get("/{visitor_id}", status_code=status.HTTP_200_OK)
+@router.get("/{visitor_id}/visits", status_code=status.HTTP_200_OK)
 def all_visits_of_visitor(
     db: db_dependency,
     _: require_admin_dependency,
@@ -33,6 +45,5 @@ def all_visits_of_visitor(
         )
 
     return {
-        "visitor": visitor.visitor_name,
         "visits": visitor.visits
     }

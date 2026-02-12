@@ -6,12 +6,11 @@
         @apply min-h-screen flex flex-col items-center bg-gray-50 p-4 pt-12;
     }
 
-    /* Adjusted: Increased max-width and changed padding to favor a professional rectangle shape */
+    /* Form Style */
     .form-card {
         @apply w-full max-w-2xl bg-white border border-gray-200 p-8 shadow-sm flex flex-col gap-6 h-fit;
     }
 
-    /* Rest of your classes remain the same... */
     .error-root {
         @apply bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-sm font-medium mb-2;
     }
@@ -24,10 +23,12 @@
         @apply flex flex-col gap-4;
     }
 
+    /* Nav */
     .nav-back {
         @apply text-sm font-semibold text-blue-600 cursor-pointer mb-4 inline-block hover:underline;
     }
 
+    /* list styles */
     .list-container {
         @apply flex flex-col gap-2 w-full max-w-2xl;
     }
@@ -44,6 +45,7 @@
         @apply text-sm text-gray-900 mb-2 last:mb-0;
     }
 
+    /* Nav Bar */
     .nav-wrapper {
         @apply w-full h-14 bg-white border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-50;
     }
@@ -73,7 +75,7 @@
         @apply w-full text-left border-collapse;
     }
 
-    /* Header Styles */
+    /*  table Header Styles */
     .table-thead {
         @apply bg-gray-50 border-b border-gray-200;
     }
@@ -87,23 +89,46 @@
         @apply border-b border-gray-100 last:border-0 transition-none;
     }
 
-    .table-td {
+    /* .table-td {
         @apply px-4 py-3 text-sm text-gray-900;
-    }
+    } */
 
     .table-td-muted {
         @apply px-4 py-3 text-sm text-gray-500;
     }
 
-    .table-td-mono {
-        @apply px-4 py-3 text-sm text-blue-600 font-mono;
-    }
-
     /* Action Styles */
-    .btn-delete-text {
-        @apply text-red-600 font-bold text-xs hover:underline uppercase;
+    .btn-view-text {
+        @apply text-green-600 font-bold text-xs hover:underline uppercase;
     }
     
+    /* from select */
+    .form-select {
+        @apply w-full px-3 py-2 border border-gray-200 bg-white text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-600;
+    }
+
+    .form-label {
+        @apply text-xs font-bold uppercase text-gray-600;
+    }
+
+    .form-error {
+        @apply text-xs text-red-600 font-medium mt-1;
+    }
+
+    /* Standard table container (for 3-5 columns) */
+    .table-wrapper-standard {
+        @apply w-full max-w-4xl;
+    }
+
+    /* Wide table container (for 10+ columns) */
+    .table-wrapper-wide {
+        @apply w-full max-w-full;
+    }
+
+    /* Add white-space: nowrap to prevent text stacking/wrapping in cells */
+    .table-td {
+        @apply px-4 py-3 text-sm text-gray-900 whitespace-nowrap;
+    }
 }
  
     
