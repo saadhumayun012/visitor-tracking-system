@@ -12,6 +12,7 @@ import { NotFound } from "./general/NotFound";
 import { Login } from "./auth/Login";
 import { VisitorList } from "./admin/visitor/VisitorList";
 import { VisitList } from "./admin/visitor/VisitList";
+import { VisitorForm } from "./receptionist/visitor/VisitorForm";
 
 export {
     AdminDashboard,
@@ -27,5 +28,6 @@ export {
     NotFound,
     Login,
     VisitorList,
-    VisitList
+    VisitList,
+    VisitorForm
 }

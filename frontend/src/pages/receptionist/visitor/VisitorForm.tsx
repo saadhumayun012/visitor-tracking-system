@@ -1,31 +1,37 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { Branch, CreateUser } from "../../../utils/types";
+import type { CreateVisitor} from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FormButton, FormInput, FormSelect } from "../../../components";
-import { createUser } from "../../../api";
+import {  createVisitor } from "../../../api";
 
 export const VisitorForm = () => {
     const navigate = useNavigate();
-    const { branches } = useLoaderData() as { branches: Branch[] };
+
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
         setError,
         reset,
-    } = useForm<CreateUser>({
+    } = useForm<CreateVisitor>({
         defaultValues: {
-            username: "",
-            password: "",
-            user_role: "admin",
-            branch_id: null
+            visitor_name: "",
+            father_name: "",
+            gender: "male",
+            date_of_birth: "",
+            cnic_number: "",
+            cnic_date_of_issue: "",
+            cnic_date_of_expiry: "",
+            current_address: "",
+            permanent_address: "",
+            phone_number: "",
         },
     });
 
-    const onSubmit: SubmitHandler<CreateUser> = async (data) => {
+    const onSubmit: SubmitHandler<CreateVisitor> = async (data) => {
         try {
-            await createUser(data);
+            await createVisitor(data);
             reset();
         } catch (error) {
             setError("root", {
@@ -54,55 +60,132 @@ export const VisitorForm = () => {
                     <div className="input-group-container">
                         <FormInput
                             isFieldRequired={true}
-                            label="Username"
-                            id="username"
-                            placeholder="Enter username"
-                            error={errors.username}
-                            {...register("username", {
-                                required: "username is required",
+                            label="Visitor Name"
+                            id="name"
+                            placeholder="Enter Visitor Name"
+                            error={errors.visitor_name}
+                            {...register("visitor_name", {
+                                required: "name is required",
+                            })}
+                        />
+
+                        <FormInput
+                            isFieldRequired={false}
+                            label="Father Name"
+                            id="father"
+                            placeholder="Enter Father Name"
+                            // error={errors.father_name}
+                            {...register("father_name",)}
+                        />
+
+                        <FormSelect
+                            isFieldRequired={false}
+                            label="Gender"
+                            id="role"
+                            // error={errors.gender}
+                            options={[
+                                { value: "male", label: "Male" },
+                                { value: "female", label: "Female" },
+                                { value: "other", label: "Prefer Not To Say" }
+                            ]}
+                            {...register("gender", )}
+                        />
+
+                        <FormInput
+                            isFieldRequired={true}
+                            label="Date of Birth"
+                            id="birth"
+                            placeholder="DD/MM/YYYY"
+                            error={errors.date_of_birth}
+                            {...register("date_of_birth", {
+                                required: "DOB is required",
+                                pattern: {
+                                    value: /^(0[1-9]|[12][0-9]|3[01])[\/.\\-](0[1-9]|1[0-2])[\/.\\-]\d{4}$/,
+                                    message: "Date must be in DD/MM/YYYY, DD.MM.YYYY, or DD-MM-YYYY format"
+                                }
                             })}
                         />
 
                         <FormInput
                             isFieldRequired={true}
-                            label="Password"
-                            id="password"
-                            placeholder="Enter password"
-                            error={errors.password}
-                            {...register("password", {
-                                required: "password is required",
-                                minLength: {
-                                    value: 6,
-                                    message: "minimum password is 6"
+                            label="cnic"
+                            placeholder="XXXXX-XXXXXXX-X"
+                            error={errors.cnic_number}
+                            {...register("cnic_number", {
+                                required: "CNIC is required",
+                                pattern: {
+                                    value: /^\d{5}-\d{7}-\d{1}$/,
+                                    message: "cnic must be in XXXXX-XXXXXXX-X format"
                                 }
                             })}
                         />
+                        
+                        <div className="flex gap-2">
+                            <FormInput
+                                isFieldRequired={false}
+                                label="Cnic Date Of Issue"
+                                id="birth"
+                                placeholder="DD/MM/YYYY"
+                                error={errors.cnic_date_of_issue}
+                                {...register("cnic_date_of_issue", {
+                                    pattern: {
+                                        value: /^(0[1-9]|[12][0-9]|3[01])[\/.\\-](0[1-9]|1[0-2])[\/.\\-]\d{4}$/,
+                                        message: "Date must be in DD/MM/YYYY, DD.MM.YYYY, or DD-MM-YYYY format"
+                                    }
+                                })}
+                            />
 
-                        <FormSelect
+                            <FormInput
+                                isFieldRequired={false}
+                                label="Cnic Date Of Issue"
+                                id="birth"
+                                placeholder="DD/MM/YYYY"
+                                error={errors.cnic_date_of_expiry}
+                                {...register("cnic_date_of_expiry", {
+                                    pattern: {
+                                        value: /^(0[1-9]|[12][0-9]|3[01])[\/.\\-](0[1-9]|1[0-2])[\/.\\-]\d{4}$/,
+                                        message: "Date must be in DD/MM/YYYY, DD.MM.YYYY, or DD-MM-YYYY format"
+                                    }
+                                })}
+                            />
+                        </div>
+
+                        <div className="flex gap-2">
+                            <FormInput
+                                isFieldRequired={true}
+                                label="Current address"
+                                id="currenAddress"
+                                placeholder="Enter current address"
+                                error={errors.current_address}
+                                {...register("current_address", {
+                                    required: "current address is required",
+                                })}
+                            />
+
+                            <FormInput
+                                isFieldRequired={false}
+                                label="permanent"
+                                id="birth"
+                                placeholder="Enter permanent address"
+                                error={errors.permanent_address}
+                                {...register("permanent_address",)}
+                            />
+                        </div>
+                        
+
+                        <FormInput
                             isFieldRequired={true}
-                            label="User Role"
-                            id="role"
-                            error={errors.user_role}
-                            options={[
-                                { value: "admin", label: "Admin" },
-                                { value: "receptionist", label: "Receptionist" },
-                                { value: "branch_officer", label: "Branch Officer" }
-                            ]}
-                            {...register("user_role", {
-                                required: "User role is required",
+                            label="Phone Number"
+                            id="phone"
+                            placeholder="+92XXXXXXXXXX or 0XXXXXXXXXX"
+                            error={errors.phone_number}
+                            {...register("phone_number", {
+                                required: "Phone number is required",
+                                pattern: {
+                                    value: /^(?:\+92|0)\d{10}$/,
+                                    message: "phone must start with +92 or 0 and have 10 digits after"
+                                }
                             })}
-                        />
-
-                        <FormSelect
-                            isFieldRequired={false} 
-                            label="Branch (Optional - Only for Branch Officer)"
-                            id="branch"
-                            placeholder="Select Branch"
-                            options={branches?.map(branch => ({
-                                value: branch.branch_id,
-                                label: branch.branch_name
-                            })) || []} //if no branch pass the empty array (fast-api handle it as null, or handle it in auth.user.api (no need))
-                            {...register("branch_id")}
                         />
 
                     </div>

@@ -1,7 +1,7 @@
 // utils/formatDateTime.ts
 export const formatDateTime = (isoString: string | null | undefined): string => {
     if (!isoString) {
-        return '--';
+        return "--";
     }
     
     const date = new Date(isoString);
@@ -17,7 +17,7 @@ export const formatDateTime = (isoString: string | null | undefined): string => 
 
 export const formatDate = (isoString: string | null | undefined): string => {
     if (!isoString) {
-        return '--';
+        return "N/A";
     }
     
     const date = new Date(isoString);

@@ -8,8 +8,8 @@ class CreateVisitorRequest(BaseModel):
     gender: GenderType 
     date_of_birth: date
     cnic_number: str = Field(..., pattern=r"^\d{5}-\d{7}-\d$")
-    cnic_date_of_issue: date
-    cnic_date_of_expiry: date 
+    cnic_date_of_issue: date | None = None
+    cnic_date_of_expiry: date | None = None
     current_address: str = Field(..., min_length=10)
     permanent_address: str | None = None
     phone_number: str = Field(...)
@@ -33,12 +33,21 @@ class CreateVisitorRequest(BaseModel):
 
     @model_validator(mode="after")
     def check_logic(self):
-        if self.cnic_date_of_expiry <= self.cnic_date_of_issue:
-            raise ValueError("CNIC expiry date must come after issue date")
+        # Only validate if both dates are provided
+        if self.cnic_date_of_issue and self.cnic_date_of_expiry:
+            if self.cnic_date_of_expiry <= self.cnic_date_of_issue:
+                raise ValueError("CNIC expiry date must greater then issue date")
+            
+            if self.cnic_date_of_expiry < date.today():
+                raise ValueError("CNIC expired.")
         
-        if self.cnic_date_of_expiry < date.today():
-            raise ValueError("CNIC expired.")
-                  
+        # Optional: Validate if only one is provided
+        if self.cnic_date_of_issue and not self.cnic_date_of_expiry:
+            raise ValueError("CNIC expiry date required when issue date is provided")
+        
+        if self.cnic_date_of_expiry and not self.cnic_date_of_issue:
+            raise ValueError("CNIC issue date required when expiry date is provided")
+                
         return self
 
     model_config = ConfigDict(

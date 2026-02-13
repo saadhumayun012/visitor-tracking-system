@@ -5,7 +5,7 @@ from .visits import router as visits_router
 from .find_visitors import router as find_visitor
 
 router = APIRouter(
-    prefix="/visitor"
+    prefix="/receptionist"
 )
 
 router.include_router(visitors_router)

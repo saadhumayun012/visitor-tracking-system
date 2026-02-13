@@ -24,7 +24,8 @@ import {
     UserList,
     UserForm,
     VisitorList,
-    VisitList
+    VisitList,
+    VisitorForm
 } from "./pages";
 import { 
     getBranches, 
@@ -89,6 +90,7 @@ const router = createBrowserRouter(
                 {/* receptionist section  */}
                 <Route element={<RoleProtectedRoute allowedRoles={["receptionist"]} />}>
                     <Route path="/receptionist" element={<ReceptionistDashboard />} />
+                    <Route path="/receptionist/visitors-form" element={<VisitorForm />} />
                 </Route>
 
                 {/* branch officer section */}

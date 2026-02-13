@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 #receptionist add the visits details of visitors
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/visit", status_code=status.HTTP_201_CREATED)
 def add_visits(
     db: db_dependency,
     user: require_receptionist_dependency,
@@ -63,7 +63,7 @@ def add_visits(
         visitor_id = request.visitor_id,
         branch_id = request.branch_id,
         badge_id = request.badge_id,
-        created_by = user.user_id
+        created_by = user.user_id  # automatic
     )
 
     badge.badge_status = BadgeStatus.IN_USE

@@ -14,8 +14,6 @@ class BadgeStatus(str, Enum):
 class VisitStatus(str, Enum):
     CHECKED_IN = "checked_in"
     CHECKED_OUT = "checked_out"
-    FORCE_CLOSED = "force_closed"
-    CANCELLED = "cancelled"
 
 class GenderType(str, Enum):
     MALE = "male"

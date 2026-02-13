@@ -67,11 +67,12 @@ export interface CreateUser {
 
 export type GenderType = "male" | "female" | "other";
 
+//recheck the null things
 export interface Visitor {
     visitor_id: number;
     visitor_name: string;
     father_name: string | null;
-    gender: GenderType| null;
+    gender: GenderType | null;
     cnic_number: string;
     date_of_birth: string;
     cnic_date_of_issue: string | null;
@@ -114,4 +115,42 @@ export interface VisitItem {
     items_description: string;
     visit_id: number;
     created_at: string;
+}
+//-------------------------------
+
+export interface CreateVisitor {
+    visitor_name: string;
+    father_name: string | null;
+    gender: GenderType | null;
+    date_of_birth: string;
+    cnic_number: string;
+    cnic_date_of_issue: string | null;
+    cnic_date_of_expiry: string | null;
+    current_address: string;
+    permanent_address: string | null;
+    phone_number: string;
+}
+
+export type VisitStatus = "checked_in" | "checked_out";
+
+export interface CreateVisit {
+    purpose: string;
+    purpose_description: string | null;
+    visitor_id: number;
+    branch_id: number;
+    badge_id: number;
+    visit_vehicle: CreateVisitVehicle | null;
+    visit_item: CreateVisitItem | null;
+}
+
+export interface CreateVisitVehicle {
+    visit_id: number;
+    vehicle_number: string;
+    vehicle_color: string;
+    vehicle_type: string;
+}
+
+export interface CreateVisitItem {
+    visit_id: number;
+    items_description: string;
 }

@@ -30,11 +30,11 @@ export const VisitorList = () => {
         },
         {
             header: "Father",
-            accessor: (visitor: Visitor) => visitor.father_name
+            accessor: (visitor: Visitor) => visitor.father_name || "N/A"
         },
         {
             header: "Gender",
-            accessor: (visitor: Visitor) => visitor.gender
+            accessor: (visitor: Visitor) => visitor.gender || "N/A"
         },
         {
             header: "DOB",
@@ -58,7 +58,7 @@ export const VisitorList = () => {
         },
         {
             header: "Permanent Address",
-            accessor: (visitor: Visitor) => visitor.permanent_address
+            accessor: (visitor: Visitor) => visitor.permanent_address || "N/A"
         },
         {
             header: "Phone number",

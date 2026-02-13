@@ -22,7 +22,7 @@ export const UserList = () => {
         },
         {
             header: "Branch ID",
-            accessor: (user: UserListType) => user.branch_id
+            accessor: (user: UserListType) => user.branch_id || "N/A"
         },
         {
             header: "Last Login At",
