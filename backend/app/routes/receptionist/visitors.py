@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
 from app.models import Visitors, Visits
-from app.schemas import CreateVisitorRequest, CreateVisitRequest
+from app.schemas import CreateVisitorRequest
 from app.utils import db_dependency, require_receptionist_dependency
 
 
@@ -48,5 +48,26 @@ def create_visitor(
 
     return {
         "message": f"Visitor: {new_visitor.visitor_name} added successfully",
-        "details": new_visitor
+        "visitor_id": new_visitor.visitor_id # this is need for the visit
+    }
+
+# receptionist get the visitor by id
+@router.get("/{visitor_id}")
+def get_visitor_by_id(
+    visitor_id: int,
+    db: db_dependency,
+    _: require_receptionist_dependency
+):
+    visitor = db.query(Visitors).filter(
+        Visitors.visitor_id == visitor_id
+    ).first()
+    
+    if not visitor:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Visitor not found"
+        )
+    
+    return {
+        "visitor": visitor
     }

@@ -7,7 +7,12 @@ export const getBadges = async (): Promise<Badge[]> => {
 }
 
 export const createBadge = async (payload: CreateBadge): Promise<void> => {
-    await api.post("/admin/badges/badge/", {
+    await api.post("/admin/badges/badge", {
         badge_code: payload.badge_code,
     })
 }
+
+export const getAvailableBadges = async (): Promise<Badge[]> => {
+    const response = await api.get("/receptionist/badges/available");
+    return response.data.badges;
+};

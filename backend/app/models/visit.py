@@ -59,6 +59,7 @@ class Visits(Base, CreatedAtMixin):
     # one to one
     visit_vehicle = relationship("Visit_Vehicles", back_populates="visit", uselist=False)
     visit_item = relationship("Visit_Items", back_populates="visit", uselist=False)
+    badge = relationship("Badges", back_populates="visit", uselist=False)
 
 #visitors -> visits -> vehicle model
 class Visit_Vehicles(Base, CreatedAtMixin):

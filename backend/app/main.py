@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.admin import router as admin_routers
 from app.routes.receptionist import router as receptionist_routers
+from app.routes.common import router as common_routers
 from app.routes import auth
 from app.utils import Base
 from app.database import engine
@@ -33,6 +34,7 @@ app.add_middleware(
 
 app.include_router(admin_routers)
 app.include_router(receptionist_routers)
+app.include_router(common_routers)
 app.include_router(auth.router)
 
 

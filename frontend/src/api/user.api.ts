@@ -8,7 +8,7 @@ export const getUsers = async (): Promise<UserListType[]> => {
 }
 
 export const createUser = async (payload: CreateUser): Promise<void> => {
-    await api.post("/admin/users/user/", {
+    await api.post("/admin/users/user", {
         username: payload.username,
         password: payload.password,
         user_role: payload.user_role,

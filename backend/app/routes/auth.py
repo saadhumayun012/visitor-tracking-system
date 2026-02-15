@@ -77,6 +77,7 @@ async def login_user(
         "message": "Login successfully"
     }
 
+# logout the user
 @router.post("/logout")
 def logout(
     response: Response
@@ -86,6 +87,7 @@ def logout(
         "message": "Logout successfully"
     }
 
+# get the current user
 @router.get("/me")
 def get_current_user(
     current_user: user_dependency

@@ -1,5 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { Button } from "../ui/Button";
 
 export const NavBar = () => {
     const { isAuthenticated, userLogout } = useAuth();
@@ -14,25 +15,23 @@ export const NavBar = () => {
         <>
             <nav className="nav-wrapper">
                 {/* Logo / Home Link */}
-                <div className="nav-logo">
-                    Visitor Tracking
-                </div>
+                <div className="nav-logo">Visitor Tracking</div>
 
                 <div>
                     {isAuthenticated ? (
-                        <button
-                            className="nav-link-btn btn-logout"
-                            onClick={handleLogout}
+                        <Button 
+                            onClick={handleLogout} 
+                            className="bg-red-600 text-white"
                         >
-                            LOGOUT
-                        </button>
+                            Logout
+                        </Button>
                     ) : (
-                        <button
-                            className="nav-link-btn btn-login"
+                        <Button
                             onClick={() => navigate("/login")}
+                            className="bg-blue-600 text-white"
                         >
-                            LOGIN
-                        </button>
+                            Login
+                        </Button>
                     )}
                 </div>
             </nav>

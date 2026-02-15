@@ -3,17 +3,17 @@ from sqlalchemy.orm import joinedload
 
 from app.models import Visitors, Visits
 
-from app.utils import db_dependency, require_admin_dependency
+from app.utils import db_dependency, require_admin_dependency, user_dependency
 router = APIRouter(
     prefix="/visitors",
     tags=["Admin - Visitors"]
 )
 
-# visitors
+# get all visitors
 @router.get("/", status_code=status.HTTP_200_OK)
 def get_visitor(
     db: db_dependency,
-    _: require_admin_dependency
+    _: user_dependency
 ):
     all_visitors = db.query(Visitors).all()
 
@@ -21,7 +21,7 @@ def get_visitor(
         "visitors": all_visitors
     }
 
-# visitors all visits
+# get all visits of visitor
 @router.get("/{visitor_id}/visits", status_code=status.HTTP_200_OK)
 def all_visits_of_visitor(
     db: db_dependency,

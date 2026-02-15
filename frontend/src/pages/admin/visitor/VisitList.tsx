@@ -65,8 +65,8 @@ export const VisitList = () => {
     return (
         <DataTable
             title="All Visits"
-            backLink="/admin/visitors-list"
-            backText="← BACK TO VISITORS"
+            backLink="/admin"
+            backText="← BACK TO DASHBOARD"
             columns={columns}
             data={visits}
             getRowKey={(visit) => visit.visit_id}

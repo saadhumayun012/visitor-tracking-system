@@ -24,5 +24,6 @@ class Badges(Base, TimestampMixin):
         default=BadgeStatus.AVAILABLE, 
         nullable=False
     )
-
+    # relationship
+    visit = relationship("Visits", back_populates="badge", uselist=False)
     

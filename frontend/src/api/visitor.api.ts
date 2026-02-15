@@ -3,25 +3,27 @@ import type {
     Visit,
     CreateVisitor,
     CreateVisit,
-    CreateVisitVehicle,
-    CreateVisitItem,
+    VisitInformation,
 } from "../utils/types";
 import { api } from "./axios";
 
+// get all visitors
 export const getVisitors = async (): Promise<Visitor[]> => {
     const response = await api.get("/admin/visitors/");
     return response.data.visitors;
 };
 
+// get all visits of visitor
 export const getVisitsOfVisitor = async (
     visitor_id: string,
 ): Promise<Visit[]> => {
-    const response = await api.get(`/admin/visitors/${visitor_id}/visits/`);
+    const response = await api.get(`/admin/visitors/${visitor_id}/visits`);
     return response.data.visits;
 };
 
-export const createVisitor = async (payload: CreateVisitor): Promise<void> => {
-    await api.post("/receptionist/visitors/visitor", {
+// create visitor
+export const createVisitor = async (payload: CreateVisitor): Promise<{ visitor_id: number }> => {
+    const response = await api.post("/receptionist/visitors/visitor", {
         visitor_name: payload.visitor_name,
         father_name: payload.father_name || null,
         gender: payload.gender || null,
@@ -33,34 +35,54 @@ export const createVisitor = async (payload: CreateVisitor): Promise<void> => {
         permanent_address: payload.permanent_address || null,
         phone_number: payload.phone_number,
     });
+
+    return response.data;
 };
 
+// get visitor by id
+export const getVisitorById = async (visitorId: number): Promise<Visitor> => {
+    const response = await api.get(`/receptionist/visitors/${visitorId}`);
+    return response.data.visitor;
+};
+
+// create visit
 export const createVisit = async (payload: CreateVisit): Promise<void> => {
-    console.log(payload);
     await api.post("/receptionist/visits/visit", {
         purpose: payload.purpose,
-        purpose_description: payload.purpose_description,
+        purpose_description: payload.purpose_description || null,
         visitor_id: payload.visitor_id,
         branch_id: payload.branch_id,
-        badge_id: payload.badge_id
+        badge_id: payload.badge_id,
+        vehicle: payload.vehicle || null,
+        items: payload.items || null
     });
 };
 
-
-export const createVisitVehicle = async (payload: CreateVisitVehicle): Promise<void> => {
-    console.log(payload);
-    await api.post("/receptionist/visits/vehicle", {
-        visit_id: payload.visit_id,
-        vehicle_number: payload.vehicle_number,
-        vehicle_color: payload.vehicle_color,
-        vehicle_type: payload.vehicle_type
-    });
+// find visit by badge
+export const findVisitByBadge = async (badgeCode: string): Promise<VisitInformation> => {
+    const response = await api.get(`/receptionist/find-visit?badge_code=${badgeCode}`);
+    return response.data;
 };
 
-export const createVisitItems = async (payload: CreateVisitItem): Promise<void> => {
-    console.log(payload);
-    await api.post("/receptionist/visits/items", {
-        visit_id: payload.visit_id,
-        items_description: payload.items_description
-    });
+// checkout visit
+export const checkoutVisit = async (badgeCode: string): Promise<void> => {
+    await api.post(`/receptionist/find-visit/checkout?badge_code=${badgeCode}`);
 };
+
+// export const createVisitVehicle = async (payload: CreateVisitVehicle): Promise<void> => {
+//     console.log(payload);
+//     await api.post("/receptionist/visits/vehicle", {
+//         visit_id: payload.visit_id,
+//         vehicle_number: payload.vehicle_number,
+//         vehicle_color: payload.vehicle_color,
+//         vehicle_type: payload.vehicle_type
+//     });
+// };
+
+// export const createVisitItems = async (payload: CreateVisitItem): Promise<void> => {
+//     console.log(payload);
+//     await api.post("/receptionist/visits/items", {
+//         visit_id: payload.visit_id,
+//         items_description: payload.items_description
+//     });
+// };

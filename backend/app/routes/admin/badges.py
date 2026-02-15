@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.models import Badges
 from app.schemas import CreateBadgeRequest
-from app.utils import db_dependency, require_admin_dependency
+from app.utils import db_dependency, require_admin_dependency, user_dependency
 
 router = APIRouter(
     prefix="/badges",
@@ -39,14 +39,14 @@ def add_badge(
 
     return {
         "message": "badge added successfully",
-        "details": new_badge
+        # "details": new_badge
     }
 
-# admin view all the badges
+# get all badges
 @router.get("/", status_code=status.HTTP_200_OK)
 def get_badges(
     db: db_dependency,
-    _: require_admin_dependency
+    _: user_dependency
 ):
     all_badges = db.query(Badges).all()
     return {

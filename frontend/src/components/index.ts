@@ -5,6 +5,8 @@ import { FormButton } from "./ui/FormButton";
 import { FormInput } from "./ui/FormInput";
 import { FormSelect } from "./ui/FormSelect";
 import { DataTable } from "./ui/DataTable";
+import { Section } from "./ui/Section";
+import { Button } from "./ui/Button";
 
 export {
     ProtectedRoute,
@@ -13,5 +15,7 @@ export {
     FormButton,
     FormInput,
     FormSelect,
-    DataTable
+    DataTable,
+    Section,
+    Button
 }

@@ -7,14 +7,14 @@ export const login = async (payload: LoginFormData): Promise<void> => {
     formData.append("username", payload.username);
     formData.append("password", payload.password);
 
-    await api.post("/auth/token/", formData);
+    await api.post("/auth/token", formData);
 };
 
 export const logout = async (): Promise<void> => {
-    await api.post("/auth/logout/");
+    await api.post("/auth/logout");
 };
 
 export const getCurrentUser = async (): Promise<User> => {
-    const response = await api.get<User>("/auth/me/");
+    const response = await api.get<User>("/auth/me");
     return response.data;
 };

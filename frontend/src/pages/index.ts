@@ -13,6 +13,8 @@ import { Login } from "./auth/Login";
 import { VisitorList } from "./admin/visitor/VisitorList";
 import { VisitList } from "./admin/visitor/VisitList";
 import { VisitorForm } from "./receptionist/visitor/VisitorForm";
+import { VisitForm } from "./receptionist/visitor/VisitForm";
+import { FindVisitAndCheckout } from "./receptionist/visitor/FindVisitAndCheckout";
 
 export {
     AdminDashboard,
@@ -29,5 +31,7 @@ export {
     Login,
     VisitorList,
     VisitList,
-    VisitorForm
+    VisitorForm,
+    VisitForm,
+    FindVisitAndCheckout
 }

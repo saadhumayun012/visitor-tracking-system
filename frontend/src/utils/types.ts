@@ -1,11 +1,39 @@
 //in types i am using snake case (which is linked with backend) instead of camel case because, so can backend names and frontend names are same
 
+/* 
+ALl types List 
+1- User
+2- AuthContextType
+3- UserRoles
+4- LoginFormData
+5- Branch
+6- CreateBranch
+7- BadgeStatus
+8- Badge
+9- CreateBadge
+10- UserList
+11- CreateUser
+12- GenderType
+13- Visitor
+14- CreateVisitor
+15- Visit
+16- CreateVisit
+17- CreateVisitor
+18- VisitVehicle
+19- CreateVisitVehicleNested
+20- VisitItem
+21- CreateVisitItemNested
+22- VisitInformation
+*/
+
+ // 1- User
 export interface User {
     user_id: number;
     username: string;
     user_role: UserRoles;
 }
 
+// 2- AuthContextType
 export interface AuthContextType {
     user: User | null;
     isLoading: boolean;
@@ -14,13 +42,16 @@ export interface AuthContextType {
     userLogout: () => Promise<void>;
 }
 
+// 3- UserRoles
 export type UserRoles = "admin" | "receptionist" | "branch_officer";
 
+// 4- LoginFormData
 export interface LoginFormData {
     username: string;
     password: string;
 }
 
+// 5- Branch
 export interface Branch {
     branch_id: number;
     branch_code: string;
@@ -29,13 +60,16 @@ export interface Branch {
     update_at: string | null;
 }
 
+// 6- CreateBranch
 export interface CreateBranch {
     branch_code: string;
     branch_name: string;
 }
 
+// 7- BadgeStatus
 export type BadgeStatus = "available" | "is_use" | "lost" | "disabled";
 
+// 8- Badge
 export interface Badge {
     badge_id: number;
     badge_code: string;
@@ -44,10 +78,12 @@ export interface Badge {
     update_at: string | null;
 }
 
+// 9- CreateBadge
 export interface CreateBadge {
     badge_code: string;
 }
 
+// 10- UserList
 export interface UserListType {
     user_id: number;
     username: string;
@@ -58,6 +94,7 @@ export interface UserListType {
     update_at: string | null;
 }
 
+// 11- CreateUser
 export interface CreateUser {
     username: string;
     password: string;
@@ -65,8 +102,10 @@ export interface CreateUser {
     branch_id: number | null;
 }
 
+// 12- GenderType
 export type GenderType = "male" | "female" | "other";
 
+// 13- Visitor
 //recheck the null things
 export interface Visitor {
     visitor_id: number;
@@ -84,6 +123,7 @@ export interface Visitor {
     update_at: string | null;
 }
 
+// 14- Visit
 export interface Visit {
     visit_id: number;
     visitor_id: number;
@@ -101,6 +141,7 @@ export interface Visit {
     visit_item: VisitItem | null;
 }
 
+// 15- VisitVehicle
 export interface VisitVehicle {
     visit_vehicle_id: number;
     vehicle_number: string;
@@ -110,14 +151,15 @@ export interface VisitVehicle {
     created_at: string;
 }
 
+// 16- VisitItem
 export interface VisitItem {
     visit_item_id: number;
     items_description: string;
     visit_id: number;
     created_at: string;
 }
-//-------------------------------
 
+// 17- CreateVisitor
 export interface CreateVisitor {
     visitor_name: string;
     father_name: string | null;
@@ -131,26 +173,38 @@ export interface CreateVisitor {
     phone_number: string;
 }
 
+// 18- VisitStatus
 export type VisitStatus = "checked_in" | "checked_out";
 
+// 19- CreateVisit
 export interface CreateVisit {
     purpose: string;
     purpose_description: string | null;
     visitor_id: number;
     branch_id: number;
     badge_id: number;
-    visit_vehicle: CreateVisitVehicle | null;
-    visit_item: CreateVisitItem | null;
+    vehicle: CreateVisitVehicleNested | null;
+    items: CreateVisitItemNested | null;
 }
 
-export interface CreateVisitVehicle {
-    visit_id: number;
+// 20- CreateVisitVehicle
+export interface CreateVisitVehicleNested {
     vehicle_number: string;
     vehicle_color: string;
     vehicle_type: string;
 }
 
-export interface CreateVisitItem {
-    visit_id: number;
+// 21- CreateVisitItem
+export interface CreateVisitItemNested {
     items_description: string;
+}
+
+// 22- VisitInformation
+export interface VisitInformation {
+    visitor_name: string;
+    cnic_number: string;
+    purpose: string;
+    status: VisitStatus;
+    check_in_time: string;
+    total_time: string;
 }

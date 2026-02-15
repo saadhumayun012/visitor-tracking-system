@@ -70,11 +70,11 @@ class CreateVisitorRequest(BaseModel):
     )
 
 
-class FindVisitorResponse(BaseModel):
+class FoundVisitorResponse(BaseModel):
     visitor_name: str
-    father_name: str
     cnic_number: str
     purpose: str
     status: str
     check_in_time: datetime
-    total_time: datetime | None
+    total_time: int
+    badge_code: str

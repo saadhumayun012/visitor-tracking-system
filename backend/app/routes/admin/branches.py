@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.models import Branches
 from app.schemas import CreateBranchRequest
-from app.utils import db_dependency, require_admin_dependency
+from app.utils import db_dependency, require_admin_dependency, user_dependency
 
 router = APIRouter(
     prefix="/branches",
@@ -40,17 +40,6 @@ def add_branch(
 
     return {
         "message": f"branch: {new_branch.branch_name} added successfully",
-        "details": new_branch
+        # "details": new_branch
     }
 
-# admin can view all branches
-@router.get("/", status_code=status.HTTP_200_OK)
-def get_branches(
-    db: db_dependency,
-    _: require_admin_dependency
-):
-    all_branches = db.query(Branches).all()
-
-    return { 
-        "branches": all_branches 
-    }

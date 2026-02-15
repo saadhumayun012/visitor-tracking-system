@@ -60,7 +60,7 @@ def create_user(
 
     return{
         "message": f"User: {request.user_role.value}, created successfully",
-        "details": new_user
+        # "details": new_user
     }
 
 # admin can view all users

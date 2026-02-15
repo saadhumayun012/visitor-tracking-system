@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
+import { AuthProvider } from "./context/AuthContext";
 import {
     createBrowserRouter,
     createRoutesFromElements,
@@ -13,7 +14,7 @@ import {
 } from "./components";
 import { 
     AdminDashboard, 
-    Dashboard, Login, 
+    Dashboard, Login,
     NotFound, 
     OfficerDashboard, 
     ReceptionistDashboard,  
@@ -25,45 +26,19 @@ import {
     UserForm,
     VisitorList,
     VisitList,
-    VisitorForm
+    VisitorForm,
+    VisitForm,
+    FindVisitAndCheckout
 } from "./pages";
-import { 
-    getBranches, 
-    getBadges, 
-    getUsers, 
-    getVisitors,
-    getVisitsOfVisitor
-} from "./api";
-import { AuthProvider } from "./context/AuthContext";
+import {
+    branchesLoader,
+    badgesLoader,
+    userLoader,
+    visitorLoader,
+    visitLoader,
+    visitFormLoader,
+} from "./utils/loaderFunctions"
 
-
-
-
-//loader functions
-export const branchesLoader = async () => {
-    const branches = await getBranches();
-    return { branches };
-};
-
-export const badgesLoader = async () => {
-    const badges = await getBadges();
-    return { badges };
-}
-
-export const userLoader = async () => {
-    const users = await getUsers();
-    return { users };
-}
-
-export const visitorLoader = async () => {
-    const visitors = await getVisitors();
-    return { visitors };
-}
-
-export const visitLoader = async ({params}: {params: any}) => {
-    const visits = await getVisitsOfVisitor(params.visitor_id);
-    return { visits }
-}
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -91,6 +66,8 @@ const router = createBrowserRouter(
                 <Route element={<RoleProtectedRoute allowedRoles={["receptionist"]} />}>
                     <Route path="/receptionist" element={<ReceptionistDashboard />} />
                     <Route path="/receptionist/visitors-form" element={<VisitorForm />} />
+                    <Route path="/receptionist/visits-form" element={<VisitForm />} loader={visitFormLoader} />
+                    <Route path="/receptionist/find-visit" element={<FindVisitAndCheckout />} />
                 </Route>
 
                 {/* branch officer section */}

@@ -13,7 +13,6 @@ export const VisitorForm = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
         setError,
-        reset,
     } = useForm<CreateVisitor>({
         defaultValues: {
             visitor_name: "",
@@ -31,8 +30,9 @@ export const VisitorForm = () => {
 
     const onSubmit: SubmitHandler<CreateVisitor> = async (data) => {
         try {
-            await createVisitor(data);
-            reset();
+            const response = await createVisitor(data);
+            const visitorId = response.visitor_id;
+            navigate(`/receptionist/visits-form?visitor_id=${visitorId}`) //using query params cuz i cant be null or undefined 
         } catch (error) {
             setError("root", {
                 message: getErrorMessage(error),
