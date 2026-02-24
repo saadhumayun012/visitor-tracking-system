@@ -69,6 +69,38 @@ class CreateVisitorRequest(BaseModel):
         }
     )
 
+class VisitorResponse(BaseModel):
+    visitor_id: int
+    visitor_name: str 
+    father_name: str | None = None
+    gender: GenderType 
+    date_of_birth: date
+    cnic_number: str 
+    cnic_date_of_issue: date | None = None
+    cnic_date_of_expiry: date | None = None
+    current_address: str 
+    permanent_address: str | None = None
+    phone_number: str
+    created_at: datetime
+    updated_at: datetime
+
+
+class VisitorIdResponse(BaseModel):
+    visitor_id: int
+    visitor_name: str
+    cnic_number: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+class VisitorCnicResponse(BaseModel):
+    visitor_id: int
+    visitor_name: str
+    cnic_number: str
+    date_of_birth: date
+    current_address: str
+    phone_number: str
+
+    model_config = ConfigDict(from_attributes=True)
 
 class FoundVisitorResponse(BaseModel):
     visitor_name: str
@@ -78,3 +110,5 @@ class FoundVisitorResponse(BaseModel):
     check_in_time: datetime
     total_time: int
     badge_code: str
+
+    model_config = ConfigDict(from_attributes=True)

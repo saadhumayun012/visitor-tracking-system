@@ -39,7 +39,6 @@ def add_branch(
     db.refresh(new_branch)
 
     return {
-        "message": f"branch: {new_branch.branch_name} added successfully",
-        # "details": new_branch
+        "message": "branch added successfully",
     }
 

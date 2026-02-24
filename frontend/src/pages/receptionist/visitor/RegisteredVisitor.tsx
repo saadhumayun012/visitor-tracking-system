@@ -40,7 +40,7 @@ export const RegisteredVisitor = () => {
                     ← BACK TO DASHBOARD
                 </div>
 
-                <h1 className="form-title">Visitor Checkout</h1>
+                <h1 className="form-title">Find Visitor With Cnic</h1>
 
                 {/* Search */}
                 <div className="input-group-container">

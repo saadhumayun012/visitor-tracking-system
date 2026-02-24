@@ -12,6 +12,7 @@ export const BranchForm = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
         setError,
+        reset
     } = useForm<CreateBranch>({
         defaultValues: {
             branch_code: "",
@@ -22,7 +23,7 @@ export const BranchForm = () => {
     const onSubmit: SubmitHandler<CreateBranch> = async (data) => {
         try {
             await createBranch(data);
-            navigate("/admin");
+            reset();
         } catch (error) {
             setError("root", {
                 message: getErrorMessage(error),

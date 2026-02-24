@@ -7,6 +7,7 @@ import { FormSelect } from "./ui/FormSelect";
 import { DataTable } from "./ui/DataTable";
 import { Section } from "./ui/Section";
 import { Button } from "./ui/Button";
+import { Pagination } from "./ui/Pagination";
 
 export {
     ProtectedRoute,
@@ -17,5 +18,6 @@ export {
     FormSelect,
     DataTable,
     Section,
-    Button
+    Button,
+    Pagination
 }

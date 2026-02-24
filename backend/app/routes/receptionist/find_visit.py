@@ -14,7 +14,6 @@ router = APIRouter(
 )
 
 # receptionist find the visit by badge code
-# receptionist find the visit by badge code
 @router.get("/", response_model=FoundVisitorResponse, status_code=status.HTTP_200_OK)
 def find_visit_by_badge(
     db: db_dependency,
@@ -56,7 +55,9 @@ def check_out(
     badge_code: str  # (already validated)
 ):   
     badge = db.query(Badges).filter(Badges.badge_code == badge_code).first()
-    
+    if not badge:
+        raise HTTPException(404, "Badge not found")
+
     visit = (
         db.query(Visits)
         .filter(
@@ -65,10 +66,12 @@ def check_out(
         )
         .first()
     )
-    
-    visit.status = VisitStatus.CHECKED_OUT
-    visit.check_out_time = datetime.now(timezone.utc)
-    badge.badge_status = BadgeStatus.AVAILABLE
+    if not visit:
+        raise HTTPException(404, "No active visit found for this badge")
+
+    visit.status = VisitStatus.CHECKED_OUT  # type: ignore
+    visit.check_out_time = datetime.now(timezone.utc) # type: ignore
+    badge.badge_status = BadgeStatus.AVAILABLE # type: ignore
     
     db.commit()
 

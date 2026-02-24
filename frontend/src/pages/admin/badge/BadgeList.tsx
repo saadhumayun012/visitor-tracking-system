@@ -1,43 +1,52 @@
-import { useLoaderData} from "react-router-dom";
 import type { Badge } from "../../../utils/types";
 import { formatDateTime } from "../../../utils/formateDateTime";
-import { DataTable } from "../../../components";
+import { DataTable, Pagination  } from "../../../components";
+import { usePagination } from "../../../hooks/usePagination";
+import { getBadges } from "../../../api";
 
 export const BadgeList = () => {
-    const { badges } = useLoaderData() as { badges: Badge[] };
-    
+    const { items, page, total_pages, loading, error, goNext, goPrev } =
+        usePagination<Badge>(getBadges);
+
     const columns = [
         {
             header: "ID",
-            accessor: (badge: Badge) => badge.badge_id,
-            className: "table-td-muted"
+            accessor: (b: Badge) => b.badge_id,
+            className: "table-td-muted",
         },
-        {
-            header: "Badge Code",
-            accessor: (badge: Badge) => badge.badge_code
+        { 
+            header: "Badge Code", 
+            accessor: (b: Badge) => b.badge_code 
         },
-        {
-            header: "Badge Status",
-            accessor: (badge: Badge) => badge.badge_status
+        { 
+            header: "Badge Status", 
+            accessor: (b: Badge) => b.badge_status 
         },
         {
             header: "Created At",
-            accessor: (badge: Badge) => formatDateTime(badge.created_at)
+            accessor: (b: Badge) => formatDateTime(b.created_at),
         },
-        {
-            header: "Updated At",
-            accessor: (badge: Badge) => formatDateTime(badge.update_at)
-        }
     ];
-    
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
+
     return (
-        <DataTable
-            title="All Badges"
-            backLink="/admin"
-            backText="← BACK TO ADMIN DASHBOARD"
-            columns={columns}
-            data={badges}
-            getRowKey={(badge) => badge.badge_id}
-        />
+        <>
+            <DataTable
+                title="All Badges"
+                backLink="/admin"
+                backText="← BACK TO ADMIN DASHBOARD"
+                columns={columns}
+                data={items}
+                getRowKey={(badge) => badge.badge_id}
+            />
+            <Pagination
+                page={page}
+                total_pages={total_pages}
+                onNext={goNext}
+                onPrev={goPrev}
+            />
+        </>
     );
 };

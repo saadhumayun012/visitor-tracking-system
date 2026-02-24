@@ -1,51 +1,64 @@
-import { useLoaderData } from "react-router-dom";
+import { getUsers } from "../../../api";
+import { usePagination } from "../../../hooks/usePagination";
+import { DataTable, Pagination } from "../../../components";
 import type { UserListType } from "../../../utils/types";
 import { formatDateTime } from "../../../utils/formateDateTime";
-import { DataTable } from "../../../components";
 
 export const UserList = () => {
-    const { users } = useLoaderData() as { users: UserListType[] };
-    
+    const { items, page, total_pages, loading, error, goNext, goPrev } =
+        usePagination<UserListType>(getUsers);
+
     const columns = [
         {
             header: "ID",
-            accessor: (user: UserListType) => user.user_id,
-            className: "table-td-muted"
+            accessor: (u: UserListType) => u.user_id,
+            className: "table-td-muted",
+        },
+        { 
+            header: "Username", 
+            accessor: (u: UserListType) => u.username 
         },
         {
-            header: "Username",
-            accessor: (user: UserListType) => user.username
-        },
-        {
-            header: "User Role",
-            accessor: (user: UserListType) => user.user_role
+            header: "User Role", 
+            accessor: (u: UserListType) => u.user_role 
         },
         {
             header: "Branch ID",
-            accessor: (user: UserListType) => user.branch_id || "N/A"
+            accessor: (u: UserListType) => u.branch_id || "N/A",
         },
         {
             header: "Last Login At",
-            accessor: (user: UserListType) => formatDateTime(user.last_login_at)
+            accessor: (u: UserListType) => formatDateTime(u.last_login_at),
         },
         {
             header: "Created At",
-            accessor: (user: UserListType) => formatDateTime(user.created_at)
+            accessor: (u: UserListType) => formatDateTime(u.created_at),
         },
         {
             header: "Updated At",
-            accessor: (user: UserListType) => formatDateTime(user.update_at)
-        }
+            accessor: (u: UserListType) => formatDateTime(u.update_at),
+        },
     ];
-    
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
+
     return (
-        <DataTable
-            title="All Users"
-            backLink="/admin"
-            backText="← BACK TO ADMIN DASHBOARD"
-            columns={columns}
-            data={users}
-            getRowKey={(user) => user.user_id}
-        />
+        <>
+            <DataTable
+                title="All Users"
+                backLink="/admin"
+                backText="← BACK TO ADMIN DASHBOARD"
+                columns={columns}
+                data={items}
+                getRowKey={(u) => u.user_id}
+            />
+            <Pagination
+                page={page}
+                total_pages={total_pages}
+                onNext={goNext}
+                onPrev={goPrev}
+            />
+        </>
     );
 };

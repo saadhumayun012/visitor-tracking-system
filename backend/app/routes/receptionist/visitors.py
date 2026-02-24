@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
-from app.models import Visitors, Visits
-from app.schemas import CreateVisitorRequest
+from app.models import Visitors
+from app.schemas import CreateVisitorRequest, VisitorIdResponse, VisitorCnicResponse
 from app.utils import db_dependency, require_receptionist_dependency
 
 
@@ -47,12 +47,13 @@ def create_visitor(
     db.refresh(new_visitor)
 
     return {
-        "message": f"Visitor: {new_visitor.visitor_name} added successfully",
+        "message": "Visitor added successfully",
         "visitor_id": new_visitor.visitor_id # this is need for the visit
     }
 
+# TODO: check this route do i need to return the visitor details - will check it
 # get visitor by cnic
-@router.get("/cnic")
+@router.get("/cnic", response_model=VisitorCnicResponse, status_code=status.HTTP_200_OK)
 def get_visitor_by_cnic(
     cnic_number: str,
     db: db_dependency,
@@ -68,12 +69,10 @@ def get_visitor_by_cnic(
             detail="Visitor not found"
         )
     
-    return {
-        "visitor": visitor
-    }
+    return visitor
 
 # receptionist get the visitor by id
-@router.get("/{visitor_id}")
+@router.get("/{visitor_id}", response_model=VisitorIdResponse, status_code=status.HTTP_200_OK)
 def get_visitor_by_id(
     visitor_id: int,
     db: db_dependency,
@@ -89,6 +88,4 @@ def get_visitor_by_id(
             detail="Visitor not found"
         )
     
-    return {
-        "visitor": visitor
-    }
+    return visitor

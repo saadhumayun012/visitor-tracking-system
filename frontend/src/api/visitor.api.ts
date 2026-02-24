@@ -5,13 +5,19 @@ import type {
     CreateVisit,
     VisitInformation,
     VisitorInformation,
+    PaginatedResponse,
 } from "../utils/types";
 import { api } from "./axios";
 
 // get all visitors
-export const getVisitors = async (): Promise<Visitor[]> => {
-    const response = await api.get("/admin/visitors/");
-    return response.data.visitors;
+export const getVisitors = async (
+    page: number = 1,
+    limit: number = 20
+): Promise<PaginatedResponse<Visitor>> => {
+    const response = await api.get("/admin/visitors/", {
+        params: { page, limit }
+    });
+    return response.data;
 };
 
 // get all visits of visitor
@@ -19,7 +25,7 @@ export const getVisitsOfVisitor = async (
     visitor_id: string,
 ): Promise<Visit[]> => {
     const response = await api.get(`/admin/visitors/${visitor_id}/visits`);
-    return response.data.visits;
+    return response.data;
 };
 
 // create visitor
@@ -43,7 +49,7 @@ export const createVisitor = async (payload: CreateVisitor): Promise<{ visitor_i
 // get visitor by id
 export const getVisitorById = async (visitorId: number): Promise<Visitor> => {
     const response = await api.get(`/receptionist/visitors/${visitorId}`);
-    return response.data.visitor;
+    return response.data;
 };
 
 // create visit
@@ -71,11 +77,11 @@ export const checkoutVisit = async (badgeCode: string): Promise<void> => {
 };
 
 
-//registered visitor
+//registered visitor (find visitor by cnic)
 export const registeredVisitor = async (cnic_number: string): Promise<VisitorInformation> => {
     const response = await api.get(`/receptionist/visitors/cnic?cnic_number=${cnic_number}`);
-    console.log(response.data.visitor);
-    return response.data.visitor;
+    console.log(response.data);
+    return response.data;
 }
 
 

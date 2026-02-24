@@ -13,6 +13,7 @@ export const UserForm = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
         setError,
+        reset,
     } = useForm<CreateUser>({
         defaultValues: {
             username: "",
@@ -25,7 +26,7 @@ export const UserForm = () => {
     const onSubmit: SubmitHandler<CreateUser> = async (data) => {
         try {
             await createUser(data);
-            navigate("/admin");
+            reset();
         } catch (error) {
             setError("root", {
                 message: getErrorMessage(error),

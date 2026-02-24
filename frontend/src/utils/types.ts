@@ -25,6 +25,7 @@ ALl types List
 21- CreateVisitItemNested
 22- VisitInformation
 23- VisitorInformation
+24- PaginatedResponse
 */
 
  // 1- User
@@ -219,3 +220,13 @@ export interface VisitorInformation {
     date_of_birth: string;
     phone_number: string;
 }
+
+// 24- PaginatedResponse
+export interface PaginatedResponse<T> {
+    items: T[];
+    total_items: number;
+    page: number;
+    limit: number;
+    total_pages: number;
+}
+

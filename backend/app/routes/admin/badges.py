@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 
 from app.models import Badges
-from app.schemas import CreateBadgeRequest
-from app.utils import db_dependency, require_admin_dependency, user_dependency
+from app.schemas import CreateBadgeRequest, BadgeResponse, PaginatedResponse
+from app.utils import db_dependency, require_admin_dependency, user_dependency, pagination_dependency, paginate
 
 router = APIRouter(
     prefix="/badges",
@@ -39,16 +39,18 @@ def add_badge(
 
     return {
         "message": "badge added successfully",
-        # "details": new_badge
     }
 
 # get all badges
-@router.get("/", status_code=status.HTTP_200_OK)
+@router.get("/", response_model=PaginatedResponse[BadgeResponse], status_code=status.HTTP_200_OK)
 def get_badges(
     db: db_dependency,
-    _: user_dependency
+    _: require_admin_dependency,
+    pagination: pagination_dependency
 ):
-    all_badges = db.query(Badges).all()
-    return {
-        "badges": all_badges
-    }
+    query = db.query(Badges)
+    return paginate(
+        query, 
+        pagination.page, 
+        pagination.limit
+    )

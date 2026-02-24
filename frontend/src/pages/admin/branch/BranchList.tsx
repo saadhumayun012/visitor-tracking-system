@@ -24,10 +24,6 @@ export const BranchList = () => {
             header: "Created At",
             accessor: (branch: Branch) => formatDateTime(branch.created_at)
         },
-        {
-            header: "Updated At",
-            accessor: (branch: Branch) => formatDateTime(branch.update_at)
-        }
     ];
     
     return (

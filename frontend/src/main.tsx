@@ -33,9 +33,6 @@ import {
 } from "./pages";
 import {
     branchesLoader,
-    badgesLoader,
-    userLoader,
-    visitorLoader,
     visitLoader,
     visitFormLoader,
 } from "./utils/loaderFunctions"
@@ -55,11 +52,11 @@ const router = createBrowserRouter(
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/admin/branches-list" element={<BranchList />} loader={branchesLoader} />
                     <Route path="/admin/branch-form" element={<BranchForm />} />
-                    <Route path="/admin/badges-list" element={<BadgeList />} loader={badgesLoader} />
+                    <Route path="/admin/badges-list" element={<BadgeList />} />
                     <Route path="/admin/badge-form" element={<BadgeForm />} />
-                    <Route path="/admin/users-list" element={<UserList />} loader={userLoader} />
+                    <Route path="/admin/users-list" element={<UserList />} />
                     <Route path="/admin/user-form" element={<UserForm />} loader={branchesLoader} />
-                    <Route path="/admin/visitors-list" element={<VisitorList />} loader={visitorLoader} />
+                    <Route path="/admin/visitors-list" element={<VisitorList />} />
                     <Route path="/admin/visitors/:visitor_id/visits" element={<VisitList />} loader={visitLoader} />
                 </Route>
 

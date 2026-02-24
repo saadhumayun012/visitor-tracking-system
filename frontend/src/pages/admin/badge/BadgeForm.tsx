@@ -12,6 +12,7 @@ export const BadgeForm = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
         setError,
+        reset,
     } = useForm<CreateBadge>({
         defaultValues: {
             badge_code: "",
@@ -21,7 +22,7 @@ export const BadgeForm = () => {
     const onSubmit: SubmitHandler<CreateBadge> = async (data) => {
         try {
             await createBadge(data);
-            navigate("/admin");
+            reset();
             
         } catch (error) {
             setError("root", {

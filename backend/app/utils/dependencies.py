@@ -1,5 +1,6 @@
+from dataclasses import dataclass
 from typing import Annotated
-from fastapi import Depends, HTTPException, status, Request
+from fastapi import Depends, HTTPException, Query, status, Request
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
@@ -75,7 +76,7 @@ user_dependency = Annotated[Users, Depends(get_current_user) ]
 def require_admin(
     user: user_dependency
 ):
-    if user.user_role != UserRoles.ADMIN:
+    if user.user_role != UserRoles.ADMIN: # type: ignore
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only admin can perform this action"
@@ -88,7 +89,7 @@ require_admin_dependency = Annotated[Users, Depends(require_admin)]
 def require_receptionist(
     user: user_dependency
 ):
-    if user.user_role != UserRoles.RECEPTIONIST:
+    if user.user_role != UserRoles.RECEPTIONIST: # type: ignore
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only Receptionist can perform this action"
@@ -96,3 +97,11 @@ def require_receptionist(
     return user
 
 require_receptionist_dependency = Annotated[Users, Depends(require_receptionist)]
+
+#pagination dependency 
+@dataclass
+class PaginationParams:
+    page: int = Query(1, ge=1)
+    limit: int = Query(20, ge=1, le=100)
+
+pagination_dependency = Annotated[PaginationParams, Depends(PaginationParams)]

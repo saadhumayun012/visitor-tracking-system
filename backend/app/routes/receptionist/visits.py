@@ -44,18 +44,6 @@ def add_visits(
             status_code=status.HTTP_404_NOT_FOUND, detail="Badge not available"
         )
     
-    # branch = (
-    #     db.query(Branches)
-    #     .filter(Branches.branch_id == request.branch_id)
-    #     .first()
-    # )
-
-    # if not branch:
-    #     raise HTTPException(
-    #         status_code=status.HTTP_404_NOT_FOUND,
-    #         detail="Branch Not Found"
-    #     )
-    
     new_visit = Visits(
         purpose = request.purpose,
         purpose_description = request.purpose_description,
@@ -66,7 +54,7 @@ def add_visits(
         created_by = user.user_id  # automatic
     )
 
-    badge.badge_status = BadgeStatus.IN_USE
+    badge.badge_status = BadgeStatus.IN_USE # type: ignore
     db.add(new_visit)
     db.flush() # get visit_id
 
@@ -169,8 +157,8 @@ def check_out(
     if not visit:
         raise HTTPException(status_code=404, detail="Active visit not found")
 
-    visit.status = VisitStatus.CHECKED_OUT
-    visit.check_out_time = datetime.now(timezone.utc)
+    visit.status = VisitStatus.CHECKED_OUT # type: ignore
+    visit.check_out_time = datetime.now(timezone.utc) # type: ignore
 
     db.query(Badges)\
     .filter(Badges.badge_id == visit.badge_id)\

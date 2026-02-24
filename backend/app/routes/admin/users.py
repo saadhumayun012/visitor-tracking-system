@@ -1,9 +1,11 @@
 from fastapi import APIRouter, HTTPException, status
 from passlib.context import CryptContext
+from sqlalchemy import desc
+from typing import List
 
-from app.models import Users, Branches
-from app.schemas import CreateUserRequest
-from app.utils import db_dependency, require_admin_dependency
+from app.models import Users
+from app.schemas import CreateUserRequest, UserResponse, PaginatedResponse
+from app.utils import db_dependency, require_admin_dependency, pagination_dependency, paginate
 
 from app.enum import UserRoles
 
@@ -25,13 +27,13 @@ def create_user(
     if request.user_role == UserRoles.BRANCH_OFFICER and not request.branch_id:
         raise HTTPException(
             status_code=400,
-            detail="For Branch officer, Branch id is required"
+            detail="For Branch officer, Branch is required"
         )
     
     if request.user_role != UserRoles.BRANCH_OFFICER and request.branch_id:
         raise HTTPException(
             status_code=400,
-            detail="Branch id allowed only for Branch officer"
+            detail="Branch is allowed only for Branch officer"
         )
 
     new_user = Users(
@@ -48,12 +50,6 @@ def create_user(
             detail="User is already registered"
         )
 
-    # if (db.query(Branches).filter(Branches.branch_id != new_user.branch_id)):
-    #     raise HTTPException(
-    #         status_code=status.HTTP_404_NOT_FOUND,
-    #         detail="Branch Not Found"
-    #     )
-
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -63,13 +59,17 @@ def create_user(
         # "details": new_user
     }
 
+# TODO: use pagination here
 # admin can view all users
-@router.get("/", status_code=status.HTTP_200_OK)
+@router.get("/",  response_model=PaginatedResponse[UserResponse], status_code=status.HTTP_200_OK)
 def get_user(
     db: db_dependency,
-    _: require_admin_dependency
+    _: require_admin_dependency,
+    pagination: pagination_dependency
 ):
-    all_users = db.query(Users).all()
-    return {
-        "users": all_users
-    }
+    query = db.query(Users).order_by(desc(Users.created_at))
+    return paginate(
+        query, 
+        pagination.page, 
+        pagination.limit
+    )

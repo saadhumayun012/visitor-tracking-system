@@ -44,7 +44,7 @@ async def login_user(
         Users.username == form_data.username
     ).first()
 
-    if user is None or not bcrypt_pwd_context.verify(form_data.password, user.password_hash):
+    if user is None or not bcrypt_pwd_context.verify(form_data.password, user.password_hash): # type: ignore
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials"
@@ -65,7 +65,7 @@ async def login_user(
     )
 
     # user last login time?
-    user.last_login_at = datetime.now(timezone.utc)
+    user.last_login_at = datetime.now(timezone.utc) # type: ignore
     db.commit()
 
     # return {
@@ -78,7 +78,7 @@ async def login_user(
     }
 
 # logout the user
-@router.post("/logout")
+@router.post("/logout", status_code=status.HTTP_200_OK)
 def logout(
     response: Response
 ):
@@ -88,7 +88,7 @@ def logout(
     }
 
 # get the current user
-@router.get("/me")
+@router.get("/me", status_code=status.HTTP_200_OK)
 def get_current_user(
     current_user: user_dependency
 ):

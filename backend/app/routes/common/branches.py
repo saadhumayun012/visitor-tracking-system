@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
+from typing import List
 
 from app.models import Branches
+from app.schemas import BranchResponse
 from app.utils import db_dependency, user_dependency
 
 router = APIRouter(
@@ -9,13 +11,9 @@ router = APIRouter(
 )
 
 # get all branches
-@router.get("/", status_code=status.HTTP_200_OK)
+@router.get("/",response_model=List[BranchResponse], status_code=status.HTTP_200_OK)
 def get_branches(
     db: db_dependency,
-    _: user_dependency
+    _: user_dependency,
 ):
-    all_branches = db.query(Branches).all()
-
-    return { 
-        "branches": all_branches 
-    }
+    return db.query(Branches).all()

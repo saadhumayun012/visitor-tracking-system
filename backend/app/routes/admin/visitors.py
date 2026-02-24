@@ -1,49 +1,50 @@
+from typing import List
+
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy.orm import joinedload
+from sqlalchemy import desc
 
 from app.models import Visitors, Visits
+from app.schemas import PaginatedResponse, VisitResponse, VisitorResponse
+from app.utils import db_dependency, require_admin_dependency, pagination_dependency, paginate
 
-from app.utils import db_dependency, require_admin_dependency, user_dependency
+
 router = APIRouter(
     prefix="/visitors",
     tags=["Admin - Visitors"]
 )
 
 # get all visitors
-@router.get("/", status_code=status.HTTP_200_OK)
+@router.get("/",response_model=PaginatedResponse[VisitorResponse], status_code=status.HTTP_200_OK)
 def get_visitor(
     db: db_dependency,
-    _: user_dependency
+    _: require_admin_dependency,
+    pagination: pagination_dependency,
 ):
-    all_visitors = db.query(Visitors).all()
+    query = db.query(Visitors).order_by(desc(Visitors.created_at))
 
-    return {
-        "visitors": all_visitors
-    }
+    return paginate(
+        query, 
+        pagination.page, 
+        pagination.limit
+    )
 
 # get all visits of visitor
-@router.get("/{visitor_id}/visits", status_code=status.HTTP_200_OK)
+@router.get("/{visitor_id}/visits",response_model=List[VisitResponse], status_code=status.HTTP_200_OK)
 def all_visits_of_visitor(
     db: db_dependency,
     _: require_admin_dependency,
-    visitor_id: int
+    visitor_id: int,
+    # pagination: pagination_dependency
 ):
-    visitor = (
-        db.query(Visitors)
+    visits = (
+        db.query(Visits)
+        .filter(Visits.visitor_id == visitor_id)
+        .order_by(desc(Visits.created_at))
         .options(
-            joinedload(Visitors.visits).joinedload(Visits.visit_item),
-            joinedload(Visitors.visits).joinedload(Visits.visit_vehicle)
-        )
-        .filter(Visitors.visitor_id == visitor_id)
-        .first()
+            joinedload(Visits.visit_item),
+            joinedload(Visits.visit_vehicle)
+        ).all()
     )
-    
-    if not visitor:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Visitor Not Found"
-        )
 
-    return {
-        "visits": visitor.visits
-    }
+    return visits
