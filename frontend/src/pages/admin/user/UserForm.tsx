@@ -2,7 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { Branch, CreateUser } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { FormButton, FormInput, FormSelect } from "../../../components";
+import { Button, FormInput, FormSelect } from "../../../components";
 import { createUser } from "../../../api";
 
 export const UserForm = () => {
@@ -13,7 +13,6 @@ export const UserForm = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
         setError,
-        reset,
     } = useForm<CreateUser>({
         defaultValues: {
             username: "",
@@ -26,7 +25,7 @@ export const UserForm = () => {
     const onSubmit: SubmitHandler<CreateUser> = async (data) => {
         try {
             await createUser(data);
-            reset();
+            navigate("/admin");
         } catch (error) {
             setError("root", {
                 message: getErrorMessage(error),
@@ -107,7 +106,7 @@ export const UserForm = () => {
 
                     </div>
 
-                    <FormButton isLoading={isSubmitting}>Submit</FormButton>
+                    <Button variant="submit" isLoading={isSubmitting}>Submit</Button>
                 </form>
             </div>
         </div>

@@ -10,13 +10,13 @@ export const AdminDashboard = () => {
             <Section title="Branches">
                 <Button
                     onClick={() => navigate("/admin/branches-list")}
-                    className="bg-blue-600 text-white"
+                    variant="get"
                 >
                     View All Branches
                 </Button>
                  <Button
                     onClick={() => navigate("/admin/branch-form")}
-                    className="bg-yellow-600 text-white"
+                    variant="post"
                 >
                     CREATE NEW
                 </Button>
@@ -25,13 +25,13 @@ export const AdminDashboard = () => {
             <Section title="Badges">
                 <Button
                     onClick={() => navigate("/admin/badges-list")}
-                    className="bg-blue-600 text-white"
+                    variant="get"
                 >
-                    View All Users
+                    View All Badges
                 </Button>
                  <Button
                     onClick={() => navigate("/admin/badge-form")}
-                    className="bg-yellow-600 text-white"
+                    variant="post"
                 >
                     CREATE NEW
                 </Button>
@@ -40,13 +40,13 @@ export const AdminDashboard = () => {
             <Section title="Users">
                 <Button
                     onClick={() => navigate("/admin/users-list")}
-                    className="bg-blue-600 text-white"
+                    variant="get"
                 >
                     View All Users
                 </Button>
                  <Button
                     onClick={() => navigate("/admin/user-form")}
-                    className="bg-yellow-600 text-white"
+                    variant="post"
                 >
                     CREATE NEW
                 </Button>
@@ -55,7 +55,7 @@ export const AdminDashboard = () => {
             <Section title="Visitors And Their Visits">
                 <Button
                     onClick={() => navigate("/admin/visitors-list")}
-                    className="bg-blue-600 text-white"
+                    variant="get"
                 >
                     View All Visitors
                 </Button>

@@ -4,6 +4,7 @@ import type {
     CreateVisitor,
     CreateVisit,
     VisitInformation,
+    VisitorInformation,
 } from "../utils/types";
 import { api } from "./axios";
 
@@ -68,6 +69,15 @@ export const findVisitByBadge = async (badgeCode: string): Promise<VisitInformat
 export const checkoutVisit = async (badgeCode: string): Promise<void> => {
     await api.post(`/receptionist/find-visit/checkout?badge_code=${badgeCode}`);
 };
+
+
+//registered visitor
+export const registeredVisitor = async (cnic_number: string): Promise<VisitorInformation> => {
+    const response = await api.get(`/receptionist/visitors/cnic?cnic_number=${cnic_number}`);
+    console.log(response.data.visitor);
+    return response.data.visitor;
+}
+
 
 // export const createVisitVehicle = async (payload: CreateVisitVehicle): Promise<void> => {
 //     console.log(payload);

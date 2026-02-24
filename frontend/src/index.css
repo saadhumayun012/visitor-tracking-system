@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@theme {
+    /* button colors are defined in /src/components/ui/Button.tsx */
+}
+
+
 @layer components {
     /* Main Layout Container */
     .page-container {

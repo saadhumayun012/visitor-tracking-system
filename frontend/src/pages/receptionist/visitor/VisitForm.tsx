@@ -2,7 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { Badge, Branch, CreateVisit, Visitor} from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
-import { FormButton, FormInput, FormSelect } from "../../../components";
+import { Button, FormInput, FormSelect } from "../../../components";
 import {  createVisit } from "../../../api";
 
 export const VisitForm = () => {
@@ -171,7 +171,7 @@ export const VisitForm = () => {
                         />
                     </div>
 
-                    <FormButton isLoading={isSubmitting}>Create Visit</FormButton>
+                    <Button variant="submit" isLoading={isSubmitting}>Create Visit</Button>
                 </form>
             </div>
         </div>

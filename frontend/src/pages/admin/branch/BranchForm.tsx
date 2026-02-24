@@ -3,7 +3,7 @@ import type { CreateBranch } from "../../../utils/types";
 import { createBranch } from "../../../api";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
-import { FormButton, FormInput } from "../../../components";
+import { Button, FormInput } from "../../../components";
 
 export const BranchForm = () => {
     const navigate = useNavigate();
@@ -12,7 +12,6 @@ export const BranchForm = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
         setError,
-        reset,
     } = useForm<CreateBranch>({
         defaultValues: {
             branch_code: "",
@@ -23,7 +22,7 @@ export const BranchForm = () => {
     const onSubmit: SubmitHandler<CreateBranch> = async (data) => {
         try {
             await createBranch(data);
-            reset();
+            navigate("/admin");
         } catch (error) {
             setError("root", {
                 message: getErrorMessage(error),
@@ -72,7 +71,7 @@ export const BranchForm = () => {
                         />
                     </div>
 
-                    <FormButton isLoading={isSubmitting}>Submit</FormButton>
+                    <Button variant="submit" isLoading={isSubmitting}>Submit</Button>
                 </form>
             </div>
         </div>

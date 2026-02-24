@@ -15,6 +15,7 @@ import { VisitList } from "./admin/visitor/VisitList";
 import { VisitorForm } from "./receptionist/visitor/VisitorForm";
 import { VisitForm } from "./receptionist/visitor/VisitForm";
 import { FindVisitAndCheckout } from "./receptionist/visitor/FindVisitAndCheckout";
+import { RegisteredVisitor } from "./receptionist/visitor/RegisteredVisitor";
 
 export {
     AdminDashboard,
@@ -33,5 +34,6 @@ export {
     VisitList,
     VisitorForm,
     VisitForm,
-    FindVisitAndCheckout
+    FindVisitAndCheckout,
+    RegisteredVisitor
 }

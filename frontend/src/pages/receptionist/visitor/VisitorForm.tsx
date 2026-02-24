@@ -2,7 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { CreateVisitor} from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
-import { FormButton, FormInput, FormSelect } from "../../../components";
+import { Button, FormInput, FormSelect } from "../../../components";
 import {  createVisitor } from "../../../api";
 
 export const VisitorForm = () => {
@@ -32,7 +32,7 @@ export const VisitorForm = () => {
         try {
             const response = await createVisitor(data);
             const visitorId = response.visitor_id;
-            navigate(`/receptionist/visits-form?visitor_id=${visitorId}`) //using query params cuz i cant be null or undefined 
+            navigate(`/receptionist/visits-form?visitor_id=${visitorId}`) //using query params cuz it can be null or undefined 
         } catch (error) {
             setError("root", {
                 message: getErrorMessage(error),
@@ -190,7 +190,7 @@ export const VisitorForm = () => {
 
                     </div>
 
-                    <FormButton isLoading={isSubmitting}>Submit</FormButton>
+                    <Button variant="submit" isLoading={isSubmitting}>Submit</Button>
                 </form>
             </div>
         </div>

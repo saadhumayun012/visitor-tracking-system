@@ -28,7 +28,8 @@ import {
     VisitList,
     VisitorForm,
     VisitForm,
-    FindVisitAndCheckout
+    FindVisitAndCheckout,
+    RegisteredVisitor
 } from "./pages";
 import {
     branchesLoader,
@@ -68,6 +69,7 @@ const router = createBrowserRouter(
                     <Route path="/receptionist/visitors-form" element={<VisitorForm />} />
                     <Route path="/receptionist/visits-form" element={<VisitForm />} loader={visitFormLoader} />
                     <Route path="/receptionist/find-visit" element={<FindVisitAndCheckout />} />
+                    <Route path="/receptionist/cnic" element={<RegisteredVisitor />} />
                 </Route>
 
                 {/* branch officer section */}

@@ -13,3 +13,13 @@ class CreateUserRequest(BaseModel):
 class LoginUserRequest(BaseModel):
     username: str = Field(...)
     password: str = Field(...)
+
+class UserResponse(BaseModel):
+    user_id: int
+    username: str
+    user_role: UserRoles
+    branch_id: Optional[int]
+    created_at: datetime
+
+    class Config:
+        orm_mode = True

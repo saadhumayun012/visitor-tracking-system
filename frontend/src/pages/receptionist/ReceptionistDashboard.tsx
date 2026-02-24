@@ -10,15 +10,21 @@ export const ReceptionistDashboard = () => {
             <Section title="Visitors">
                 <Button
                     onClick={() => navigate("/receptionist/visitors-form")}
-                    className="bg-blue-600 text-white"
+                    variant="post"
                 >
-                    View All Visitors
+                    Create New Visit
                 </Button>
                  <Button
                     onClick={() => navigate("/receptionist/find-visit")}
-                    className="bg-red-500 text-white"
+                    variant="find"
                 >
                     Find Visit
+                </Button>
+                <Button
+                    onClick={() => navigate("/receptionist/cnic")}
+                    variant="find"
+                >
+                    Find Visitor By Cnic
                 </Button>
             </Section>
 

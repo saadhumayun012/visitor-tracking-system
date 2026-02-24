@@ -5,7 +5,7 @@ import { useAuth } from "../../hooks/useAuth";
 import type { LoginFormData } from "../../utils/types";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { roleToPath } from "../../utils/roleToPath";
-import { FormButton, FormInput } from "../../components";
+import { Button, FormInput } from "../../components";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -87,7 +87,7 @@ export const Login = () => {
                     />
                 </div>
 
-                <FormButton isLoading={isSubmitting}>Log In</FormButton>
+                <Button variant="submit" isLoading={isSubmitting}>Log In</Button>
             </form>
         </div>
     );

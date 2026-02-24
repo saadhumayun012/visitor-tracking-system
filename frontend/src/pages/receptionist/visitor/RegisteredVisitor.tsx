@@ -1,49 +1,35 @@
 import { useState } from "react";
-import type { VisitInformation } from "../../../utils/types";
+import type { VisitorInformation } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { Button } from "../../../components";
-import { checkoutVisit, findVisitByBadge } from "../../../api";
-import { formatDateTime } from "../../../utils/formateDateTime";
+import { registeredVisitor } from "../../../api";
 import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../../utils/formateDateTime";
 
-export const FindVisitAndCheckout = () => {
+export const RegisteredVisitor = () => {
     const navigate = useNavigate();
 
-    const [badgeCode, setBadgeCode] = useState("");
-    const [visitInfo, setVisitInfo] = useState<VisitInformation | null>(null);
+    const [cnic, setCnic] = useState("");
+    const [visitorInfo, setVisitorInfo] = useState<VisitorInformation | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [isCheckout, setIsCheckout] = useState(false);
     const [error, setError] = useState("");
 
     const handleSearch = async () => {
-        if (!badgeCode.trim()) {
-            setError("Enter badge code");
+        if (!cnic) {
+            setError("cnic number is required");
             return;
         }
 
         try {
             setIsLoading(true);
             setError("");
-            const info = await findVisitByBadge(badgeCode);
-            setVisitInfo(info);
+            const info = await registeredVisitor(cnic);
+            setVisitorInfo(info);
         } catch (error) {
             setError(getErrorMessage(error));
-            setVisitInfo(null);
+            setVisitorInfo(null);
         } finally {
             setIsLoading(false);
-        }
-    };
-
-    const handleCheckout = async () => {
-        try {
-            setIsCheckout(true);
-            await checkoutVisit(badgeCode);
-            setBadgeCode("");
-            setVisitInfo(null);
-        } catch (error) {
-            setError(getErrorMessage(error));
-        } finally {
-            setIsCheckout(false);
         }
     };
 
@@ -61,16 +47,16 @@ export const FindVisitAndCheckout = () => {
                     <div className="flex gap-2 ">
                         <input
                             type="text"
-                            value={badgeCode}
-                            onChange={(e) => setBadgeCode(e.target.value)}
+                            value={cnic}
+                            onChange={(e) => setCnic(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                            placeholder="Enter Badge Code"
+                            placeholder="Enter cnic number"
                             className="px-3 py-2 border border-gray-400 rounded-sm flex-1"
                         />
                         <Button
-                            onClick={handleSearch}
-                            isLoading={isLoading}
                             variant="search"
+                            isLoading={isLoading}
+                            onClick={handleSearch}
                         >
                             Search
                         </Button>
@@ -79,42 +65,41 @@ export const FindVisitAndCheckout = () => {
 
                 {error && <div className="error-root">{error}</div>}
 
-                {/* Visit Info */}
-                {visitInfo && (
+                {/* Visitor Info */}
+                {visitorInfo && (
                     <div className="list-container">
                         <div className="list-item">
                             <span className="list-item-label">Visitor Name: </span>
-                            <span className="list-item-value">{visitInfo.visitor_name}</span>
+                            <span className="list-item-value">{visitorInfo.visitor_name}</span>
                         </div>
 
                         <div className="list-item">
                             <span className="list-item-label">CNIC: </span>
-                            <span className="list-item-value">{visitInfo.cnic_number}</span>
+                            <span className="list-item-value">{visitorInfo.cnic_number}</span>
                         </div>
 
                         <div className="list-item">
-                            <span className="list-item-label">Purpose: </span>
-                            <span className="list-item-value">{visitInfo.purpose}</span>
+                            <span className="list-item-label">Gender: </span>
+                            <span className="list-item-value">{visitorInfo.gender}</span>
                         </div>
 
                         <div className="list-item">
-                            <span className="list-item-label">Check-in Time: </span>
-                            <span className="list-item-value">{formatDateTime(visitInfo.check_in_time)}</span>
+                            <span className="list-item-label">Date of Birth: </span>
+                            <span className="list-item-value">{formatDate(visitorInfo.date_of_birth)}</span>
                         </div>
 
-                        <div className="list-item">
-                            <span className="list-item-label">Duration: </span>
-                            <span className="list-item-value text-blue-600 font-bold">
-                                {visitInfo.total_time} minutes
-                            </span>
+                         <div className="list-item">
+                            <span className="list-item-label">Phone Number: </span>
+                            <span className="list-item-value">{visitorInfo.phone_number}</span>
                         </div>
 
                         <Button
-                            onClick={handleCheckout}
-                            isLoading={isCheckout}
                             variant="found"
+                            onClick={() =>
+                                navigate(`/receptionist/visits-form?visitor_id=${visitorInfo.visitor_id}`)
+                            }
                         >
-                            Check Out
+                            Visitor Found - Create Visit
                         </Button>
                     </div>
                 )}

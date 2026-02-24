@@ -2,7 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { CreateBadge } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
-import { FormButton, FormInput } from "../../../components";
+import { Button, FormInput } from "../../../components";
 import { createBadge } from "../../../api";
 
 export const BadgeForm = () => {
@@ -12,7 +12,6 @@ export const BadgeForm = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
         setError,
-        reset,
     } = useForm<CreateBadge>({
         defaultValues: {
             badge_code: "",
@@ -22,7 +21,8 @@ export const BadgeForm = () => {
     const onSubmit: SubmitHandler<CreateBadge> = async (data) => {
         try {
             await createBadge(data);
-            reset();
+            navigate("/admin");
+            
         } catch (error) {
             setError("root", {
                 message: getErrorMessage(error),
@@ -60,7 +60,7 @@ export const BadgeForm = () => {
                         />
                     </div>
 
-                    <FormButton isLoading={isSubmitting}>Submit</FormButton>
+                    <Button variant="submit" isLoading={isSubmitting}>Submit</Button>
                 </form>
             </div>
         </div>

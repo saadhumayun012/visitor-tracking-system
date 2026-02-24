@@ -21,14 +21,14 @@ export const NavBar = () => {
                     {isAuthenticated ? (
                         <Button 
                             onClick={handleLogout} 
-                            className="bg-red-600 text-white"
+                            variant="logout"
                         >
                             Logout
                         </Button>
                     ) : (
                         <Button
                             onClick={() => navigate("/login")}
-                            className="bg-blue-600 text-white"
+                            variant="login"
                         >
                             Login
                         </Button>

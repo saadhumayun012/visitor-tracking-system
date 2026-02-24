@@ -24,6 +24,7 @@ ALl types List
 20- VisitItem
 21- CreateVisitItemNested
 22- VisitInformation
+23- VisitorInformation
 */
 
  // 1- User
@@ -207,4 +208,14 @@ export interface VisitInformation {
     status: VisitStatus;
     check_in_time: string;
     total_time: string;
+}
+
+// 23- VisitorInformation
+export interface VisitorInformation {
+    visitor_id: number;
+    visitor_name: string;
+    cnic_number: string;
+    gender: GenderType | null;
+    date_of_birth: string;
+    phone_number: string;
 }

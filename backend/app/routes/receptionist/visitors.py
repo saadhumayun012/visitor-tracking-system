@@ -51,6 +51,27 @@ def create_visitor(
         "visitor_id": new_visitor.visitor_id # this is need for the visit
     }
 
+# get visitor by cnic
+@router.get("/cnic")
+def get_visitor_by_cnic(
+    cnic_number: str,
+    db: db_dependency,
+    _: require_receptionist_dependency
+):
+    visitor = db.query(Visitors).filter(
+        Visitors.cnic_number == cnic_number
+    ).first()
+    
+    if not visitor:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Visitor not found"
+        )
+    
+    return {
+        "visitor": visitor
+    }
+
 # receptionist get the visitor by id
 @router.get("/{visitor_id}")
 def get_visitor_by_id(
