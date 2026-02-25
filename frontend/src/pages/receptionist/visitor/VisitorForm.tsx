@@ -32,7 +32,7 @@ export const VisitorForm = () => {
         try {
             const response = await createVisitor(data);
             const visitorId = response.visitor_id;
-            navigate(`/receptionist/visits-form?visitor_id=${visitorId}`) //using query params cuz it can be null or undefined 
+            navigate(`/receptionist/visits-form/${visitorId}`)
         } catch (error) {
             setError("root", {
                 message: getErrorMessage(error),
@@ -57,7 +57,7 @@ export const VisitorForm = () => {
                         <div className="error-root">{errors.root.message}</div>
                     )}
 
-                    <div className="input-group-container">
+                    <div className="input-group-container flex-col">
                         <FormInput
                             isFieldRequired={true}
                             label="Visitor Name"

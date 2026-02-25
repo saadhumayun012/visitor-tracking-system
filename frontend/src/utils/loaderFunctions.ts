@@ -18,20 +18,18 @@ export const visitLoader = async ({params}: {params: any}) => {
     return { visits }
 };
 
-export const visitFormLoader = async ({ request }: LoaderFunctionArgs) => {
-    const url = new URL(request.url);
-    const visitorId = url.searchParams.get("visitor_id");
+export const visitFormLoader = async ({ params }: LoaderFunctionArgs) => {
+    const visitorId = Number(params.visitor_id);
 
-    // Parallel fetch
-    const [branches, badges] = await Promise.all([
+    if (!visitorId || isNaN(visitorId)) {
+        throw new Response("Visitor ID required", { status: 400 });
+    }
+
+    const [branches, badges, visitor] = await Promise.all([
         getBranches(),
         getAvailableBadges(),
+        getVisitorById(visitorId),
     ]);
-
-    let visitor = null;
-    if (visitorId) {
-        visitor = await getVisitorById(Number(visitorId));
-    }
 
     return { branches, badges, visitor };
 };

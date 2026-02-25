@@ -57,7 +57,10 @@ def check_out(
 ):   
     badge = db.query(Badges).filter(Badges.badge_code == badge_code).first()
     if not badge:
-        raise HTTPException(404, "Badge not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Badge Not Found"
+        )
 
     visit = (
         db.query(Visits)
@@ -68,7 +71,10 @@ def check_out(
         .first()
     )
     if not visit:
-        raise HTTPException(404, "No active visit found for this badge")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No active visit found for this badge"
+        )
 
     visit.status = VisitStatus.CHECKED_OUT  # type: ignore
     visit.check_out_time = datetime.now(timezone.utc) # type: ignore

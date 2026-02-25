@@ -1,15 +1,14 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { Badge, Branch, CreateVisit, Visitor} from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
-import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { Button, FormInput, FormSelect } from "../../../components";
 import {  createVisit } from "../../../api";
 
 export const VisitForm = () => {
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const visitorId = searchParams.get("visitor_id");
-     const { branches, badges, visitor } = useLoaderData() as { 
+    const { visitor_id } = useParams();
+    const { branches, badges, visitor } = useLoaderData() as { 
         branches: Branch[], 
         badges: Badge[],
         visitor: Visitor
@@ -24,7 +23,7 @@ export const VisitForm = () => {
         defaultValues: {
             purpose: "",
             purpose_description: null,
-            visitor_id: visitorId ? Number(visitorId) : 0,
+            visitor_id: visitor_id ? Number(visitor_id) : 0,
             branch_id: 0,
             badge_id: 0,
             vehicle: null,
@@ -37,8 +36,8 @@ export const VisitForm = () => {
             const payload = {
                 ...data,
                 //checking these because if no data is provided then it will be null rather then empty string
-                vehicle: data.vehicle?.vehicle_number ? data.vehicle : null, //not checking color and type cuz if number is not provided then it will be null (as there is no need or meaning of other fields)
-                items: data.items?.items_description ? data.items : null
+                vehicle: data.vehicle?.vehicle_number?.trim() ? data.vehicle : null, //not checking color and type cuz if number is not provided then it will be null (as there is no need or meaning of other fields)
+                items: data.items?.items_description?.trim() ? data.items : null
             };
             await createVisit(payload);
             navigate("/receptionist");

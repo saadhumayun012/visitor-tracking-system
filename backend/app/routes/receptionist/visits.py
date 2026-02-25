@@ -55,7 +55,7 @@ def add_visits(
         badge_id = request.badge_id,
         created_by = user.user_id  # automatic
     )
-
+    
     badge.badge_status = BadgeStatus.IN_USE # type: ignore
     db.add(new_visit)
     db.flush() # get visit_id

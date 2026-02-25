@@ -5,10 +5,10 @@ export const getBadges = async (
     page: number = 1,
     limit: number = 20
 ): Promise<PaginatedResponse<Badge>> => {
-    const response = await api.get("/admin/badges/", {
+    const { data } = await api.get("/admin/badges/", {
         params: { page, limit }
     });
-    return response.data;
+    return data;
 };
 
 export const createBadge = async (payload: CreateBadge): Promise<void> => {
@@ -18,6 +18,6 @@ export const createBadge = async (payload: CreateBadge): Promise<void> => {
 }
 
 export const getAvailableBadges = async (): Promise<Badge[]> => {
-    const response = await api.get("/receptionist/badges/available");
-    return response.data;
+    const { data } = await api.get("/receptionist/badges/available");
+    return data;
 };

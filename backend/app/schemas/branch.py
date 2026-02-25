@@ -9,6 +9,5 @@ class BranchResponse(BaseModel):
     branch_id: int
     branch_name: str
     branch_code: str
-    created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)

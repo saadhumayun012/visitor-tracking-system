@@ -6,10 +6,10 @@ export const getUsers = async (
     page: number = 1,
     limit: number = 20
 ): Promise<PaginatedResponse<UserListType>> => {
-    const response = await api.get("/admin/users/", {
+    const { data } = await api.get("/admin/users/", {
         params: { page, limit }
     });
-    return response.data;
+    return data;
 };
 
 export const createUser = async (payload: CreateUser): Promise<void> => {

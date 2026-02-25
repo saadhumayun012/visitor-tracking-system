@@ -11,6 +11,5 @@ class BadgeResponse(BaseModel):
     badge_id: int
     badge_code: str
     badge_status: str
-    created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)

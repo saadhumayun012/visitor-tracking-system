@@ -9,57 +9,61 @@ export const VisitList = () => {
     const columns = [
         {
             header: "ID",
-            accessor: (visit: Visit) => visit.visit_id,
+            accessor: (v: Visit) => v.visit_id,
             className: "table-td-muted"
         },
         {
             header: "Purpose",
-            accessor: (visit: Visit) => visit.purpose
+            accessor: (v: Visit) => v.purpose
         },
         {
             header: "Purpose Description",
-            accessor: (visit: Visit) => visit.purpose_description
+            accessor: (v: Visit) => v.purpose_description
         },
         {
             header: "Check In Time",
-            accessor: (visit: Visit) => formatDateTime(visit.check_in_time)
+            accessor: (v: Visit) => formatDateTime(v.check_in_time)
         },
         {
             header: "Check Out Time",
-            accessor: (visit: Visit) => formatDateTime(visit.check_out_time)
+            accessor: (v: Visit) => formatDateTime(v.check_out_time)
         },
         {
             header: "Status",
-            accessor: (visit: Visit) => visit.status
+            accessor: (v: Visit) => v.status
         },
         {
             header: "Branch ID",
-            accessor: (visit: Visit) => visit.branch_id
+            accessor: (v: Visit) => v.branch_id
         },
         {
             header: "Badge ID",
-            accessor: (visit: Visit) => visit.badge_id
+            accessor: (v: Visit) => v.badge_id
         },
         {
             header: "Vehicle Number",
-            accessor: (visit: Visit) => visit.visit_vehicle?.vehicle_number || "--"
+            accessor: (v: Visit) => v.visit_vehicle?.vehicle_number ?? "--"
         },
         {
             header: "Vehicle Color",
-            accessor: (visit: Visit) => visit.visit_vehicle?.vehicle_color || "--"
+            accessor: (v: Visit) => v.visit_vehicle?.vehicle_color ?? "--"
         },
         {
             header: "Vehicle Type",
-            accessor: (visit: Visit) => visit.visit_vehicle?.vehicle_type || "--"
+            accessor: (v: Visit) => v.visit_vehicle?.vehicle_type ?? "--"
         },
         {
             header: "Items Description",
-            accessor: (visit: Visit) => visit.visit_item?.items_description || "--"
+            accessor: (v: Visit) => v.visit_item?.items_description ?? "--"
         },
         {
             header: "Created At",
-            accessor: (visit: Visit) => formatDateTime(visit.created_at)
-        }
+            accessor: (v: Visit) => formatDateTime(v.created_at)
+        },
+        {
+            header: "Created By",
+            accessor: (v: Visit) => v.created_by
+        },
     ];
     
     return (
@@ -69,7 +73,7 @@ export const VisitList = () => {
             backText="← BACK TO DASHBOARD"
             columns={columns}
             data={visits}
-            getRowKey={(visit) => visit.visit_id}
+            getRowKey={(v) => v.visit_id}
         />
     );
 };

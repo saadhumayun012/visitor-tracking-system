@@ -74,7 +74,9 @@ async def login_user(
     # }
 
     return {
-        "message": "Login successfully"
+        "user_id": user.user_id,
+        "username": user.username,
+        "user_role": user.user_role,
     }
 
 # logout the user

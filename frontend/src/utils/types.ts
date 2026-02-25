@@ -59,7 +59,7 @@ export interface Branch {
     branch_code: string;
     branch_name: string;
     created_at: string;
-    update_at: string | null;
+    updated_at: string | null;
 }
 
 // 6- CreateBranch
@@ -69,7 +69,7 @@ export interface CreateBranch {
 }
 
 // 7- BadgeStatus
-export type BadgeStatus = "available" | "is_use" | "lost" | "disabled";
+export type BadgeStatus = "available" | "in_use" | "lost" | "disabled";
 
 // 8- Badge
 export interface Badge {
@@ -77,7 +77,7 @@ export interface Badge {
     badge_code: string;
     badge_status: BadgeStatus;
     created_at: string;
-    update_at: string | null;
+    updated_at: string | null;
 }
 
 // 9- CreateBadge
@@ -93,7 +93,7 @@ export interface UserListType {
     branch_id: number;
     last_login_at: string;
     created_at: string;
-    update_at: string | null;
+    updated_at: string | null;
 }
 
 // 11- CreateUser
@@ -122,7 +122,7 @@ export interface Visitor {
     permanent_address: string | null;
     phone_number: string;
     created_at: string;
-    update_at: string | null;
+    updated_at: string | null;
 }
 
 // 14- Visit
@@ -137,7 +137,6 @@ export interface Visit {
     branch_id: number;
     badge_id: number;
     created_by: number;
-    updated_by: number | null;
     created_at: string;
     visit_vehicle: VisitVehicle | null;
     visit_item: VisitItem | null;
@@ -208,7 +207,7 @@ export interface VisitInformation {
     purpose: string;
     status: VisitStatus;
     check_in_time: string;
-    total_time: string;
+    total_time: number;
 }
 
 // 23- VisitorInformation

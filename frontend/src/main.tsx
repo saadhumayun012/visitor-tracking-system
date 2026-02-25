@@ -64,7 +64,7 @@ const router = createBrowserRouter(
                 <Route element={<RoleProtectedRoute allowedRoles={["receptionist"]} />}>
                     <Route path="/receptionist" element={<ReceptionistDashboard />} />
                     <Route path="/receptionist/visitors-form" element={<VisitorForm />} />
-                    <Route path="/receptionist/visits-form" element={<VisitForm />} loader={visitFormLoader} />
+                    <Route path="/receptionist/visits-form/:visitor_id" element={<VisitForm />} loader={visitFormLoader} />
                     <Route path="/receptionist/find-visit" element={<FindVisitAndCheckout />} />
                     <Route path="/receptionist/cnic" element={<RegisteredVisitor />} />
                 </Route>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { VisitorInformation } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { Button } from "../../../components";
-import { registeredVisitor } from "../../../api";
+import { getVisitorByCnic } from "../../../api";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/formateDateTime";
 
@@ -23,7 +23,7 @@ export const RegisteredVisitor = () => {
         try {
             setIsLoading(true);
             setError("");
-            const info = await registeredVisitor(cnic);
+            const info = await getVisitorByCnic(cnic);
             setVisitorInfo(info);
         } catch (error) {
             setError(getErrorMessage(error));
@@ -96,7 +96,7 @@ export const RegisteredVisitor = () => {
                         <Button
                             variant="found"
                             onClick={() =>
-                                navigate(`/receptionist/visits-form?visitor_id=${visitorInfo.visitor_id}`)
+                                navigate(`/receptionist/visits-form/${visitorInfo.visitor_id}`)
                             }
                         >
                             Visitor Found - Create Visit

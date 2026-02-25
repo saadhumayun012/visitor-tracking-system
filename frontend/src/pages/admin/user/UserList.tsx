@@ -36,7 +36,7 @@ export const UserList = () => {
         },
         {
             header: "Updated At",
-            accessor: (u: UserListType) => formatDateTime(u.update_at),
+            accessor: (u: UserListType) => formatDateTime(u.updated_at),
         },
     ];
 

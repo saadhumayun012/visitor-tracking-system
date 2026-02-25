@@ -3,8 +3,8 @@ import type { Branch, CreateBranch } from "../utils/types";
 
 
 export const getBranches = async (): Promise<Branch[]> => {
-    const response = await api.get("/branches/");
-    return response.data;
+    const { data } = await api.get("/branches/");
+    return data;
 }
 
 export const createBranch = async (payload: CreateBranch): Promise<void> => {

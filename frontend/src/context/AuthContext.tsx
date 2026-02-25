@@ -19,7 +19,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const isAuthenticated = user !== null;
 
-    // 🔹 Load user from cookie (source of truth)
+    // Load user from cookie (source of truth)
     const loadUser = useCallback(async () => {
         try {
             setIsLoading(true);
@@ -39,8 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const userLogin = async (username: string, password: string): Promise<void> => {
         try {
             setIsLoading(true);
-            await login({ username, password });
-            const currentUser = await getCurrentUser();
+            const currentUser = await login({ username, password });
             setUser(currentUser);
         } catch (error) {
             setUser(null)
