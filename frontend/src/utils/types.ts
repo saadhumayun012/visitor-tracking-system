@@ -230,3 +230,13 @@ export interface PaginatedResponse<T> {
     total_pages: number;
 }
 
+// 25- Active Visit For branch officer
+export interface ActiveVisit {
+    event: "checkin" | "checkout";
+    visit_id: number;
+    visitor_name?: string;
+    cnic_number?: string;
+    purpose?: string;
+    badge_id?: number;
+    check_in_time?: string;
+}

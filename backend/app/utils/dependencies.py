@@ -98,6 +98,19 @@ def require_receptionist(
 
 require_receptionist_dependency = Annotated[Users, Depends(require_receptionist)]
 
+# require branch officer dependency
+def require_branch_officer(
+    user: user_dependency
+):
+    if user.user_role != UserRoles.BRANCH_OFFICER: # type: ignore
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only Branch officer can perform this action"
+        )
+    return user
+
+require_branch_officer_dependency = Annotated[Users, Depends(require_branch_officer)]
+
 #pagination dependency 
 @dataclass
 class PaginationParams:

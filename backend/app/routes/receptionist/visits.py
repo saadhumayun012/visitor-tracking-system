@@ -1,8 +1,10 @@
+import asyncio
+
 from fastapi import APIRouter, HTTPException, status
 from datetime import datetime, timezone
-from app.models import Visitors, Visits, Visit_Vehicles, Visit_Items, Badges, Branches
+from app.models import Visitors, Visits, Visit_Vehicles, Visit_Items, Badges
 from app.schemas import CreateCompleteVisitRequest
-from app.utils import db_dependency, require_receptionist_dependency
+from app.utils import db_dependency, require_receptionist_dependency, manager
 
 from app.enum import VisitStatus, BadgeStatus
 
@@ -77,99 +79,52 @@ def add_visits(
     db.commit()
     db.refresh(new_visit)
 
+    # Sending SSE event
+    asyncio.run(manager.send_to_branch(
+        branch_id=new_visit.branch_id, # type: ignore
+        data={
+            "event": "checkin",
+            "visit_id": new_visit.visit_id,
+            "visitor_name": visitor_exists.visitor_name,
+            "cnic_number": visitor_exists.cnic_number,
+            "purpose": new_visit.purpose,
+            "badge_id": new_visit.badge_id,
+            "check_in_time": new_visit.check_in_time.isoformat(),
+        }
+    ))
+
     return{
         "message": "Visit added successfully"
     }
 
-# add visitor vehicle details in the time of its visit
-# @router.post("/vehicle", status_code=status.HTTP_201_CREATED)
-# def add_vehicle(
+# # check out the visitor
+# @router.patch("/checkout/{visit_id}", status_code= status.HTTP_200_OK)
+# def check_out(
 #     db: db_dependency,
 #     _: require_receptionist_dependency,
-#     request: CreateVisitVehicleRequest
+#     visit_id: int
 # ):
-#     visit = db.query(Visits).filter(Visits.visit_id == int(request.visit_id)).first()
+#     visit = db.query(Visits).filter(
+#         Visits.visit_id == visit_id,
+#         Visits.status == VisitStatus.CHECKED_IN
+#     ).first()
 
 #     if not visit:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail="Visit Not Found"
-#         )
-    
-#     vehicle = Visit_Vehicles(
-#         vehicle_number = request.vehicle_number,
-#         vehicle_color = request.vehicle_color,
-#         vehicle_type = request.vehicle_type,
-#         visit_id = request.visit_id
+#         raise HTTPException(status_code=404, detail="Active visit not found")
+
+#     visit.status = VisitStatus.CHECKED_OUT # type: ignore
+#     visit.check_out_time = datetime.now(timezone.utc) # type: ignore
+
+#     db.query(Badges)\
+#     .filter(Badges.badge_id == visit.badge_id)\
+#     .update(
+#         {
+#             Badges.badge_status: BadgeStatus.AVAILABLE
+#         }
 #     )
 
-#     db.add(vehicle)
 #     db.commit()
-#     db.refresh(vehicle)
 
 #     return {
-#         "message": "vehicle added successfully",
-#         "details": vehicle
+#         "message": "Visitor checked out successfully"
 #     }
-
-# add visitor vehicle details in the time of its visit
-# @router.post("/items", status_code=status.HTTP_201_CREATED)
-# def add_item(
-#     db: db_dependency,
-#     _: require_receptionist_dependency,
-#     request: CreateVisitItemRequest
-# ):
-#     visit = db.query(Visits).filter(Visits.visit_id == int(request.visit_id)).first()
-
-#     if not visit:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail="Visit Not Found"
-#         )
-    
-#     items = Visit_Items(
-#         items_description = request.items_description,
-#         visit_id = request.visit_id
-#     )
-
-#     db.add(items)
-#     db.commit()
-#     db.refresh(items)
-
-#     return {
-#         "message": "items description added successfully",
-#         "details": items
-#     }
-
-
-# check out the visitor
-@router.patch("/checkout/{visit_id}", status_code= status.HTTP_200_OK)
-def check_out(
-    db: db_dependency,
-    _: require_receptionist_dependency,
-    visit_id: int
-):
-    visit = db.query(Visits).filter(
-        Visits.visit_id == visit_id,
-        Visits.status == VisitStatus.CHECKED_IN
-    ).first()
-
-    if not visit:
-        raise HTTPException(status_code=404, detail="Active visit not found")
-
-    visit.status = VisitStatus.CHECKED_OUT # type: ignore
-    visit.check_out_time = datetime.now(timezone.utc) # type: ignore
-
-    db.query(Badges)\
-    .filter(Badges.badge_id == visit.badge_id)\
-    .update(
-        {
-            Badges.badge_status: BadgeStatus.AVAILABLE
-        }
-    )
-
-    db.commit()
-
-    return {
-        "message": "Visitor checked out successfully"
-    }

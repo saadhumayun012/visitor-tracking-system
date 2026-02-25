@@ -1,9 +1,10 @@
+import asyncio
 from fastapi import APIRouter, HTTPException, status
 from datetime import datetime, timezone
 from sqlalchemy.orm import joinedload
 
 from app.models import Visitors, Badges, Visits
-from app.utils import db_dependency, require_receptionist_dependency
+from app.utils import db_dependency, require_receptionist_dependency, manager
 from app.schemas import FoundVisitorResponse
 
 from app.enum import VisitStatus, BadgeStatus
@@ -74,6 +75,15 @@ def check_out(
     badge.badge_status = BadgeStatus.AVAILABLE # type: ignore
     
     db.commit()
+
+    # Sending SSE event
+    asyncio.run(manager.send_to_branch(
+        branch_id=visit.branch_id, # type: ignore
+        data={
+            "event": "checkout",
+            "visit_id": visit.visit_id,
+        }
+    ))
 
     return {
         "message": "Checkout successful"
