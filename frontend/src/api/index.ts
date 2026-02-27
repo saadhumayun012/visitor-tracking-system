@@ -3,7 +3,7 @@ import {login, logout, getCurrentUser} from "./auth.api"
 import { getBranches, createBranch } from "./branch.api";
 import { getBadges, createBadge, getAvailableBadges } from "./badge.api";
 import { getUsers, createUser } from "./user.api";
-import { getVisitors, createVisitor, getVisitorById, getVisitorByCnic } from "./visitor.api";
+import { getVisitors, createVisitor, getVisitorById, getVisitorByCnic, updateVisitor } from "./visitor.api";
 import { getVisitsOfVisitor, createVisit, findVisitByBadge, checkoutVisit} from "./visit.api"
 
 export {
@@ -25,5 +25,6 @@ export {
     getAvailableBadges,
     findVisitByBadge,
     checkoutVisit,
-    getVisitorByCnic
+    getVisitorByCnic,
+    updateVisitor
 }

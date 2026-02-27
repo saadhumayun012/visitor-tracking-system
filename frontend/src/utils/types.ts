@@ -89,11 +89,12 @@ export interface CreateBadge {
 export interface UserListType {
     user_id: number;
     username: string;
-    user_role: UserRoles;
-    branch_id: number;
-    last_login_at: string;
+    user_role: string;
+    branch_id: number | null;
+    branch_name?: string;        
+    last_login_at: string | null;
     created_at: string;
-    updated_at: string | null;
+    update_at: string | null;
 }
 
 // 11- CreateUser
@@ -135,13 +136,15 @@ export interface Visit {
     check_out_time: string | null;
     status: string;
     branch_id: number;
+    branch_name?: string;           
     badge_id: number;
+    badge_code?: string;           
     created_by: number;
+    created_by_username?: string;  
     created_at: string;
     visit_vehicle: VisitVehicle | null;
     visit_item: VisitItem | null;
 }
-
 // 15- VisitVehicle
 export interface VisitVehicle {
     visit_vehicle_id: number;
@@ -214,9 +217,14 @@ export interface VisitInformation {
 export interface VisitorInformation {
     visitor_id: number;
     visitor_name: string;
-    cnic_number: string;
+    father_name: string | null;
     gender: GenderType | null;
     date_of_birth: string;
+    cnic_number: string;
+    cnic_date_of_issue: string | null;
+    cnic_date_of_expiry: string | null;
+    current_address: string;
+    permanent_address: string | null;
     phone_number: string;
 }
 

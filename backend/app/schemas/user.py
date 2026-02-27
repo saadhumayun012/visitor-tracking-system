@@ -5,8 +5,8 @@ from typing import Optional
 from app.enum import UserRoles
 
 class CreateUserRequest(BaseModel):
-    username: str = Field(..., min_length=3)
-    password: str = Field(..., min_length=4)
+    username: str = Field(..., min_length=3, max_length=50)
+    password: str = Field(..., min_length=4, max_length=100)
     user_role: UserRoles
     branch_id: Optional[int] = None
 
@@ -19,8 +19,9 @@ class UserResponse(BaseModel):
     user_id: int
     username: str
     user_role: UserRoles
-    last_login_at: Optional[datetime]
-    branch_id: Optional[int]
+    last_login_at: Optional[datetime] = None
+    branch_id: Optional[int] = None
+    branch_name: Optional[str] = None       
     created_at: datetime
     updated_at: datetime
 

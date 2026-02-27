@@ -51,7 +51,7 @@ export const RegisteredVisitor = () => {
                             onChange={(e) => setCnic(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                             placeholder="Enter cnic number"
-                            className="px-3 py-2 border border-gray-400 rounded-sm flex-1"
+                            className="search-input"
                         />
                         <Button
                             variant="search"
@@ -93,14 +93,23 @@ export const RegisteredVisitor = () => {
                             <span className="list-item-value">{visitorInfo.phone_number}</span>
                         </div>
 
-                        <Button
-                            variant="found"
-                            onClick={() =>
-                                navigate(`/receptionist/visits-form/${visitorInfo.visitor_id}`)
-                            }
-                        >
-                            Visitor Found - Create Visit
-                        </Button>
+                        <div className="flex gap-2">
+                            <Button
+                                variant="found"
+                                onClick={() => navigate(`/receptionist/visits-form/${visitorInfo.visitor_id}`)}
+                            >
+                                Visitor Found - Create Visit
+                            </Button>
+
+                            <Button
+                                variant="put"
+                                onClick={() => navigate("/receptionist/visitors-form", { 
+                                    state: { visitorInfo } 
+                                })}
+                            >
+                                Update Visitor
+                            </Button>
+                        </div>
                     </div>
                 )}
             </div>

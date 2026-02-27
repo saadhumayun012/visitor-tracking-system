@@ -17,7 +17,7 @@ export const RoleProtectedRoute = ({ allowedRoles }: RoleProtectedRouteProps) =>
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   // if user trying to access some other role's page - redirect it to its own dashboard or main route

@@ -17,7 +17,7 @@ export const FormInput = ({
 }: FormInputProps) => {
     return (
         <div className="flex flex-col gap-1 w-full">
-            <label htmlFor={id} className="text-sm font-semibold text-gray-900">
+            <label htmlFor={id} className="form-label">
                 {label}
                 {isFieldRequired && <span className="text-red-600 ml-1">*</span>}
             </label>
@@ -25,8 +25,8 @@ export const FormInput = ({
             <input
                 id={id}
                 placeholder={placeholder}
-                className={`px-3 py-2 border rounded-sm text-sm focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 ${
-                    error ? "border-red-500" : "border-gray-400"
+                className={`form-input-base ${
+                    error ? "border-red-500" : "border-gray-300"
                 }`}
                 {...props}
             />

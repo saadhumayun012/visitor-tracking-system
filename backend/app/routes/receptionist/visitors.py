@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
 from app.models import Visitors
-from app.schemas import CreateVisitorRequest, VisitorIdResponse, VisitorCnicResponse
+from app.schemas import CreateVisitorRequest, VisitorIdResponse, VisitorCnicResponse, UpdateVisitorRequest
 from app.utils import db_dependency, require_receptionist_dependency
 
 
@@ -17,18 +17,20 @@ def create_visitor(
     _: require_receptionist_dependency,
     request: CreateVisitorRequest
 ):  
-    new_visitor = Visitors(
-        visitor_name= request.visitor_name,
-        father_name= request.father_name,
-        gender= request.gender,
-        cnic_number= request.cnic_number,
-        date_of_birth= request.date_of_birth,
-        cnic_date_of_issue= request.cnic_date_of_issue,
-        cnic_date_of_expiry= request.cnic_date_of_expiry,
-        current_address= request.current_address,
-        permanent_address= request.permanent_address,
-        phone_number= request.phone_number
-    )
+    # new_visitor = Visitors(
+    #     visitor_name= request.visitor_name,
+    #     father_name= request.father_name,
+    #     gender= request.gender,
+    #     cnic_number= request.cnic_number,
+    #     date_of_birth= request.date_of_birth,
+    #     cnic_date_of_issue= request.cnic_date_of_issue,
+    #     cnic_date_of_expiry= request.cnic_date_of_expiry,
+    #     current_address= request.current_address,
+    #     permanent_address= request.permanent_address,
+    #     phone_number= request.phone_number
+    # )
+
+    new_visitor = Visitors(**request.model_dump())
 
     existing_visitor = (
         db.query(Visitors)
@@ -89,3 +91,31 @@ def get_visitor_by_id(
         )
     
     return visitor
+
+
+# update the visitor record if needed means partially update
+@router.patch("/{visitor_id}", status_code=status.HTTP_200_OK)
+def update_visitor(
+    db: db_dependency,
+    _: require_receptionist_dependency,
+    visitor_id: int,
+    request: UpdateVisitorRequest
+):
+    visitor = db.query(Visitors).filter(
+        Visitors.visitor_id == visitor_id
+    ).first()
+
+    if not visitor:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Visitor not found"
+        )
+    
+    update_data = request.model_dump(exclude_unset=True)
+    
+    for field, value in update_data.items():
+        setattr(visitor, field, value)
+
+    db.commit()
+
+    return {"message": "Visitor updated successfully"}

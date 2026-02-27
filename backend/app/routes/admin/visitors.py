@@ -30,12 +30,11 @@ def get_visitor(
     )
 
 # get all visits of visitor
-@router.get("/{visitor_id}/visits",response_model=List[VisitResponse], status_code=status.HTTP_200_OK)
+@router.get("/{visitor_id}/visits", response_model=List[VisitResponse], status_code=status.HTTP_200_OK)
 def all_visits_of_visitor(
     db: db_dependency,
     _: require_admin_dependency,
     visitor_id: int,
-    # pagination: pagination_dependency
 ):
     visits = (
         db.query(Visits)
@@ -43,8 +42,11 @@ def all_visits_of_visitor(
         .order_by(desc(Visits.created_at))
         .options(
             joinedload(Visits.visit_item),
-            joinedload(Visits.visit_vehicle)
-        ).all()
+            joinedload(Visits.visit_vehicle),
+            joinedload(Visits.badge),     
+            joinedload(Visits.creator),   
+            joinedload(Visits.branch),   
+        )
+        .all()
     )
-
     return visits

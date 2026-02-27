@@ -48,7 +48,7 @@ def get_badges(
     _: require_admin_dependency,
     pagination: pagination_dependency
 ):
-    query = db.query(Badges)
+    query = db.query(Badges).order_by(Badges.badge_id.asc())
     return paginate(
         query, 
         pagination.page, 

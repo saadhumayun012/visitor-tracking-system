@@ -23,8 +23,8 @@ export const UserList = () => {
             accessor: (u: UserListType) => u.user_role 
         },
         {
-            header: "Branch ID",
-            accessor: (u: UserListType) => u.branch_id || "N/A",
+            header: "Branch",
+            accessor: (u: UserListType) => u.branch_name || u.branch_id || "N/A"
         },
         {
             header: "Last Login At",
@@ -34,11 +34,7 @@ export const UserList = () => {
             header: "Created At",
             accessor: (u: UserListType) => formatDateTime(u.created_at),
         },
-        {
-            header: "Updated At",
-            accessor: (u: UserListType) => formatDateTime(u.updated_at),
-        },
-    ];
+];
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;

@@ -4,8 +4,8 @@ import { Button, Section } from "../../components";
 export const AdminDashboard = () => {
     const navigate = useNavigate();
     return (
-        <div className="p-8 flex flex-col gap-8 max-w-2xl">
-            <h1 className="text-xl font-bold border-b pb-2">Admin Dashboard</h1>
+        <div className="dashboard-container">
+            <h1 className="dashboard-title">Admin Dashboard</h1>
 
             <Section title="Branches">
                 <Button

@@ -40,7 +40,7 @@ export const BadgeForm = () => {
 
                 <form
                     onSubmit={handleSubmit(onSubmit)}
-                    className="flex flex-col gap-6"
+                    className="form-body"
                 >
                     <h1 className="form-title">Create Badge</h1>
 

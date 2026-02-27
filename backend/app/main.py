@@ -18,7 +18,9 @@ app = FastAPI(
 Base.metadata.create_all(bind=engine)
 
 origins = [
-    "http://localhost:5173"
+    "http://localhost:5173",
+    # "https://favorite-expressions-article-chosen.trycloudflare.com",
+    # "https://penguin-solo-silk-flash.trycloudflare.com"
 ]
 
 app.add_middleware(

@@ -18,7 +18,7 @@ export const VisitList = () => {
         },
         {
             header: "Purpose Description",
-            accessor: (v: Visit) => v.purpose_description
+            accessor: (v: Visit) => v.purpose_description || "N/A"
         },
         {
             header: "Check In Time",
@@ -33,12 +33,12 @@ export const VisitList = () => {
             accessor: (v: Visit) => v.status
         },
         {
-            header: "Branch ID",
-            accessor: (v: Visit) => v.branch_id
+            header: "Branch",
+            accessor: (v: Visit) => v.branch_name ?? v.badge_id
         },
         {
-            header: "Badge ID",
-            accessor: (v: Visit) => v.badge_id
+            header: "Badge",
+            accessor: (v: Visit) => v.badge_code ?? v.badge_id
         },
         {
             header: "Vehicle Number",
@@ -62,7 +62,7 @@ export const VisitList = () => {
         },
         {
             header: "Created By",
-            accessor: (v: Visit) => v.created_by
+            accessor: (v: Visit) =>  v.created_by_username ?? v.created_by
         },
     ];
     

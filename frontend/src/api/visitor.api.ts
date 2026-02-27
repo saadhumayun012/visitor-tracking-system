@@ -52,3 +52,11 @@ export const getVisitorByCnic = async (
     });
     return data;
 };
+
+// update visitor
+export const updateVisitor = async (
+    visitor_id: number,
+    payload: Partial<CreateVisitor>
+): Promise<void> => {
+    await api.patch(`/receptionist/visitors/${visitor_id}`, payload);
+};

@@ -47,17 +47,23 @@ async def branch_officer_stream(
     async def event_stream():
         try:
             while True:
-                data = await queue.get()
-                yield f"data: {json.dumps(data)}\n\n"
+                try:
+                    # if there is nothing coming the send the heartbeat to stay connection lived
+                    data = await asyncio.wait_for(queue.get(), timeout=20.0)
+                    yield f"data: {json.dumps(data)}\n\n"
+                except asyncio.TimeoutError:
+                    yield ": heartbeat\n\n"
         except asyncio.CancelledError:
-             manager.disconnect(branch_id) # type: ignore
+            manager.disconnect(branch_id) # type: ignore
 
     return StreamingResponse(
         event_stream(),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no"
+            "X-Accel-Buffering": "no",
+            "X-Content-Type-Options": "nosniff",
+            "Connection": "keep-alive", 
         }
     )
     

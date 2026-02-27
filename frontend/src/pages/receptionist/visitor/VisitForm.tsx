@@ -56,7 +56,7 @@ export const VisitForm = () => {
                 </div>
 
                 {visitor && (
-                    <div className="bg-blue-50 border border-blue-200 p-4 rounded-md mb-4">
+                    <div className="visitor-info-card mb-4">
                         <p className="text-sm font-semibold text-blue-900">
                             Visitor: {visitor.visitor_name}
                         </p>
@@ -66,15 +66,15 @@ export const VisitForm = () => {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="form-body">
                     {errors.root && <div className="error-root">{errors.root.message}</div>}
 
                     {/* Hidden field - visitor_id already set */}
                     <input type="hidden" {...register("visitor_id")} />
 
                     {/* Visit Details Section */}
-                    <div className="border border-gray-300 p-4 rounded-md">
-                        <h2 className="text-lg font-bold mb-4">Visit Details</h2>
+                    <div className="form-section">
+                        <h2 className="form-section-title">Visit Details</h2>
                         
                         <div className="input-group-container">
                             <FormInput
@@ -132,8 +132,8 @@ export const VisitForm = () => {
                     </div>
 
                     {/* Vehicle Section */}
-                    <div className="border border-gray-300 p-4 rounded-md">
-                        <h2 className="text-lg font-bold mb-4">
+                    <div className="form-section">
+                        <h2 className="form-section-title">
                             Vehicle Details <span className="text-sm font-normal text-gray-500">(Optional)</span>
                         </h2>
                         
@@ -158,8 +158,8 @@ export const VisitForm = () => {
                     </div>
 
                     {/* Items Section */}
-                    <div className="border border-gray-300 p-4 rounded-md">
-                        <h2 className="text-lg font-bold mb-4">
+                    <div className="form-section">
+                        <h2 className="form-section-title">
                             Items Carried <span className="text-sm font-normal text-gray-500">(Optional)</span>
                         </h2>
                         

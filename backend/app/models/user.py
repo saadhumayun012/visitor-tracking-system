@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Identity, Boolean, func, DateTime, ForeignKey, Enum
+from sqlalchemy.orm import relationship
 from app.utils import TimestampMixin, CreatedAtMixin, Base
 
 from app.enum import UserRoles
@@ -33,6 +34,12 @@ class Users(Base, TimestampMixin):
         ForeignKey("branches.branch_id"),
         nullable=True
     )
+    # relationship
+    branch = relationship("Branches", foreign_keys=[branch_id])
+
+    @property
+    def branch_name(self) -> str | None:
+        return self.branch.branch_name if self.branch else None
 
 
 class AuditLogs(Base, CreatedAtMixin):

@@ -15,7 +15,7 @@ export const Pagination = ({ page, total_pages, onNext, onPrev }: PaginationProp
             <Button
                 onClick={onPrev}
                 disabled={page === 1} // page 1 — prev disable
-                 variant="submit"
+                 variant="page"
             >
                 ← Prev
             </Button>
@@ -27,7 +27,7 @@ export const Pagination = ({ page, total_pages, onNext, onPrev }: PaginationProp
             <Button
                 onClick={onNext}
                 disabled={page === total_pages} // last page — next disable
-                variant="submit"
+                variant="page"
             >
                 Next →
             </Button>

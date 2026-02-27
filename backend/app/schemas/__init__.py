@@ -1,6 +1,6 @@
 from .user import CreateUserRequest, LoginUserRequest, UserResponse
 from .branch import CreateBranchRequest, BranchResponse
-from .visitor import CreateVisitorRequest, FoundVisitorResponse, VisitorResponse, VisitorCnicResponse, VisitorIdResponse
+from .visitor import CreateVisitorRequest, FoundVisitorResponse, VisitorResponse, VisitorCnicResponse, VisitorIdResponse, UpdateVisitorRequest
 from .visit import CreateCompleteVisitRequest, VisitResponse
 from .document import CreateDocumentTypeRequest, DocumentTypeResponse
 from .badge import CreateBadgeRequest, BadgeResponse
@@ -23,5 +23,6 @@ __all__ = [
     "VisitResponse",
     "VisitorResponse",
     "VisitorCnicResponse",
-    "VisitorIdResponse"
+    "VisitorIdResponse",
+    "UpdateVisitorRequest"
 ]

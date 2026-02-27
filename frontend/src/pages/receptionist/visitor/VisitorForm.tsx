@@ -1,57 +1,57 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { CreateVisitor} from "../../../utils/types";
+import type { CreateVisitor } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, FormInput, FormSelect } from "../../../components";
-import {  createVisitor } from "../../../api";
+import { createVisitor, updateVisitor } from "../../../api";
+import { formatDate } from "../../../utils/formateDateTime";
 
 export const VisitorForm = () => {
     const navigate = useNavigate();
+    const { state } = useLocation();
+    const visitorInfo = state?.visitorInfo;
+    const formMode = visitorInfo ? "update" : "create";
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-        setError,
-    } = useForm<CreateVisitor>({
+    const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<CreateVisitor>({
         defaultValues: {
-            visitor_name: "",
-            father_name: "",
-            gender: "male",
-            date_of_birth: "",
-            cnic_number: "",
-            cnic_date_of_issue: "",
-            cnic_date_of_expiry: "",
-            current_address: "",
-            permanent_address: "",
-            phone_number: "",
+            visitor_name: visitorInfo?.visitor_name ?? "",
+            father_name: visitorInfo?.father_name ?? "",
+            gender: visitorInfo?.gender ?? "male",
+            date_of_birth: formatDate(visitorInfo?.date_of_birth) ?? "",
+            cnic_number: visitorInfo?.cnic_number ?? "",
+            cnic_date_of_issue: formatDate(visitorInfo?.cnic_date_of_issue) ?? "",
+            cnic_date_of_expiry: formatDate(visitorInfo?.cnic_date_of_expiry) ?? "",
+            current_address: visitorInfo?.current_address ?? "",
+            permanent_address: visitorInfo?.permanent_address ?? "",
+            phone_number: visitorInfo?.phone_number ?? "",
         },
     });
 
     const onSubmit: SubmitHandler<CreateVisitor> = async (data) => {
         try {
-            const response = await createVisitor(data);
-            const visitorId = response.visitor_id;
-            navigate(`/receptionist/visits-form/${visitorId}`)
+            if (formMode === "create") {
+                const response = await createVisitor(data);
+                navigate(`/receptionist/visits-form/${response.visitor_id}`);
+            } else {
+                await updateVisitor(visitorInfo.visitor_id, data);
+                navigate(`/receptionist/visits-form/${visitorInfo.visitor_id}`);
+            }
         } catch (error) {
-            setError("root", {
-                message: getErrorMessage(error),
-            });
+            setError("root", { message: getErrorMessage(error) });
         }
     };
 
     return (
         <div className="page-container">
             <div className="form-card">
-                <div className="nav-back" onClick={() => navigate("/admin")}>
+                <div className="nav-back" onClick={() => navigate("/receptionist")}>
                     ← BACK TO DASHBOARD
                 </div>
 
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="flex flex-col gap-6"
-                >
-                    <h1 className="form-title">Create User</h1>
+                <form onSubmit={handleSubmit(onSubmit)} className="form-body">
+                    <h1 className="form-title">
+                        {formMode === "create" ? "Create Visitor" : "Update Visitor"}
+                    </h1>
 
                     {errors.root && (
                         <div className="error-root">{errors.root.message}</div>
@@ -74,21 +74,19 @@ export const VisitorForm = () => {
                             label="Father Name"
                             id="father"
                             placeholder="Enter Father Name"
-                            // error={errors.father_name}
-                            {...register("father_name",)}
+                            {...register("father_name")}
                         />
 
                         <FormSelect
                             isFieldRequired={false}
                             label="Gender"
                             id="role"
-                            // error={errors.gender}
                             options={[
                                 { value: "male", label: "Male" },
                                 { value: "female", label: "Female" },
                                 { value: "other", label: "Prefer Not To Say" }
                             ]}
-                            {...register("gender", )}
+                            {...register("gender")}
                         />
 
                         <FormInput
@@ -108,23 +106,23 @@ export const VisitorForm = () => {
 
                         <FormInput
                             isFieldRequired={true}
-                            label="cnic"
+                            label="CNIC"
                             placeholder="XXXXX-XXXXXXX-X"
                             error={errors.cnic_number}
                             {...register("cnic_number", {
                                 required: "CNIC is required",
                                 pattern: {
                                     value: /^\d{5}-\d{7}-\d{1}$/,
-                                    message: "cnic must be in XXXXX-XXXXXXX-X format"
+                                    message: "CNIC must be in XXXXX-XXXXXXX-X format"
                                 }
                             })}
                         />
-                        
+
                         <div className="flex gap-2">
                             <FormInput
                                 isFieldRequired={false}
-                                label="Cnic Date Of Issue"
-                                id="birth"
+                                label="CNIC Date Of Issue"
+                                id="cnic_doi"
                                 placeholder="DD/MM/YYYY"
                                 error={errors.cnic_date_of_issue}
                                 {...register("cnic_date_of_issue", {
@@ -137,8 +135,8 @@ export const VisitorForm = () => {
 
                             <FormInput
                                 isFieldRequired={false}
-                                label="Cnic Date Of Issue"
-                                id="birth"
+                                label="CNIC Date Of Expiry"
+                                id="cnic_doe"
                                 placeholder="DD/MM/YYYY"
                                 error={errors.cnic_date_of_expiry}
                                 {...register("cnic_date_of_expiry", {
@@ -153,25 +151,23 @@ export const VisitorForm = () => {
                         <div className="flex gap-2">
                             <FormInput
                                 isFieldRequired={true}
-                                label="Current address"
-                                id="currenAddress"
+                                label="Current Address"
+                                id="currentAddress"
                                 placeholder="Enter current address"
                                 error={errors.current_address}
                                 {...register("current_address", {
-                                    required: "current address is required",
+                                    required: "Current address is required",
                                 })}
                             />
 
                             <FormInput
                                 isFieldRequired={false}
-                                label="permanent"
-                                id="birth"
+                                label="Permanent Address"
+                                id="permanentAddress"
                                 placeholder="Enter permanent address"
-                                error={errors.permanent_address}
-                                {...register("permanent_address",)}
+                                {...register("permanent_address")}
                             />
                         </div>
-                        
 
                         <FormInput
                             isFieldRequired={true}
@@ -183,14 +179,15 @@ export const VisitorForm = () => {
                                 required: "Phone number is required",
                                 pattern: {
                                     value: /^(?:\+92|0)\d{10}$/,
-                                    message: "phone must start with +92 or 0 and have 10 digits after"
+                                    message: "Phone must start with +92 or 0 and have 10 digits after"
                                 }
                             })}
                         />
-
                     </div>
 
-                    <Button variant="submit" isLoading={isSubmitting}>Submit</Button>
+                    <Button variant="submit" isLoading={isSubmitting}>
+                        {formMode === "create" ? "Submit" : "Update"}
+                    </Button>
                 </form>
             </div>
         </div>

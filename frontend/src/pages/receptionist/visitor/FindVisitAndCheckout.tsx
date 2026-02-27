@@ -65,7 +65,7 @@ export const FindVisitAndCheckout = () => {
                             onChange={(e) => setBadgeCode(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                             placeholder="Enter Badge Code"
-                            className="px-3 py-2 border border-gray-400 rounded-sm flex-1"
+                            className="search-input"
                         />
                         <Button
                             onClick={handleSearch}

@@ -115,6 +115,6 @@ require_branch_officer_dependency = Annotated[Users, Depends(require_branch_offi
 @dataclass
 class PaginationParams:
     page: int = Query(1, ge=1)
-    limit: int = Query(20, ge=1, le=100)
+    limit: int = Query(15, ge=1, le=100)
 
 pagination_dependency = Annotated[PaginationParams, Depends(PaginationParams)]

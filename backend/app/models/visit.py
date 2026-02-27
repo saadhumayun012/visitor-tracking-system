@@ -61,6 +61,21 @@ class Visits(Base, CreatedAtMixin):
     visit_item = relationship("Visit_Items", back_populates="visit", uselist=False)
     badge = relationship("Badges", back_populates="visit", uselist=False)
 
+    branch = relationship("Branches", foreign_keys=[branch_id])
+    creator = relationship("Users", foreign_keys=[created_by])
+
+    @property
+    def branch_name(self) -> str | None:
+        return self.branch.branch_name if self.branch else None
+
+    @property
+    def badge_code(self) -> str | None:
+        return self.badge.badge_code if self.badge else None
+
+    @property
+    def created_by_username(self) -> str | None:
+        return self.creator.username if self.creator else None
+
 #visitors -> visits -> vehicle model
 class Visit_Vehicles(Base, CreatedAtMixin):
     __tablename__ = "visit_vehicles"

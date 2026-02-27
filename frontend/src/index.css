@@ -1,139 +1,209 @@
 @import "tailwindcss";
 
 @theme {
-    /* button colors are defined in /src/components/ui/Button.tsx */
+    /* Button variant colors are defined in components/ui/Button.tsx */
 }
 
-
 @layer components {
-    /* Main Layout Container */
+
+    /* ─── Layout ─────────────────────────────────────────────── */
+
+    /* Full-page wrapper — centers content vertically, light gray bg */
     .page-container {
         @apply min-h-screen flex flex-col items-center bg-gray-50 p-4 pt-12;
     }
 
-    /* Form Style */
-    .form-card {
-        @apply w-full max-w-2xl bg-white border border-gray-200 p-8 shadow-sm flex flex-col gap-6 h-fit;
+    /* Dashboard page outer wrapper (Admin, Receptionist) */
+    .dashboard-container {
+        @apply p-8 pt-10 flex flex-col gap-5 max-w-5xl w-full;
     }
 
-    .error-root {
-        @apply bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-sm font-medium mb-2;
+    /* Dashboard page h1 */
+    .dashboard-title {
+        @apply text-2xl font-bold pb-4 text-gray-800;
     }
 
-    .form-title {
-        @apply text-xl font-black text-gray-900 border-b pb-2 mb-2 uppercase tracking-tight;
-    }
 
-    .input-group-container {
-        @apply flex flex-col gap-4;
-    }
+    /* ─── Navigation ─────────────────────────────────────────── */
 
-    /* Nav */
-    .nav-back {
-        @apply text-sm font-semibold text-blue-600 cursor-pointer mb-4 inline-block hover:underline;
-    }
-
-    /* list styles */
-    .list-container {
-        @apply flex flex-col gap-2 w-full max-w-2xl;
-    }
-
-    .list-item {
-        @apply p-4 border border-gray-200 bg-white rounded-sm flex flex-col gap-1;
-    }
-
-    .list-item-label {
-        @apply text-xs font-bold uppercase text-gray-500;
-    }
-
-    .list-item-value {
-        @apply text-sm text-gray-900 mb-2 last:mb-0;
-    }
-
-    /* Nav Bar */
+    /* Sticky top nav bar */
     .nav-wrapper {
         @apply w-full h-14 bg-white border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-50;
     }
 
+    /* App name / logo text */
     .nav-logo {
-        @apply text-lg font-black tracking-tighter text-gray-900 cursor-pointer;
+        @apply text-lg font-black tracking-tighter text-black cursor-pointer;
     }
 
-    .nav-link-btn {
-        @apply text-sm font-bold px-4 py-1.5 rounded-sm transition-none;
+    /* "← Back" link used above forms and tables */
+    .nav-back {
+        @apply text-sm font-semibold text-blue-600 cursor-pointer mb-4 inline-block hover:underline transition-colors duration-150;
     }
 
-    .btn-login {
-        @apply bg-blue-600 text-white hover:bg-blue-700;
+
+    /* ─── Section Cards (Dashboard) ──────────────────────────── */
+
+    /* Card wrapper for each dashboard section (Branches, Users …) */
+    .section-card {
+        @apply bg-white border border-gray-200 rounded-sm shadow-sm overflow-hidden ;
     }
 
-    .btn-logout {
-        @apply bg-red-600 text-white hover:bg-red-700;
+    /* Gray header strip inside a section card */
+    .section-card-header {
+        @apply px-5 py-3 text-xs font-bold uppercase tracking-widest text-gray-900 bg-gray-50 border-b border-gray-100;
     }
 
-    /* Table Wrapper */
-    .table-container {
-        @apply overflow-x-auto border border-gray-200 bg-white w-full;
+    /* Body area inside a section card — holds action buttons */
+    .section-card-body {
+        @apply p-5 flex flex-wrap gap-3;
     }
 
-    .data-table {
-        @apply w-full text-left border-collapse;
+
+    /* ─── Forms ──────────────────────────────────────────────── */
+
+    /* White card that wraps a form (login, create-badge, etc.) */
+    .form-card {
+        @apply w-full max-w-2xl bg-white border border-gray-200 rounded-sm p-8 shadow flex flex-col gap-6 h-fit;
     }
 
-    /*  table Header Styles */
-    .table-thead {
-        @apply bg-gray-50 border-b border-gray-200;
+    /* h1 at the top of a form card */
+    .form-title {
+        @apply text-xl font-black text-gray-800 border-b border-gray-200 pb-2 mb-2 uppercase tracking-tight;
     }
 
-    .table-th {
-        @apply px-4 py-3 text-xs font-bold uppercase text-gray-600;
+    /* <form> element wrapper — vertical stack of fields */
+    .form-body {
+        @apply flex flex-col gap-6;
     }
 
-    /* Row/Cell Styles */
-    .table-tr {
-        @apply border-b border-gray-100 last:border-0 transition-none;
-    }
-
-    /* .table-td {
-        @apply px-4 py-3 text-sm text-gray-900;
-    } */
-
-    .table-td-muted {
-        @apply px-4 py-3 text-sm text-gray-500;
-    }
-
-    /* Action Styles */
-    .btn-view-text {
-        @apply text-green-600 font-bold text-xs hover:underline uppercase;
-    }
-    
-    /* from select */
-    .form-select {
-        @apply w-full px-3 py-2 border border-gray-200 bg-white text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-600;
-    }
-
+    /* Label above every input / select */
     .form-label {
-        @apply text-xs font-bold uppercase text-gray-600;
+        @apply text-xs font-bold uppercase tracking-wide text-gray-700;
     }
 
-    .form-error {
-        @apply text-xs text-red-600 font-medium mt-1;
+    /* Vertical stack of form fields */
+    .input-group-container {
+        @apply flex flex-col gap-4;
     }
 
-    /* Standard table container (for 3-5 columns) */
-    .table-wrapper-standard {
-        @apply w-full max-w-4xl;
+    /* Subsection block inside a form (Visit Details, Vehicle, Items) */
+    .form-section {
+        @apply border border-gray-200 p-5 rounded-sm;
     }
 
-    /* Wide table container (for 10+ columns) */
+    /* Title row inside a form-section */
+    .form-section-title {
+        @apply text-sm font-bold uppercase tracking-wide text-gray-800 mb-4;
+    }
+
+    /* Base styles shared by <input> and <select> elements */
+    .form-input-base {
+        @apply px-3 py-2 border rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    }
+
+    /* Standalone search <input> placed next to a Search button */
+    .search-input {
+        @apply px-3 py-2 border border-gray-300 rounded-sm text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    }
+
+    /* Root-level error banner shown at the top of a form */
+    .error-root {
+        @apply bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-sm font-medium mb-2;
+    }
+
+
+    /* ─── Tables ─────────────────────────────────────────────── */
+
+    /* Outer wrapper for wide tables (10+ columns) */
     .table-wrapper-wide {
         @apply w-full max-w-full;
     }
 
-    /* Add white-space: nowrap to prevent text stacking/wrapping in cells */
+    /* Scrollable table container with border */
+    .table-container {
+        @apply overflow-x-auto border border-gray-200 bg-white w-full;
+    }
+
+    /* The <table> element itself */
+    .data-table {
+        @apply w-full text-left border-collapse;
+    }
+
+    /* <thead> row — slightly darker background */
+    .table-thead {
+        @apply bg-gray-100 border-b border-gray-200;
+    }
+
+    /* Each <th> cell */
+    .table-th {
+        @apply px-4 py-3 text-xs font-bold uppercase tracking-wide text-gray-700;
+    }
+
+    /* Each body <tr> — hover highlight and bottom border */
+    .table-tr {
+        @apply border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors duration-150;
+    }
+
+    /* Standard <td> cell */
     .table-td {
         @apply px-4 py-3 text-sm text-gray-900 whitespace-nowrap;
     }
+
+    /* Muted <td> cell — used for IDs and secondary info */
+    .table-td-muted {
+        @apply px-4 py-3 text-sm text-gray-500;
+    }
+
+    /* Inline "view visits" action link inside a table cell */
+    .btn-view-text {
+        @apply text-green-600 font-bold text-xs hover:underline uppercase transition-colors duration-150;
+    }
+
+
+    /* ─── Lists ──────────────────────────────────────────────── */
+
+    /* Vertical stack of info cards (e.g. visitor detail view) */
+    .list-container {
+        @apply flex flex-col gap-2 w-full max-w-2xl;
+    }
+
+    /* Single info card row */
+    .list-item {
+        @apply p-4 border border-gray-200 bg-white rounded-sm flex flex-col gap-1 hover:border-gray-300 transition-colors duration-150;
+    }
+
+    /* Field label inside a list-item */
+    .list-item-label {
+        @apply text-xs font-bold uppercase text-gray-500 tracking-wide;
+    }
+
+    /* Field value inside a list-item */
+    .list-item-value {
+        @apply text-sm text-gray-800 mb-2 last:mb-0;
+    }
+
+
+    /* ─── Pagination ─────────────────────────────────────────── */
+
+    /* Prev / page-info / Next row */
+    .pagination {
+        @apply flex items-center gap-3 justify-center py-4;
+    }
+
+    /* "Page X of Y" text */
+    .pagination-info {
+        @apply text-sm text-gray-600 font-medium;
+    }
+
+
+    /* ─── Info / Status Cards ────────────────────────────────── */
+
+    /* Blue context card shown above VisitForm (visitor name + CNIC) */
+    .visitor-info-card {
+        @apply bg-blue-50 border border-blue-200 p-4 rounded-sm;
+    }
+
+    /* Active-visit row card in OfficerDashboard live feed */
 }
- 
-    
+

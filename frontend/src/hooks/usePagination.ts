@@ -4,7 +4,7 @@ import type { PaginatedResponse } from "../utils/types";
 
 export const usePagination = <T>(
     fetchFn: (page: number, limit: number) => Promise<PaginatedResponse<T>>,
-    limit: number = 20
+    limit: number = 15
 ) => {
     const [page, setPage] = useState(1);
     const [data, setData] = useState<PaginatedResponse<T> | null>(null);

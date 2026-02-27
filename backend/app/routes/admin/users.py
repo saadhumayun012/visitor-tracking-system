@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from passlib.context import CryptContext
 from sqlalchemy import desc
-from typing import List
+from sqlalchemy.orm import joinedload
 
 from app.models import Users
 from app.schemas import CreateUserRequest, UserResponse, PaginatedResponse
@@ -59,15 +59,21 @@ def create_user(
         # "details": new_user
     }
 
-# TODO: use pagination here
+
 # admin can view all users
-@router.get("/",  response_model=PaginatedResponse[UserResponse], status_code=status.HTTP_200_OK)
+@router.get("/", response_model=PaginatedResponse[UserResponse], status_code=status.HTTP_200_OK)
 def get_user(
     db: db_dependency,
     _: require_admin_dependency,
     pagination: pagination_dependency
 ):
-    query = db.query(Users).order_by(desc(Users.created_at))
+    query = (
+        db.query(Users)
+        .options(joinedload(Users.branch)) 
+        .order_by(desc(Users.created_at))
+    )
+
+    print(query)
     return paginate(
         query, 
         pagination.page, 

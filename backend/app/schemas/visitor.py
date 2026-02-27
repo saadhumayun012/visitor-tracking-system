@@ -3,16 +3,16 @@ from datetime import date, datetime
 from app.enum import GenderType
 
 class CreateVisitorRequest(BaseModel):
-    visitor_name: str = Field(...)
-    father_name: str | None = None
-    gender: GenderType 
+    visitor_name: str = Field(..., min_length=3, max_length=100)
+    father_name: str | None = Field(None, max_length=100)
+    gender: GenderType
     date_of_birth: date
     cnic_number: str = Field(..., pattern=r"^\d{5}-\d{7}-\d$")
     cnic_date_of_issue: date | None = None
     cnic_date_of_expiry: date | None = None
-    current_address: str = Field(..., min_length=10)
-    permanent_address: str | None = None
-    phone_number: str = Field(...)
+    current_address: str = Field(..., min_length=10, max_length=300)
+    permanent_address: str | None = Field(None, max_length=300)
+    phone_number: str = Field(..., min_length=10, max_length=15)
 
     @field_validator(
         "date_of_birth",
@@ -71,18 +71,20 @@ class CreateVisitorRequest(BaseModel):
 
 class VisitorResponse(BaseModel):
     visitor_id: int
-    visitor_name: str 
+    visitor_name: str
     father_name: str | None = None
-    gender: GenderType 
+    gender: GenderType
     date_of_birth: date
-    cnic_number: str 
+    cnic_number: str
     cnic_date_of_issue: date | None = None
     cnic_date_of_expiry: date | None = None
-    current_address: str 
+    current_address: str
     permanent_address: str | None = None
     phone_number: str
     created_at: datetime
     updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class VisitorIdResponse(BaseModel):
@@ -95,9 +97,14 @@ class VisitorIdResponse(BaseModel):
 class VisitorCnicResponse(BaseModel):
     visitor_id: int
     visitor_name: str
-    cnic_number: str
+    father_name: str | None = None
+    gender: GenderType
     date_of_birth: date
+    cnic_number: str
+    cnic_date_of_issue: date | None = None
+    cnic_date_of_expiry: date | None = None
     current_address: str
+    permanent_address: str | None = None
     phone_number: str
 
     model_config = ConfigDict(from_attributes=True)
@@ -112,3 +119,32 @@ class FoundVisitorResponse(BaseModel):
     badge_code: str
 
     model_config = ConfigDict(from_attributes=True)
+
+class UpdateVisitorRequest(BaseModel):
+    visitor_name: str | None = Field(None, min_length=3, max_length=100)
+    father_name: str | None = Field(None, max_length=100)
+    gender: GenderType | None = None
+    date_of_birth: date | None = None
+    cnic_number: str | None = Field(None, pattern=r"^\d{5}-\d{7}-\d$")
+    cnic_date_of_issue: date | None = None
+    cnic_date_of_expiry: date | None = None
+    current_address: str | None = Field(None, min_length=10, max_length=300)
+    permanent_address: str | None = Field(None, max_length=300)
+    phone_number: str | None = Field(None, min_length=10, max_length=15)
+
+    @field_validator(
+        "date_of_birth",
+        "cnic_date_of_issue",
+        "cnic_date_of_expiry",
+        mode="before"
+    )
+    @classmethod
+    def parse_date(cls, v):
+        if v is None or isinstance(v, (date, datetime)):
+            return v
+        for fmt in ("%d.%m.%Y", "%d/%m/%Y", "%d-%m-%Y"):
+            try:
+                return datetime.strptime(v, fmt).date()
+            except:
+                pass
+        raise ValueError("Invalid date format. Use DD.MM.YYYY, DD/MM/YYYY, or DD-MM-YYYY")

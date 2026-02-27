@@ -8,7 +8,7 @@ export const NavBar = () => {
 
     const handleLogout = async () => {
         await userLogout();
-        navigate("/login");
+        navigate("/");
     };
 
     return (
