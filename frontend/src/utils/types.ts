@@ -26,6 +26,9 @@ ALl types List
 22- VisitInformation
 23- VisitorInformation
 24- PaginatedResponse
+25- ActiveVisit
+26- OcrExtractedData
+27- OcrResponse
 */
 
  // 1- User
@@ -246,4 +249,22 @@ export interface ActiveVisit {
     purpose?: string;
     badge_id?: number;
     check_in_time?: string;
+}
+
+// 26- Ocr Extracted Data
+export interface OcrExtractedData {
+    name: string | null;
+    father_name: string | null;
+    cnic_number: string | null;
+    date_of_birth: string | null;
+    date_of_issue: string | null;
+    date_of_expiry: string | null;
+    gender: string | null;
+}
+
+// 27- OCR response
+export interface OcrResponse {
+    extracted_data: OcrExtractedData;
+    front_image_path: string;
+    back_image_path: string;
 }

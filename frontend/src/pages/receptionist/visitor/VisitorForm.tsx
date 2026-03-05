@@ -10,21 +10,28 @@ export const VisitorForm = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
     const visitorInfo = state?.visitorInfo;
+    const ocrData = state?.ocrData;
     const formMode = visitorInfo ? "update" : "create";
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<CreateVisitor>({
-        defaultValues: {
-            visitor_name: visitorInfo?.visitor_name ?? "",
-            father_name: visitorInfo?.father_name ?? "",
-            gender: visitorInfo?.gender ?? "male",
-            date_of_birth: formatDate(visitorInfo?.date_of_birth) ?? "",
-            cnic_number: visitorInfo?.cnic_number ?? "",
-            cnic_date_of_issue: formatDate(visitorInfo?.cnic_date_of_issue) ?? "",
-            cnic_date_of_expiry: formatDate(visitorInfo?.cnic_date_of_expiry) ?? "",
-            current_address: visitorInfo?.current_address ?? "",
-            permanent_address: visitorInfo?.permanent_address ?? "",
-            phone_number: visitorInfo?.phone_number ?? "",
-        },
+            defaultValues: {
+                visitor_name: visitorInfo?.visitor_name ?? ocrData?.name ?? "",
+                father_name: visitorInfo?.father_name ?? ocrData?.father_name ?? "",
+                gender: visitorInfo?.gender ?? ocrData?.gender ?? "male",
+                date_of_birth: visitorInfo?.date_of_birth 
+                    ? formatDate(visitorInfo.date_of_birth) 
+                    : ocrData?.date_of_birth ?? "",
+                cnic_number: visitorInfo?.cnic_number ?? ocrData?.cnic_number ?? "",
+                cnic_date_of_issue: visitorInfo?.cnic_date_of_issue 
+                    ? formatDate(visitorInfo.cnic_date_of_issue) 
+                    : ocrData?.date_of_issue ?? "",
+                cnic_date_of_expiry: visitorInfo?.cnic_date_of_expiry 
+                    ? formatDate(visitorInfo.cnic_date_of_expiry) 
+                    : ocrData?.date_of_expiry ?? "",
+                current_address: visitorInfo?.current_address ?? "",
+                permanent_address: visitorInfo?.permanent_address ?? "",
+                phone_number: visitorInfo?.phone_number ?? "",
+            },
     });
 
     const onSubmit: SubmitHandler<CreateVisitor> = async (data) => {

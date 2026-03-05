@@ -5,6 +5,7 @@ from .visit import CreateCompleteVisitRequest, VisitResponse
 from .document import CreateDocumentTypeRequest, DocumentTypeResponse
 from .badge import CreateBadgeRequest, BadgeResponse
 from .pagination import PaginatedResponse
+from .ocr import OcrExtractedData, OcrResponse
 
 __all__ = [
     "CreateUserRequest",
@@ -24,5 +25,7 @@ __all__ = [
     "VisitorResponse",
     "VisitorCnicResponse",
     "VisitorIdResponse",
-    "UpdateVisitorRequest"
+    "UpdateVisitorRequest",
+    "OcrExtractedData",
+    "OcrResponse"
 ]

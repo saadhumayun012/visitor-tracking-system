@@ -5,6 +5,7 @@ import { getBadges, createBadge, getAvailableBadges } from "./badge.api";
 import { getUsers, createUser } from "./user.api";
 import { getVisitors, createVisitor, getVisitorById, getVisitorByCnic, updateVisitor } from "./visitor.api";
 import { getVisitsOfVisitor, createVisit, findVisitByBadge, checkoutVisit} from "./visit.api"
+import { extractCnicOcr } from "./ocr.api";
 
 export {
     api,
@@ -26,5 +27,6 @@ export {
     findVisitByBadge,
     checkoutVisit,
     getVisitorByCnic,
-    updateVisitor
+    updateVisitor,
+    extractCnicOcr
 }
