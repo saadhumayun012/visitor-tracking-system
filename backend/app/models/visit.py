@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 
 from app.utils import CreatedAtMixin, TimestampMixin, Base
 
-from app.enum import VisitStatus
+from app.core.enum import VisitStatus
 
 #visitors visits model
 class Visits(Base, CreatedAtMixin):

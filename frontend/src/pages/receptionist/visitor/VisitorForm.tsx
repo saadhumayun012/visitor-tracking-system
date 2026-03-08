@@ -11,6 +11,7 @@ export const VisitorForm = () => {
     const { state } = useLocation();
     const visitorInfo = state?.visitorInfo;
     const ocrData = state?.ocrData;
+    const documentPaths = state?.documentPaths ?? [];
     const formMode = visitorInfo ? "update" : "create";
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<CreateVisitor>({
@@ -37,7 +38,7 @@ export const VisitorForm = () => {
     const onSubmit: SubmitHandler<CreateVisitor> = async (data) => {
         try {
             if (formMode === "create") {
-                const response = await createVisitor(data);
+                const response = await createVisitor({ ...data, document_paths: documentPaths });
                 navigate(`/receptionist/visits-form/${response.visitor_id}`);
             } else {
                 await updateVisitor(visitorInfo.visitor_id, data);

@@ -16,6 +16,10 @@ import { VisitorForm } from "./receptionist/visitor/VisitorForm";
 import { VisitForm } from "./receptionist/visitor/VisitForm";
 import { FindVisitAndCheckout } from "./receptionist/visitor/FindVisitAndCheckout";
 import { RegisteredVisitor } from "./receptionist/visitor/RegisteredVisitor";
+import { DocumentTypesList } from "./admin/documentType/DocumentTypesList";
+import { DocumentTypeForm } from "./admin/documentType/DocumentTypeForm";
+import { VisitorDocuments } from "./admin/visitor/VisitorDocuments";
+import { PasswordResetForm } from "./admin/user/PasswordResetForm";
 
 export {
     AdminDashboard,
@@ -32,8 +36,12 @@ export {
     Login,
     VisitorList,
     VisitList,
+    VisitorDocuments,
     VisitorForm,
     VisitForm,
     FindVisitAndCheckout,
-    RegisteredVisitor
+    RegisteredVisitor,
+    DocumentTypesList,
+    DocumentTypeForm,
+    PasswordResetForm
 }

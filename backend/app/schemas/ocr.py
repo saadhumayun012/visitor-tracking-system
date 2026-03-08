@@ -10,7 +10,10 @@ class OcrExtractedData(BaseModel):
     date_of_expiry: Optional[str] = None
     gender: Optional[str] = None
 
+class DocumentPathItem(BaseModel):
+    document_code: str
+    file_path: str
+
 class OcrResponse(BaseModel):
-    extracted_data: OcrExtractedData
-    front_image_path: str
-    back_image_path: str
+    extracted_data: Optional[OcrExtractedData] = None
+    document_paths: list[DocumentPathItem] = []

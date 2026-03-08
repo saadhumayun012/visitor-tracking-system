@@ -3,7 +3,9 @@ import {
     getBranches, 
     getVisitsOfVisitor,
     getVisitorById,
-    getAvailableBadges
+    getAvailableBadges,
+    getAdminDocumentTypes,
+    getVisitorDocuments
 } from "../api"
 
 // get all branches
@@ -32,4 +34,20 @@ export const visitFormLoader = async ({ params }: LoaderFunctionArgs) => {
     ]);
 
     return { branches, badges, visitor };
+};
+
+// get all document types (admin panel)
+export const documentTypesLoader = async () => {
+    const documentTypes = await getAdminDocumentTypes();
+    return { documentTypes };
+};
+
+// get all documents of a visitor
+export const visitorDocumentsLoader = async ({ params }: LoaderFunctionArgs) => {
+    const visitorId = Number(params.visitor_id);
+    if (!visitorId || isNaN(visitorId)) {
+        throw new Response("Visitor ID required", { status: 400 });
+    }
+    const documents = await getVisitorDocuments(visitorId);
+    return { documents };
 };

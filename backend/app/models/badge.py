@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Identity, Enum
 from sqlalchemy.orm import relationship
 from app.utils import TimestampMixin, Base
 
-from app.enum import BadgeStatus
+from app.core.enum import BadgeStatus
 
 class Badges(Base, TimestampMixin):
     __tablename__ = "badges"

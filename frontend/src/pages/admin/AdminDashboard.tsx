@@ -37,6 +37,21 @@ export const AdminDashboard = () => {
                 </Button>
             </Section>
 
+            <Section title="Document Types">
+                <Button
+                    onClick={() => navigate("/admin/document-types-list")}
+                    variant="get"
+                >
+                    View All Document Types
+                </Button>
+                 <Button
+                    onClick={() => navigate("/admin/document-type-form")}
+                    variant="post"
+                >
+                    CREATE NEW
+                </Button>
+            </Section>
+
             <Section title="Users">
                 <Button
                     onClick={() => navigate("/admin/users-list")}
@@ -44,11 +59,17 @@ export const AdminDashboard = () => {
                 >
                     View All Users
                 </Button>
-                 <Button
+                <Button
                     onClick={() => navigate("/admin/user-form")}
                     variant="post"
                 >
                     CREATE NEW
+                </Button>
+                 <Button
+                    onClick={() => navigate("/admin/reset-password")}
+                    variant="post"
+                >
+                    CHANGE PASSWORD
                 </Button>
             </Section>
 

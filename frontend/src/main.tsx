@@ -12,7 +12,7 @@ import {
     ProtectedRoute,
     RoleProtectedRoute,
 } from "./components";
-import { 
+import {
     AdminDashboard, 
     Dashboard, Login,
     NotFound, 
@@ -26,15 +26,21 @@ import {
     UserForm,
     VisitorList,
     VisitList,
+    VisitorDocuments,
     VisitorForm,
     VisitForm,
     FindVisitAndCheckout,
-    RegisteredVisitor
+    RegisteredVisitor,
+    DocumentTypeForm,
+    DocumentTypesList,
+    PasswordResetForm
 } from "./pages";
 import {
     branchesLoader,
     visitLoader,
     visitFormLoader,
+    documentTypesLoader,
+    visitorDocumentsLoader,
 } from "./utils/loaderFunctions"
 
 
@@ -54,10 +60,14 @@ const router = createBrowserRouter(
                     <Route path="/admin/branch-form" element={<BranchForm />} />
                     <Route path="/admin/badges-list" element={<BadgeList />} />
                     <Route path="/admin/badge-form" element={<BadgeForm />} />
+                    <Route path="/admin/document-types-list" element={<DocumentTypesList />} loader={documentTypesLoader} />
+                    <Route path="/admin/document-type-form" element={<DocumentTypeForm />} />
                     <Route path="/admin/users-list" element={<UserList />} />
                     <Route path="/admin/user-form" element={<UserForm />} loader={branchesLoader} />
+                    <Route path="/admin/reset-password" element={<PasswordResetForm />} />
                     <Route path="/admin/visitors-list" element={<VisitorList />} />
                     <Route path="/admin/visitors/:visitor_id/visits" element={<VisitList />} loader={visitLoader} />
+                    <Route path="/admin/visitors/:visitor_id/documents" element={<VisitorDocuments />} loader={visitorDocumentsLoader} />
                 </Route>
 
                 {/* receptionist section  */}

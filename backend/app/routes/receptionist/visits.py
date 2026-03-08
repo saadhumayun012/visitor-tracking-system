@@ -6,7 +6,7 @@ from app.models import Visitors, Visits, Visit_Vehicles, Visit_Items, Badges
 from app.schemas import CreateCompleteVisitRequest
 from app.utils import db_dependency, require_receptionist_dependency, manager
 
-from app.enum import VisitStatus, BadgeStatus
+from app.core.enum import VisitStatus, BadgeStatus
 
 router = APIRouter(
     prefix="/visits",

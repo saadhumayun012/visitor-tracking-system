@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException, status
 from app.models import Visitors
 from app.schemas import CreateVisitorRequest, VisitorIdResponse, VisitorCnicResponse, UpdateVisitorRequest
 from app.utils import db_dependency, require_receptionist_dependency
+from app.models.visitor import Document_Types, Visitors_Documents
 
 
 router = APIRouter(
@@ -14,7 +15,7 @@ router = APIRouter(
 @router.post("/visitor", status_code=status.HTTP_201_CREATED)
 def create_visitor(
     db: db_dependency,
-    _: require_receptionist_dependency,
+    user: require_receptionist_dependency,
     request: CreateVisitorRequest
 ):  
     # new_visitor = Visitors(
@@ -30,7 +31,9 @@ def create_visitor(
     #     phone_number= request.phone_number
     # )
 
-    new_visitor = Visitors(**request.model_dump())
+    new_visitor = Visitors(**request.model_dump(
+        exclude={"document_paths"}
+    ))
 
     existing_visitor = (
         db.query(Visitors)
@@ -45,6 +48,24 @@ def create_visitor(
         )
     
     db.add(new_visitor)
+    db.flush()  # to get the visitor_id for the new visitor before commit
+
+    # handle document uploads if any
+    for doc in request.document_paths:
+        doc_type = db.query(Document_Types).filter(
+            Document_Types.document_code == doc.document_code
+        ).first()
+
+        if not doc_type:
+            continue  # ignore invalid document types
+
+        db.add(Visitors_Documents(
+            visitor_id=new_visitor.visitor_id,
+            file_path=doc.file_path,
+            document_type_id=doc_type.document_type_id,
+            uploaded_by=user.user_id
+        ))
+
     db.commit()
     db.refresh(new_visitor)
 

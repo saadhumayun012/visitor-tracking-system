@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm #will remove when saving the token in cookie
 from typing import Annotated
 
-from app.config import settings
+from app.core.config import settings
 from app.utils import db_dependency, user_dependency
 from app.models import Users
 

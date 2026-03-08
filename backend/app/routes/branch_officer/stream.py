@@ -8,7 +8,7 @@ from sqlalchemy.orm import joinedload
 from app.utils import db_dependency, require_branch_officer_dependency
 from app.utils.connection_manager import manager
 from app.models import Visits, Visitors
-from app.enum import VisitStatus
+from app.core.enum import VisitStatus
 
 router = APIRouter(
     prefix="/branch-officer",

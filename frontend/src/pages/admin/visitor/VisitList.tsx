@@ -4,7 +4,7 @@ import { formatDateTime } from "../../../utils/formateDateTime";
 import { DataTable } from "../../../components";
 
 export const VisitList = () => {
-    const { visits } = useLoaderData() as { visits: Visit[] };
+    const { visits, visitor_id } = useLoaderData() as { visits: Visit[], visitor_id: number; };
     
     const columns = [
         {
@@ -68,7 +68,7 @@ export const VisitList = () => {
     
     return (
         <DataTable
-            title="All Visits"
+            title={`Visitor #${visitor_id} Visits`}
             backLink="/admin"
             backText="← BACK TO DASHBOARD"
             columns={columns}

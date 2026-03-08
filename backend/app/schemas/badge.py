@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime
 
-from app.enum import BadgeStatus
+from app.core.enum import BadgeStatus
 
 class CreateBadgeRequest(BaseModel):
     badge_code: str = Field(...)

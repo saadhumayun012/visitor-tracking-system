@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 from app.routes.admin import router as admin_routers
 from app.routes.receptionist import router as receptionist_routers
@@ -7,7 +9,7 @@ from app.routes.common import router as common_routers
 from app.routes.branch_officer import router as branch_officer_routers
 
 from app.utils import Base
-from app.database import engine
+from app.core.database import engine
 
 # from passlib.context import CryptContext
 
@@ -39,6 +41,11 @@ app.include_router(admin_routers)
 app.include_router(receptionist_routers)
 app.include_router(common_routers)
 app.include_router(branch_officer_routers)
+
+# serve uploaded documents as static files
+uploads_path = Path("uploads")
+uploads_path.mkdir(exist_ok=True)
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 
 

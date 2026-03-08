@@ -38,6 +38,7 @@ export const createVisitor = async (
         current_address: payload.current_address,
         permanent_address: payload.permanent_address ?? null,
         phone_number: payload.phone_number,
+        document_paths: payload.document_paths ?? [],
     });
 
     return data;
@@ -59,4 +60,10 @@ export const updateVisitor = async (
     payload: Partial<CreateVisitor>
 ): Promise<void> => {
     await api.patch(`/receptionist/visitors/${visitor_id}`, payload);
+};
+
+// get documents of a visitor
+export const getVisitorDocuments = async (visitor_id: number) => {
+    const { data } = await api.get(`/admin/visitors/${visitor_id}/documents`);
+    return data;
 };

@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.enum import VisitStatus
+from app.core.enum import VisitStatus
 
 
 class CreateVisitVehicleRequest(BaseModel):

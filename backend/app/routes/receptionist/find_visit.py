@@ -7,7 +7,7 @@ from app.models import Visitors, Badges, Visits
 from app.utils import db_dependency, require_receptionist_dependency, manager
 from app.schemas import FoundVisitorResponse
 
-from app.enum import VisitStatus, BadgeStatus
+from app.core.enum import VisitStatus, BadgeStatus
 
 router = APIRouter(
     prefix="/find-visit",

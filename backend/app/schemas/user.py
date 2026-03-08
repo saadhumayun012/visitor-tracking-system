@@ -2,7 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Optional
 
-from app.enum import UserRoles
+from app.core.enum import UserRoles
 
 class CreateUserRequest(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)

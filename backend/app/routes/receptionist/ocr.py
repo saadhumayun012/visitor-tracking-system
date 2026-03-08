@@ -1,11 +1,10 @@
 import cv2
 import numpy as np
-from fastapi import APIRouter, UploadFile, File, HTTPException, status
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, status
+from typing import List
 
-from app.models import Visitors_Documents, Document_Types
 from app.schemas.ocr import OcrResponse
 from app.utils import db_dependency, require_receptionist_dependency, save_cnic_image, get_reader, parse_cnic_data
-
 
 router = APIRouter(
     prefix="/ocr",
@@ -16,31 +15,36 @@ ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg"]
 
 @router.post("/extract", response_model=OcrResponse, status_code=status.HTTP_200_OK)
 async def extract_cnic(
-    db: db_dependency,
     user: require_receptionist_dependency,
-    front_image: UploadFile = File(...),
-    back_image: UploadFile = File(...),
+    documents: List[UploadFile] = File(...),
+    document_codes: List[str] = Form(...),
 ):
-    if front_image.content_type not in ALLOWED_TYPES:
-        raise HTTPException(400, "Only JPEG/PNG allowed")
+    if len(documents) != len(document_codes):
+        raise HTTPException(400, "documents aur document_codes ki count match nahi")
 
-    front_bytes = await front_image.read()
-    back_bytes = await back_image.read()
+    ocr_data = None
+    document_paths = []
 
-    # Images save karo
-    front_path = save_cnic_image(front_bytes, "front")
-    back_path = save_cnic_image(back_bytes, "back")
+    for file, code in zip(documents, document_codes):
+        if file.content_type not in ALLOWED_TYPES:
+            raise HTTPException(400, f"{code}: Only JPEG/PNG allowed")
 
-    # OCR — sirf front
-    nparr = np.frombuffer(front_bytes, np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    reader = get_reader()
-    results = reader.readtext(img)
+        file_bytes = await file.read()
+        path = save_cnic_image(file_bytes, code.lower())
 
-    extracted = parse_cnic_data(results)
+        # Sirf CNIC_FRONT pe OCR
+        if code == "CNIC_FRONT":
+            nparr = np.frombuffer(file_bytes, np.uint8)
+            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            results = get_reader().readtext(img)
+            ocr_data = parse_cnic_data(results)
+
+        document_paths.append({
+            "document_code": code,
+            "file_path": path
+        })
 
     return {
-        "extracted_data": extracted,
-        "front_image_path": front_path,
-        "back_image_path": back_path,
+        "extracted_data": ocr_data,
+        "document_paths": document_paths,
     }

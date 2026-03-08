@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 
 from app.utils import CreatedAtMixin, TimestampMixin, Base
 
-from app.enum import GenderType
+from app.core.enum import GenderType
 
 #visitors model
 class Visitors(Base, TimestampMixin):
@@ -96,7 +96,9 @@ class Visitors_Documents(Base, CreatedAtMixin):
         nullable=False
     )
 
-    
+    # relationships
+    document_type = relationship("Document_Types")
+    uploader = relationship("Users", foreign_keys=[uploaded_by])
 
 
 

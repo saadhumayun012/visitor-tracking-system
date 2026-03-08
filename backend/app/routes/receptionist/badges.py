@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.utils import db_dependency, require_receptionist_dependency
 from app.models import Badges
-from app.enum import BadgeStatus
+from app.core.enum import BadgeStatus
 from app.schemas import BadgeResponse
 
 router = APIRouter(

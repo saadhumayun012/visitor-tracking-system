@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Identity, Boolean, func, DateTim
 from sqlalchemy.orm import relationship
 from app.utils import TimestampMixin, CreatedAtMixin, Base
 
-from app.enum import UserRoles
+from app.core.enum import UserRoles
 
 class Users(Base, TimestampMixin):
     __tablename__ = "users"

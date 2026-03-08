@@ -7,7 +7,8 @@ from app.models import Users
 from app.schemas import CreateUserRequest, UserResponse, PaginatedResponse
 from app.utils import db_dependency, require_admin_dependency, pagination_dependency, paginate
 
-from app.enum import UserRoles
+from app.core.enum import UserRoles
+from app.schemas.visitor import PasswordResetRequest
 
 router = APIRouter(
     prefix="/users",
@@ -79,3 +80,30 @@ def get_user(
         pagination.page, 
         pagination.limit
     )
+
+
+# reset password of users
+@router.patch("/reset-password", status_code=status.HTTP_200_OK)
+def reset_password(
+    db: db_dependency,
+    _: require_admin_dependency,
+    request: PasswordResetRequest
+):
+    user = (
+        db.query(Users)
+        .filter(Users.username == request.username)
+        .first()
+    )
+
+    if not user:
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND,
+            detail= "User is not found"
+        )
+    
+    user.password_hash = bcrypt_pwd_context.hash(request.new_password) # type: ignore
+    db.commit()
+
+    db.commit()
+
+    return {"message": "Visitor updated successfully"}

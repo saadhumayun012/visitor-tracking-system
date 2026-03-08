@@ -29,6 +29,8 @@ ALl types List
 25- ActiveVisit
 26- OcrExtractedData
 27- OcrResponse
+28- AllDocumentType
+29- DocumentType
 */
 
  // 1- User
@@ -178,6 +180,7 @@ export interface CreateVisitor {
     current_address: string;
     permanent_address: string | null;
     phone_number: string;
+    document_paths?: DocumentPathItem[];
 }
 
 // 18- VisitStatus
@@ -262,9 +265,42 @@ export interface OcrExtractedData {
     gender: string | null;
 }
 
-// 27- OCR response
+export interface DocumentPathItem {
+    document_code: string;
+    file_path: string;
+}
+
 export interface OcrResponse {
-    extracted_data: OcrExtractedData;
-    front_image_path: string;
-    back_image_path: string;
+    extracted_data: OcrExtractedData | null;
+    document_paths: DocumentPathItem[];
+}
+
+// 28- DocumentType
+export interface AllDocumentType {
+    document_type_id: number;
+    document_code: string;
+    document_name: string;
+    is_required: boolean;
+}
+
+// 29- DocumentType
+export interface DocumentType {
+    document_code: string;
+    document_name: string;
+    is_required: boolean;
+}
+
+// 30- VisitorDocument
+export interface VisitorDocument {
+    visitor_document_id: number;
+    document_name: string;
+    document_code: string;
+    file_path: string;
+    uploaded_by_username: string | null;
+    created_at: string;
+}
+
+export interface UserPasswordReset {
+    username: string
+    new_password: string
 }

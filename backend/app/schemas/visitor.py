@@ -1,6 +1,10 @@
 from pydantic import BaseModel, Field, field_validator, ConfigDict, model_validator
 from datetime import date, datetime
-from app.enum import GenderType
+from app.core.enum import GenderType
+
+class DocumentPathItem(BaseModel):
+    document_code: str  # "CNIC_FRONT", "CNIC_BACK", etc
+    file_path: str
 
 class CreateVisitorRequest(BaseModel):
     visitor_name: str = Field(..., min_length=3, max_length=100)
@@ -13,6 +17,9 @@ class CreateVisitorRequest(BaseModel):
     current_address: str = Field(..., min_length=10, max_length=300)
     permanent_address: str | None = Field(None, max_length=300)
     phone_number: str = Field(..., min_length=10, max_length=15)
+
+    # Optional: For file uploads, we can use a list of file paths or URLs
+    document_paths: list[DocumentPathItem] = []
 
     @field_validator(
         "date_of_birth",
@@ -120,6 +127,17 @@ class FoundVisitorResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+class VisitorDocumentResponse(BaseModel):
+    visitor_document_id: int
+    document_name: str
+    document_code: str
+    file_path: str
+    uploaded_by_username: str | None = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class UpdateVisitorRequest(BaseModel):
     visitor_name: str | None = Field(None, min_length=3, max_length=100)
     father_name: str | None = Field(None, max_length=100)
@@ -148,3 +166,8 @@ class UpdateVisitorRequest(BaseModel):
             except:
                 pass
         raise ValueError("Invalid date format. Use DD.MM.YYYY, DD/MM/YYYY, or DD-MM-YYYY")
+
+# password reset
+class PasswordResetRequest(BaseModel):
+    username: str = Field(...)
+    new_password: str = Field(...)

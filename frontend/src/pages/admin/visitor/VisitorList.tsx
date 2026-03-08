@@ -30,6 +30,19 @@ export const VisitorList = () => {
             ),
         },
         {
+            header: "View Documents",
+            accessor: (visitor: Visitor) => (
+                <button
+                    className="btn-view-text"
+                    onClick={() =>
+                        navigate(`/admin/visitors/${visitor.visitor_id}/documents`)
+                    }
+                >
+                    view documents
+                </button>
+            ),
+        },
+        {
             header: "Name",
             accessor: (visitor: Visitor) => visitor.visitor_name,
         },
@@ -87,7 +100,7 @@ export const VisitorList = () => {
     return (
         <>
             <DataTable
-                title="All Visitors"
+                title="All Visitors List"
                 backLink="/admin"
                 backText="← BACK TO ADMIN DASHBOARD"
                 columns={columns}
