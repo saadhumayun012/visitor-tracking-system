@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button, FormInput, FormSelect } from "../../../components";
 import { createVisitor, updateVisitor } from "../../../api";
 import { formatDate } from "../../../utils/formateDateTime";
+import toast from "react-hot-toast";
 
 export const VisitorForm = () => {
     const navigate = useNavigate();
@@ -39,9 +40,11 @@ export const VisitorForm = () => {
         try {
             if (formMode === "create") {
                 const response = await createVisitor({ ...data, document_paths: documentPaths });
+                toast.success("Visitor created successfully");
                 navigate(`/receptionist/visits-form/${response.visitor_id}`);
             } else {
                 await updateVisitor(visitorInfo.visitor_id, data);
+                toast.success("Visitor updated successfully");
                 navigate(`/receptionist/visits-form/${visitorInfo.visitor_id}`);
             }
         } catch (error) {

@@ -4,6 +4,7 @@ import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { Button, FormInput, FormSelect } from "../../../components";
 import {  createVisit } from "../../../api";
+import toast from "react-hot-toast";
 
 export const VisitForm = () => {
     const navigate = useNavigate();
@@ -40,6 +41,7 @@ export const VisitForm = () => {
                 items: data.items?.items_description?.trim() ? data.items : null
             };
             await createVisit(payload);
+            toast.success("Visit created successfully");
             navigate("/receptionist");
         } catch (error) {
             setError("root", {

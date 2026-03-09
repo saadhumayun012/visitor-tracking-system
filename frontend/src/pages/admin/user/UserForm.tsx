@@ -4,6 +4,7 @@ import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Button, FormInput, FormSelect } from "../../../components";
 import { createUser } from "../../../api";
+import toast from "react-hot-toast";
 
 export const UserForm = () => {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ export const UserForm = () => {
     const onSubmit: SubmitHandler<CreateUser> = async (data) => {
         try {
             await createUser(data);
+            toast.success("User created successfully");
             reset();
         } catch (error) {
             setError("root", {

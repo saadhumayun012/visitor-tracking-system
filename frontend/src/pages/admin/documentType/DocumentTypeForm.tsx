@@ -4,6 +4,7 @@ import { createDocumentType } from "../../../api";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Button, FormInput } from "../../../components";
+import toast from "react-hot-toast";
 
 export const DocumentTypeForm = () => {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ export const DocumentTypeForm = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
         setError,
+        reset,
     } = useForm<DocumentType>({
         defaultValues: {
             document_code: "",
@@ -23,6 +25,8 @@ export const DocumentTypeForm = () => {
     const onSubmit: SubmitHandler<DocumentType> = async (data) => {
         try {
             await createDocumentType(data);
+            toast.success("Document type created successfully");
+            reset();
         } catch (error) {
             setError("root", {
                 message: getErrorMessage(error),

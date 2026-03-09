@@ -77,6 +77,7 @@ export const RegisteredVisitor = () => {
             setVisitorInfo(info);
         } catch (error: any) {
             setVisitorInfo(null);
+            setNotFound(true); 
             setError(getErrorMessage(error));
         } finally {
             setIsLoading(false);
@@ -312,7 +313,7 @@ export const RegisteredVisitor = () => {
                                         />
                                         <div className="flex gap-2 items-center">
                                             <span className="text-green-600 text-sm">
-                                                ✅ {slot.file.name}
+                                                {slot.file.name}
                                             </span>
                                             <Button
                                                 variant="delete"

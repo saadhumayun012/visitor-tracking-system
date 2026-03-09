@@ -4,6 +4,7 @@ import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Button, FormInput } from "../../../components";
 import { resetUserPassword } from "../../../api";
+import toast from "react-hot-toast";
 
 export const PasswordResetForm = () => {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ export const PasswordResetForm = () => {
     const onSubmit: SubmitHandler<UserPasswordReset> = async (data) => {
         try {
             await resetUserPassword(data);
+            toast.success("Password reset successfully");
             reset();
         } catch (error) {
             setError("root", {

@@ -4,6 +4,7 @@ import { createBranch } from "../../../api";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Button, FormInput } from "../../../components";
+import { toast } from "react-hot-toast";
 
 export const BranchForm = () => {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ export const BranchForm = () => {
     const onSubmit: SubmitHandler<CreateBranch> = async (data) => {
         try {
             await createBranch(data);
+            toast.success("Branch created successfully");
             reset();
         } catch (error) {
             setError("root", {

@@ -33,7 +33,7 @@ async def extract_cnic(
         path = save_cnic_image(file_bytes, code.lower())
 
         # Sirf CNIC_FRONT pe OCR
-        if code == "CNIC_FRONT":
+        if code == "cnic_front":
             nparr = np.frombuffer(file_bytes, np.uint8)
             img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
             results = get_reader().readtext(img)

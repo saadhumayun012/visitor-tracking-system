@@ -5,6 +5,7 @@ import { Button } from "../../../components";
 import { checkoutVisit, findVisitByBadge } from "../../../api";
 import { formatDateTime } from "../../../utils/formateDateTime";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const FindVisitAndCheckout = () => {
     const navigate = useNavigate();
@@ -38,6 +39,7 @@ export const FindVisitAndCheckout = () => {
         try {
             setIsCheckout(true);
             await checkoutVisit(badgeCode);
+            toast.success("Visitor checked out successfully");
             setBadgeCode("");
             setVisitInfo(null);
         } catch (error) {

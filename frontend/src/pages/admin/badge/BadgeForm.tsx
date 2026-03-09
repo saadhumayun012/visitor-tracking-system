@@ -4,6 +4,7 @@ import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Button, FormInput } from "../../../components";
 import { createBadge } from "../../../api";
+import { toast } from "react-hot-toast";
 
 export const BadgeForm = () => {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ export const BadgeForm = () => {
     const onSubmit: SubmitHandler<CreateBadge> = async (data) => {
         try {
             await createBadge(data);
+            toast.success("Badge created successfully");
             reset();
             
         } catch (error) {

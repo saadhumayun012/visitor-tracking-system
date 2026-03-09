@@ -6,7 +6,7 @@ from pathlib import Path
 import easyocr
 
 # This function saves the uploaded CNIC image to disk and returns the file path. It also resizes the image if it's too large to optimize OCR performance.
-UPLOAD_DIR = Path("uploads/cnic")
+UPLOAD_DIR = Path("uploads/")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 def save_cnic_image(file_bytes: bytes, prefix: str) -> str:
