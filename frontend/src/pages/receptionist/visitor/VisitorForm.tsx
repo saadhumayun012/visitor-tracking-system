@@ -4,7 +4,7 @@ import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, FormInput, FormSelect } from "../../../components";
 import { createVisitor, updateVisitor } from "../../../api";
-import { formatDate } from "../../../utils/formateDateTime";
+import { formatDate } from "../../../utils/formatDateTime";
 import toast from "react-hot-toast";
 
 export const VisitorForm = () => {

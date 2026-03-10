@@ -13,8 +13,9 @@ router = APIRouter(
     tags=["Visitor - Receptionist"]
 )
 
+# ==========+++++==========+++++==========
 #receptionist add the visits details (complete) of visitors
-@router.post("/visit", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def add_visits(
     db: db_dependency,
     user: require_receptionist_dependency,
@@ -96,35 +97,3 @@ def add_visits(
     return{
         "message": "Visit added successfully"
     }
-
-# # check out the visitor
-# @router.patch("/checkout/{visit_id}", status_code= status.HTTP_200_OK)
-# def check_out(
-#     db: db_dependency,
-#     _: require_receptionist_dependency,
-#     visit_id: int
-# ):
-#     visit = db.query(Visits).filter(
-#         Visits.visit_id == visit_id,
-#         Visits.status == VisitStatus.CHECKED_IN
-#     ).first()
-
-#     if not visit:
-#         raise HTTPException(status_code=404, detail="Active visit not found")
-
-#     visit.status = VisitStatus.CHECKED_OUT # type: ignore
-#     visit.check_out_time = datetime.now(timezone.utc) # type: ignore
-
-#     db.query(Badges)\
-#     .filter(Badges.badge_id == visit.badge_id)\
-#     .update(
-#         {
-#             Badges.badge_status: BadgeStatus.AVAILABLE
-#         }
-#     )
-
-#     db.commit()
-
-#     return {
-#         "message": "Visitor checked out successfully"
-#     }

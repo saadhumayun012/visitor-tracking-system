@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import type { ActiveVisit } from "../../utils/types";
-import { formatDateTime } from "../../utils/formateDateTime";
+import { formatDateTime } from "../../utils/formatDateTime";
 
 export const OfficerDashboard = () => {
     const [activeVisits, setActiveVisits] = useState<ActiveVisit[]>([]);
@@ -16,7 +16,10 @@ export const OfficerDashboard = () => {
 
         eventSourceRef.current = es;
 
-        es.onopen = () => setConnected(true);
+        es.onopen = () => {
+            setConnected(true);
+            setActiveVisits([]); // Clear existing visits on new connection (handles page refresh case)
+        };
 
         es.onmessage = (event) => {
             const data: ActiveVisit = JSON.parse(event.data);

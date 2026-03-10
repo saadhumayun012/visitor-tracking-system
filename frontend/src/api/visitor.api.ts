@@ -9,7 +9,7 @@ import { api } from "./axios";
 // get all visitors
 export const getVisitors = async (
     page: number = 1,
-    limit: number = 20,
+    limit: number = 15,
 ): Promise<PaginatedResponse<Visitor>> => {
     const { data } = await api.get("/admin/visitors/", {
         params: { page, limit },
@@ -23,11 +23,11 @@ export const getVisitorById = async (visitorId: number): Promise<Visitor> => {
     return data;
 };
 
-// create visitor
+// ==========+++++==========+++++==========
 export const createVisitor = async (
     payload: CreateVisitor,
 ): Promise<{ visitor_id: number }> => {
-    const { data } = await api.post("/receptionist/visitors/visitor", {
+    const { data } = await api.post("/receptionist/visitors/", {
         visitor_name: payload.visitor_name,
         father_name: payload.father_name ?? null,
         gender: payload.gender ?? null,
@@ -44,7 +44,7 @@ export const createVisitor = async (
     return data;
 };
 
-// find visitor by cnic
+// ==========+++++==========+++++==========
 export const getVisitorByCnic = async (
     cnic_number: string,
 ): Promise<VisitorInformation> => {
@@ -54,7 +54,7 @@ export const getVisitorByCnic = async (
     return data;
 };
 
-// update visitor
+// ==========+++++==========+++++==========
 export const updateVisitor = async (
     visitor_id: number,
     payload: Partial<CreateVisitor>
@@ -62,7 +62,7 @@ export const updateVisitor = async (
     await api.patch(`/receptionist/visitors/${visitor_id}`, payload);
 };
 
-// get documents of a visitor
+// ==========+++++==========+++++==========
 export const getVisitorDocuments = async (visitor_id: number) => {
     const { data } = await api.get(`/admin/visitors/${visitor_id}/documents`);
     return data;

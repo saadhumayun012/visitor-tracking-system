@@ -1,4 +1,3 @@
-// hooks/usePagination.ts
 import { useState, useEffect } from "react";
 import type { PaginatedResponse } from "../utils/types";
 
@@ -18,7 +17,7 @@ export const usePagination = <T>(
             .then(setData)
             .catch(() => setError("Failed to load data"))
             .finally(() => setLoading(false));
-    }, [page]);
+    }, [page, limit, fetchFn]);
 
     return {
         items: data?.items ?? [],

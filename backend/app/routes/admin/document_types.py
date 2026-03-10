@@ -1,8 +1,7 @@
-from typing import List
 from fastapi import APIRouter, HTTPException, status
 
 from app.models import Document_Types
-from app.schemas import CreateDocumentTypeRequest, DocumentTypeResponse
+from app.schemas import CreateDocumentTypeRequest
 from app.utils import db_dependency, require_admin_dependency
 
 router = APIRouter(
@@ -10,8 +9,9 @@ router = APIRouter(
     tags= ["Admin - Document Types"],
 )
 
+# ==========+++++==========+++++==========
 # admin can add the types of documents which are needed
-@router.post("/type", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def add_documents_types(
     db: db_dependency,
     _: require_admin_dependency,
@@ -42,11 +42,3 @@ def add_documents_types(
     return {
         "message": "Document Type added successfully"
     }
-
-# admin can view all document types
-@router.get("/", response_model=List[DocumentTypeResponse], status_code=status.HTTP_200_OK)
-def get_document_types(
-    db: db_dependency,
-    _: require_admin_dependency,
-):
-    return db.query(Document_Types).all()

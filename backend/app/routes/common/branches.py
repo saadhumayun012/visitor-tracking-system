@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, status
 from typing import List
 
 from app.models import Branches
@@ -10,6 +10,7 @@ router = APIRouter(
     tags= ["Common - Branches"],
 )
 
+# ==========+++++==========+++++==========
 # get all branches
 @router.get("/",response_model=List[BranchResponse], status_code=status.HTTP_200_OK)
 def get_branches(

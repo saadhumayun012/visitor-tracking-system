@@ -8,13 +8,13 @@ class Branches(Base, TimestampMixin):
         Integer,
         Identity(always=True),
         primary_key=True,
-        index=True
+        index=True,
+        nullable=False
     )
     branch_code = Column(
         String(20),
         unique=True,
-        index=True
+        index=True,
+        nullable=False
     )
     branch_name = Column(String(30))
-
-    

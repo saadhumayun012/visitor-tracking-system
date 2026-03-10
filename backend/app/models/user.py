@@ -4,6 +4,7 @@ from app.utils import TimestampMixin, CreatedAtMixin, Base
 
 from app.core.enum import UserRoles
 
+
 class Users(Base, TimestampMixin):
     __tablename__ = "users"
 
@@ -35,6 +36,7 @@ class Users(Base, TimestampMixin):
         nullable=True
     )
     # relationship
+    # one-to-many
     branch = relationship("Branches", foreign_keys=[branch_id])
 
     @property

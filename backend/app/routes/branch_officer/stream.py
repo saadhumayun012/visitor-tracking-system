@@ -1,13 +1,12 @@
 import asyncio
 import json
-import queue
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import joinedload
 
 from app.utils import db_dependency, require_branch_officer_dependency
 from app.utils.connection_manager import manager
-from app.models import Visits, Visitors
+from app.models import Visits
 from app.core.enum import VisitStatus
 
 router = APIRouter(
@@ -15,6 +14,7 @@ router = APIRouter(
     tags=["Branch Officer"]
 )
 
+# ==========+++++==========+++++==========
 @router.get("/stream")
 async def branch_officer_stream(
     db: db_dependency,
@@ -43,6 +43,8 @@ async def branch_officer_stream(
             "badge_id": visit.badge_id,
             "check_in_time": visit.check_in_time.isoformat(),
         })
+
+    db.close() # free the pool slots for other requests
 
     async def event_stream():
         try:

@@ -25,5 +25,6 @@ class Badges(Base, TimestampMixin):
         nullable=False
     )
     # relationship
+    # one-to-one
     visit = relationship("Visits", back_populates="badge", uselist=False)
     

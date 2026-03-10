@@ -1,9 +1,10 @@
 from sqlalchemy import Column, String, Integer, Identity, DateTime, func, Enum, ForeignKey
 from sqlalchemy.orm import relationship
 
-from app.utils import CreatedAtMixin, TimestampMixin, Base
+from app.utils import CreatedAtMixin, Base
 
 from app.core.enum import VisitStatus
+
 
 #visitors visits model
 class Visits(Base, CreatedAtMixin):
@@ -13,7 +14,7 @@ class Visits(Base, CreatedAtMixin):
         Integer, 
         Identity(always=True), 
         primary_key=True,
-        index=True
+        index=True,
     )
     
     purpose = Column(String(50))
@@ -24,43 +25,39 @@ class Visits(Base, CreatedAtMixin):
     
     status = Column(
         Enum(VisitStatus), 
-        default=VisitStatus.CHECKED_IN, 
+        default=VisitStatus.CHECKED_IN,
+        index=True,
         nullable=False
     )
     # foreign keys
     visitor_id = Column(
         Integer, 
-        ForeignKey("visitors.visitor_id"), 
+        ForeignKey("visitors.visitor_id", ondelete="CASCADE"), 
         nullable=False
     )
     branch_id = Column(
         Integer, 
-        ForeignKey("branches.branch_id"),
+        ForeignKey("branches.branch_id", ondelete="SET NULL"),
         nullable=False
     )
     badge_id = Column(
         Integer,
-        ForeignKey("badges.badge_id"),
+        ForeignKey("badges.badge_id", ondelete="SET NULL"),
         nullable=True
     )
     created_by = Column(
         Integer,
-        ForeignKey("users.user_id"),
+        ForeignKey("users.user_id", ondelete="SET NULL"),
         nullable=False
     )
-    updated_by = Column(
-        Integer,
-        ForeignKey("users.user_id"),
-        nullable=True
-    )
     # relationships
-    # many to one
+    # many-to-one
     visitor = relationship("Visitors", back_populates="visits")
-    # one to one
+    # one-to-one
     visit_vehicle = relationship("Visit_Vehicles", back_populates="visit", uselist=False)
     visit_item = relationship("Visit_Items", back_populates="visit", uselist=False)
     badge = relationship("Badges", back_populates="visit", uselist=False)
-
+    # many-to-one
     branch = relationship("Branches", foreign_keys=[branch_id])
     creator = relationship("Users", foreign_keys=[created_by])
 
@@ -75,6 +72,7 @@ class Visits(Base, CreatedAtMixin):
     @property
     def created_by_username(self) -> str | None:
         return self.creator.username if self.creator else None
+
 
 #visitors -> visits -> vehicle model
 class Visit_Vehicles(Base, CreatedAtMixin):
@@ -103,7 +101,7 @@ class Visit_Vehicles(Base, CreatedAtMixin):
         nullable=False
     )
     #relationships
-    # one to one
+    # one-to-one
     visit = relationship("Visits", back_populates="visit_vehicle", uselist=False)
 
 #visitors -> visits -> Items model
@@ -124,6 +122,6 @@ class Visit_Items(Base, CreatedAtMixin):
         nullable=False
     )
     #relationships
-    # one to one
+    # one-to-one
     visit = relationship("Visits", back_populates="visit_item", uselist=False)
     

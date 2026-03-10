@@ -1,7 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import type { VisitorDocument } from "../../../utils/types";
 import { DataTable } from "../../../components";
-import { formatDateTime } from "../../../utils/formateDateTime";
+import { formatDateTime } from "../../../utils/formatDateTime";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 

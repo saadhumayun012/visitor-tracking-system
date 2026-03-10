@@ -11,10 +11,11 @@ import {
     NavBar,
     ProtectedRoute,
     RoleProtectedRoute,
+    RootRedirect,
 } from "./components";
 import {
     AdminDashboard, 
-    Dashboard, Login,
+    Login,
     NotFound, 
     OfficerDashboard, 
     ReceptionistDashboard,  
@@ -48,7 +49,7 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route element={<NavBar />}>
             {/* public route */}
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<RootRedirect />} />
             <Route path="/login" element={<Login />} />
 
             {/* protected route */}

@@ -4,16 +4,17 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from app.core.enum import VisitStatus
 
-
+# ==========+++++==========+++++==========
 class CreateVisitVehicleRequest(BaseModel):
     vehicle_number: str = Field(..., min_length=2, max_length=15)
     vehicle_type: str = Field(..., max_length=30)
     vehicle_color: str = Field(..., max_length=20)
 
-
+# ==========+++++==========+++++==========
 class CreateVisitItemRequest(BaseModel):
     items_description: str = Field(..., min_length=3, max_length=500)
-    
+
+# ==========+++++==========+++++==========  
 class CreateCompleteVisitRequest(BaseModel):
     purpose: str = Field(..., min_length=3, max_length=100)
     purpose_description: str | None = Field(None, max_length=300)
@@ -23,6 +24,7 @@ class CreateCompleteVisitRequest(BaseModel):
     vehicle: CreateVisitVehicleRequest | None = None
     items: CreateVisitItemRequest | None = None
 
+# ==========+++++==========+++++==========
 class VisitVehicleResponse(BaseModel):
     vehicle_number: str
     vehicle_type: str
@@ -30,11 +32,13 @@ class VisitVehicleResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+# ==========+++++==========+++++==========
 class VisitItemResponse(BaseModel):
     items_description: str
 
     model_config = ConfigDict(from_attributes=True)
 
+# ==========+++++==========+++++==========
 class VisitResponse(BaseModel):
     visit_id: int
     purpose: str

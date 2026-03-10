@@ -2,7 +2,7 @@ import { getUsers } from "../../../api";
 import { usePagination } from "../../../hooks/usePagination";
 import { DataTable, Pagination } from "../../../components";
 import type { UserListType } from "../../../utils/types";
-import { formatDateTime } from "../../../utils/formateDateTime";
+import { formatDateTime } from "../../../utils/formatDateTime";
 
 export const UserList = () => {
     const { items, page, total_pages, loading, error, goNext, goPrev } =

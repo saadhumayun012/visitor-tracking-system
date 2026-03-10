@@ -78,11 +78,7 @@ export const Login = () => {
                         placeholder="Enter password"
                         error={errors.password}
                         {...register("password", {
-                            required: "Password is required",
-                            minLength: {
-                                value: 4,
-                                message: "Minimum length of password is 4"
-                            }
+                            required: "Password is required"
                         })}
                     />
                 </div>

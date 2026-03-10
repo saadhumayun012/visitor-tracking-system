@@ -1,8 +1,8 @@
 from math import ceil
 from sqlalchemy.orm import Query
 
+# ==========+++++==========+++++==========
 def paginate(query: Query, page: int, limit: int):
-    
     # Count
     total_items = query.order_by(None).count()
     

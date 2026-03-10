@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { Visitor } from "../../../utils/types";
-import { formatDate, formatDateTime } from "../../../utils/formateDateTime";
+import { formatDate, formatDateTime } from "../../../utils/formatDateTime";
 import { DataTable, Pagination } from "../../../components";
 import { usePagination } from "../../../hooks/usePagination";
 import { getVisitors } from "../../../api";

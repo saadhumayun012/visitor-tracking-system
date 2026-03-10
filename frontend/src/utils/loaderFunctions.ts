@@ -4,7 +4,7 @@ import {
     getVisitsOfVisitor,
     getVisitorById,
     getAvailableBadges,
-    getAdminDocumentTypes,
+    getDocumentTypes,
     getVisitorDocuments
 } from "../api"
 
@@ -15,17 +15,14 @@ export const branchesLoader = async () => {
 };
 
 // get all visits of visitor
-export const visitLoader = async ({params}: {params: any}) => {
-    const visits = await getVisitsOfVisitor(params.visitor_id);
+export const visitLoader = async ({params}: LoaderFunctionArgs) => {
+    const visitorId = Number(params.visitor_id);
+    const visits = await getVisitsOfVisitor(visitorId);
     return { visits }
 };
 
 export const visitFormLoader = async ({ params }: LoaderFunctionArgs) => {
     const visitorId = Number(params.visitor_id);
-
-    if (!visitorId || isNaN(visitorId)) {
-        throw new Response("Visitor ID required", { status: 400 });
-    }
 
     const [branches, badges, visitor] = await Promise.all([
         getBranches(),
@@ -38,16 +35,14 @@ export const visitFormLoader = async ({ params }: LoaderFunctionArgs) => {
 
 // get all document types (admin panel)
 export const documentTypesLoader = async () => {
-    const documentTypes = await getAdminDocumentTypes();
+    const documentTypes = await getDocumentTypes();
     return { documentTypes };
 };
 
 // get all documents of a visitor
 export const visitorDocumentsLoader = async ({ params }: LoaderFunctionArgs) => {
     const visitorId = Number(params.visitor_id);
-    if (!visitorId || isNaN(visitorId)) {
-        throw new Response("Visitor ID required", { status: 400 });
-    }
+    
     const documents = await getVisitorDocuments(visitorId);
     return { documents };
 };

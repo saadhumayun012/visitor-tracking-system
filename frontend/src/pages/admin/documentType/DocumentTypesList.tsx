@@ -30,7 +30,7 @@ export const DocumentTypesList = () => {
 
     return (
         <DataTable
-            title="All Branches"
+            title="All Document Types"
             backLink="/admin"
             backText="← BACK TO ADMIN DASHBOARD"
             columns={columns}

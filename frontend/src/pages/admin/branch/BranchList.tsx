@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import type { Branch } from "../../../utils/types";
-import { formatDateTime } from "../../../utils/formateDateTime";
+import { formatDateTime } from "../../../utils/formatDateTime";
 import { DataTable } from "../../../components";
 
 export const BranchList = () => {

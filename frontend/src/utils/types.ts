@@ -82,7 +82,6 @@ export interface Badge {
     badge_code: string;
     badge_status: BadgeStatus;
     created_at: string;
-    updated_at: string | null;
 }
 
 // 9- CreateBadge
@@ -99,7 +98,6 @@ export interface UserListType {
     branch_name?: string;        
     last_login_at: string | null;
     created_at: string;
-    update_at: string | null;
 }
 
 // 11- CreateUser
@@ -299,6 +297,14 @@ export interface VisitorDocument {
     uploaded_by_username: string | null;
     created_at: string;
 }
+
+export interface DocumentSlot {
+    type: AllDocumentType;
+    file: File | null;
+    previewUrl: string | null;
+    showCamera: boolean;
+}
+
 
 export interface UserPasswordReset {
     username: string

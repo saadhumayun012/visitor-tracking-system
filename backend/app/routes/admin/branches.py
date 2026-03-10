@@ -2,15 +2,16 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.models import Branches
 from app.schemas import CreateBranchRequest
-from app.utils import db_dependency, require_admin_dependency, user_dependency
+from app.utils import db_dependency, require_admin_dependency
 
 router = APIRouter(
     prefix="/branches",
     tags= ["Admin - Branches"],
 )
 
+# ==========+++++==========+++++==========
 # admin can add new branches
-@router.post("/branch", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def add_branch(
     db: db_dependency,
     _: require_admin_dependency,

@@ -1,6 +1,7 @@
 import type { OcrResponse } from "../utils/types";
 import { api } from "./axios";
 
+// ==========+++++==========+++++==========
 export const extractCnicOcr = async (
     documents: { file: File; document_code: string }[]
 ): Promise<OcrResponse> => {

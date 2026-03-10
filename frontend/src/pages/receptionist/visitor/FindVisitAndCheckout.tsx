@@ -3,7 +3,7 @@ import type { VisitInformation } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { Button } from "../../../components";
 import { checkoutVisit, findVisitByBadge } from "../../../api";
-import { formatDateTime } from "../../../utils/formateDateTime";
+import { formatDateTime } from "../../../utils/formatDateTime";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 

@@ -6,7 +6,7 @@ import { getUsers, createUser, resetUserPassword } from "./user.api";
 import { getVisitors, createVisitor, getVisitorById, getVisitorByCnic, updateVisitor, getVisitorDocuments } from "./visitor.api";
 import { getVisitsOfVisitor, createVisit, findVisitByBadge, checkoutVisit} from "./visit.api"
 import { extractCnicOcr } from "./ocr.api";
-import { getAllDocumentTypes, getAdminDocumentTypes, createDocumentType } from "./documentType.api";
+import { getDocumentTypes, createDocumentType } from "./documentType.api";
 
 export {
     api,
@@ -31,8 +31,7 @@ export {
     updateVisitor,
     getVisitorDocuments,
     extractCnicOcr,
-    getAllDocumentTypes,
-    getAdminDocumentTypes,
+    getDocumentTypes,
     createDocumentType,
     resetUserPassword
 }

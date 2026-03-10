@@ -80,7 +80,7 @@ class Visitors_Documents(Base, CreatedAtMixin):
         index=True
     )
     file_path = Column(String)
-    #foreign key
+    # foreign key
     visitor_id = Column(
         Integer,
         ForeignKey("visitors.visitor_id"),
@@ -97,6 +97,7 @@ class Visitors_Documents(Base, CreatedAtMixin):
     )
 
     # relationships
+    # many-to-one
     document_type = relationship("Document_Types")
     uploader = relationship("Users", foreign_keys=[uploaded_by])
 

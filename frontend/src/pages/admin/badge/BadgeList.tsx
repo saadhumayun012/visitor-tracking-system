@@ -1,5 +1,5 @@
 import type { Badge } from "../../../utils/types";
-import { formatDateTime } from "../../../utils/formateDateTime";
+import { formatDateTime } from "../../../utils/formatDateTime";
 import { DataTable, Pagination  } from "../../../components";
 import { usePagination } from "../../../hooks/usePagination";
 import { getBadges } from "../../../api";

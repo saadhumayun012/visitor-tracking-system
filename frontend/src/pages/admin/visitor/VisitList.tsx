@@ -1,10 +1,10 @@
 import { useLoaderData } from "react-router-dom";
 import type { Visit } from "../../../utils/types";
-import { formatDateTime } from "../../../utils/formateDateTime";
+import { formatDateTime } from "../../../utils/formatDateTime";
 import { DataTable } from "../../../components";
 
 export const VisitList = () => {
-    const { visits, visitor_id } = useLoaderData() as { visits: Visit[], visitor_id: number; };
+    const { visits } = useLoaderData() as { visits: Visit[], visitor_id: number; };
     
     const columns = [
         {
@@ -68,7 +68,7 @@ export const VisitList = () => {
     
     return (
         <DataTable
-            title={`Visitor #${visitor_id} Visits`}
+            title="All Visits"
             backLink="/admin"
             backText="← BACK TO DASHBOARD"
             columns={columns}

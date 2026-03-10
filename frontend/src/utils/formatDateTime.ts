@@ -1,4 +1,3 @@
-// utils/formatDateTime.ts
 export const formatDateTime = (isoString: string | null | undefined): string => {
     if (!isoString) {
         return "--";

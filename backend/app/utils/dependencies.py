@@ -11,12 +11,13 @@ from app.core.database import SessionLocal
 from app.core.config import settings
 from app.core.enum import UserRoles
 
+# ==========+++++==========+++++==========
 # db dependency
 def get_db():
     db = SessionLocal()
     try:
         yield db
-    except: 
+    except Exception: 
         db.rollback()
         raise
     finally:
@@ -24,10 +25,11 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 
 
-# user_dependency
+
 
 #oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/login") # this will through exception 401 "Not Authenticated" if we try to login without credentials
-
+# ==========+++++==========+++++==========
+# user dependency
 def get_current_user(
     db: db_dependency,
     request: Request,
@@ -71,6 +73,7 @@ def get_current_user(
    
 user_dependency = Annotated[Users, Depends(get_current_user) ]
 
+# ==========+++++==========+++++==========
 # require admin dependency
 def require_admin(
     user: user_dependency
@@ -84,6 +87,7 @@ def require_admin(
 
 require_admin_dependency = Annotated[Users, Depends(require_admin)]
 
+# ==========+++++==========+++++==========
 # require receptionist dependency
 def require_receptionist(
     user: user_dependency
@@ -97,6 +101,7 @@ def require_receptionist(
 
 require_receptionist_dependency = Annotated[Users, Depends(require_receptionist)]
 
+# ==========+++++==========+++++==========
 # require branch officer dependency
 def require_branch_officer(
     user: user_dependency
@@ -110,6 +115,7 @@ def require_branch_officer(
 
 require_branch_officer_dependency = Annotated[Users, Depends(require_branch_officer)]
 
+# ==========+++++==========+++++==========
 #pagination dependency 
 @dataclass
 class PaginationParams:

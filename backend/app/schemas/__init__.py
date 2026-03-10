@@ -1,15 +1,26 @@
-from .user import CreateUserRequest, LoginUserRequest, UserResponse
+from .user import (
+    CreateUserRequest,
+    UserResponse,
+    PasswordResetRequest,
+)
 from .branch import CreateBranchRequest, BranchResponse
-from .visitor import CreateVisitorRequest, FoundVisitorResponse, VisitorResponse, VisitorCnicResponse, VisitorIdResponse, UpdateVisitorRequest, VisitorDocumentResponse
+from .visitor import (
+    CreateVisitorRequest,
+    FoundVisitorResponse,
+    VisitorResponse,
+    # VisitorCnicResponse,
+    VisitorIdResponse,
+    UpdateVisitorRequest,
+    VisitorDocumentResponse,
+)
 from .visit import CreateCompleteVisitRequest, VisitResponse
-from .document import CreateDocumentTypeRequest, DocumentTypeResponse
+from .document import CreateDocumentTypeRequest, DocumentTypeResponse, DocumentPathItem
 from .badge import CreateBadgeRequest, BadgeResponse
 from .pagination import PaginatedResponse
 from .ocr import OcrExtractedData, OcrResponse
 
 __all__ = [
     "CreateUserRequest",
-    "LoginUserRequest",
     "CreateBranchRequest",
     "CreateDocumentTypeRequest",
     "CreateVisitorRequest",
@@ -23,10 +34,12 @@ __all__ = [
     "BranchResponse",
     "VisitResponse",
     "VisitorResponse",
-    "VisitorCnicResponse",
+    # "VisitorCnicResponse",
     "VisitorIdResponse",
     "UpdateVisitorRequest",
     "VisitorDocumentResponse",
     "OcrExtractedData",
-    "OcrResponse"
+    "OcrResponse",
+    "DocumentPathItem",
+    "PasswordResetRequest",
 ]

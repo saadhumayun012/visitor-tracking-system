@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status, Depends, Response
 from datetime import datetime, timezone, timedelta
 from jose import jwt
 from passlib.context import CryptContext
-from fastapi.security import OAuth2PasswordRequestForm #will remove when saving the token in cookie
+from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 
 from app.core.config import settings
@@ -18,6 +18,7 @@ router = APIRouter(
 # For verify password
 bcrypt_pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# ==========+++++==========+++++==========
 # create the access token and return it
 def create_access_token(data: dict):
     to_encode = data.copy()
@@ -33,6 +34,7 @@ def create_access_token(data: dict):
 
     return encoded_jwt
 
+# ==========+++++==========+++++==========
 # login the user and get the token
 @router.post("/token", status_code=status.HTTP_200_OK)
 async def login_user(
@@ -47,7 +49,7 @@ async def login_user(
     if user is None or not bcrypt_pwd_context.verify(form_data.password, user.password_hash): # type: ignore
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid credentials"
+            detail="username or password is incorrect",
         )
 
     token = create_access_token(
@@ -59,7 +61,7 @@ async def login_user(
         key= "access_token",
         value= token,
         httponly=True,
-        secure= False,
+        secure= False, # TODO: set to True in production
         samesite= "lax",
         max_age= 3600 * settings.access_token_expire_hours
     )
@@ -68,17 +70,13 @@ async def login_user(
     user.last_login_at = datetime.now(timezone.utc) # type: ignore
     db.commit()
 
-    # return {
-    #     "access_token": token,
-    #     "token_type": "bearer"
-    # }
-
     return {
         "user_id": user.user_id,
         "username": user.username,
         "user_role": user.user_role,
     }
 
+# ==========+++++==========+++++==========
 # logout the user
 @router.post("/logout", status_code=status.HTTP_200_OK)
 def logout(
@@ -89,6 +87,7 @@ def logout(
         "message": "Logout successfully"
     }
 
+# ==========+++++==========+++++==========
 # get the current user
 @router.get("/me", status_code=status.HTTP_200_OK)
 def get_current_user(

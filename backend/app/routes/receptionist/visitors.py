@@ -1,7 +1,12 @@
 from fastapi import APIRouter, HTTPException, status
 
 from app.models import Visitors
-from app.schemas import CreateVisitorRequest, VisitorIdResponse, VisitorCnicResponse, UpdateVisitorRequest
+from app.schemas import (
+    CreateVisitorRequest, 
+    VisitorIdResponse, 
+    UpdateVisitorRequest, 
+    VisitorResponse
+)
 from app.utils import db_dependency, require_receptionist_dependency
 from app.models.visitor import Document_Types, Visitors_Documents
 
@@ -11,26 +16,14 @@ router = APIRouter(
     tags=["Visitor - Receptionist"]
 )
 
+# ==========+++++==========+++++==========
 # receptionist add the visitor (it is only visitor details)
-@router.post("/visitor", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def create_visitor(
     db: db_dependency,
     user: require_receptionist_dependency,
     request: CreateVisitorRequest
-):  
-    # new_visitor = Visitors(
-    #     visitor_name= request.visitor_name,
-    #     father_name= request.father_name,
-    #     gender= request.gender,
-    #     cnic_number= request.cnic_number,
-    #     date_of_birth= request.date_of_birth,
-    #     cnic_date_of_issue= request.cnic_date_of_issue,
-    #     cnic_date_of_expiry= request.cnic_date_of_expiry,
-    #     current_address= request.current_address,
-    #     permanent_address= request.permanent_address,
-    #     phone_number= request.phone_number
-    # )
-
+):
     new_visitor = Visitors(**request.model_dump(
         exclude={"document_paths"}
     ))
@@ -57,7 +50,10 @@ def create_visitor(
         ).first()
 
         if not doc_type:
-            continue  # ignore invalid document types
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Document type with code {doc.document_code} does not exist"
+            )
 
         db.add(Visitors_Documents(
             visitor_id=new_visitor.visitor_id,
@@ -74,9 +70,9 @@ def create_visitor(
         "visitor_id": new_visitor.visitor_id # this is need for the visit
     }
 
-# TODO: check this route do i need to return the visitor details - will check it
+# ==========+++++==========+++++==========
 # get visitor by cnic
-@router.get("/cnic", response_model=VisitorCnicResponse, status_code=status.HTTP_200_OK)
+@router.get("/cnic", response_model=VisitorResponse, status_code=status.HTTP_200_OK)
 def get_visitor_by_cnic(
     cnic_number: str,
     db: db_dependency,
@@ -94,6 +90,7 @@ def get_visitor_by_cnic(
     
     return visitor
 
+# ==========+++++==========+++++==========
 # receptionist get the visitor by id
 @router.get("/{visitor_id}", response_model=VisitorIdResponse, status_code=status.HTTP_200_OK)
 def get_visitor_by_id(
@@ -113,7 +110,7 @@ def get_visitor_by_id(
     
     return visitor
 
-
+# ==========+++++==========+++++==========
 # update the visitor record if needed means partially update
 @router.patch("/{visitor_id}", status_code=status.HTTP_200_OK)
 def update_visitor(
@@ -139,4 +136,6 @@ def update_visitor(
 
     db.commit()
 
-    return {"message": "Visitor updated successfully"}
+    return {
+        "message": "Visitor updated successfully"
+    }

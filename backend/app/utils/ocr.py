@@ -9,6 +9,7 @@ import easyocr
 UPLOAD_DIR = Path("uploads/")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
+# ==========+++++==========+++++==========
 def save_cnic_image(file_bytes: bytes, prefix: str) -> str:
     nparr = np.frombuffer(file_bytes, np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
@@ -26,6 +27,7 @@ def save_cnic_image(file_bytes: bytes, prefix: str) -> str:
 
 _reader = None
 
+# ==========+++++==========+++++==========
 # This function initializes and returns a singleton instance of the EasyOCR reader. It ensures that the reader is created only once and reused for subsequent OCR operations, improving performance.
 def get_reader() -> easyocr.Reader:
     global _reader
@@ -33,6 +35,7 @@ def get_reader() -> easyocr.Reader:
         _reader = easyocr.Reader(['en'], gpu=False)
     return _reader
 
+# ==========+++++==========+++++==========
 # This function takes the OCR results from EasyOCR and extracts structured data such as name, father's name, CNIC number, dates
 CNIC_PATTERN = re.compile(r'\d{5}[-]\d{7}[-]\d')
 DATE_PATTERN = re.compile(r'\d{2}[./-]\d{2}[./-]\d{4}')
