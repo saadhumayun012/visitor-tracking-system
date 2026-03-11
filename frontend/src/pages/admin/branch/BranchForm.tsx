@@ -1,5 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { CreateBranch } from "../../../utils/types";
+import type { CreateBranch } from "../../../types";
 import { createBranch } from "../../../api";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";

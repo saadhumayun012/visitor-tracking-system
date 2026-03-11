@@ -1,5 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { CreateBadge } from "../../../utils/types";
+import type { CreateBadge } from "../../../types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Button, FormInput } from "../../../components";

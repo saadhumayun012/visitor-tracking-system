@@ -1,4 +1,4 @@
-import type { Badge } from "../../../utils/types";
+import type { Badge } from "../../../types";
 import { formatDateTime } from "../../../utils/formatDateTime";
 import { DataTable, Pagination  } from "../../../components";
 import { usePagination } from "../../../hooks/usePagination";
@@ -28,8 +28,8 @@ export const BadgeList = () => {
         },
     ];
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
+    if (loading) return <p className="loading-text">Loading...</p>;
+    if (error) return <p className="error-text">{error}</p>;
 
     return (
         <>

@@ -1,5 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { Branch, CreateUser } from "../../../utils/types";
+import type { Branch, CreateUser } from "../../../types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { Button, FormInput, FormSelect } from "../../../components";

@@ -112,6 +112,25 @@
         @apply bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-sm font-medium mb-2;
     }
 
+    /* Full-page loading state (list pages while fetching) */
+    .loading-text {
+        @apply block text-sm text-gray-500 text-center py-16 w-full;
+    }
+
+    /* Full-page error state (list pages on fetch failure) */
+    .error-text {
+        @apply block text-sm text-red-500 text-center py-16 w-full;
+    }
+
+    /* Checkbox + label row inside a form */
+    .checkbox-group {
+        @apply flex items-center gap-2;
+    }
+
+    .checkbox-group label {
+        @apply text-sm text-gray-700 cursor-pointer;
+    }
+
 
     /* ─── Tables ─────────────────────────────────────────────── */
 

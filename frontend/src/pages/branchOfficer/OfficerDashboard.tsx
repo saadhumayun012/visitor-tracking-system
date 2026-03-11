@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import type { ActiveVisit } from "../../utils/types";
+import type { ActiveVisit } from "../../types";
 import { formatDateTime } from "../../utils/formatDateTime";
 
 export const OfficerDashboard = () => {

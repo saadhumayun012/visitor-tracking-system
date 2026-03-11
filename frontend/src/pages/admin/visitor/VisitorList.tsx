@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import type { Visitor } from "../../../utils/types";
+import type { Visitor } from "../../../types";
 import { formatDate, formatDateTime } from "../../../utils/formatDateTime";
 import { DataTable, Pagination } from "../../../components";
 import { usePagination } from "../../../hooks/usePagination";
@@ -94,8 +94,8 @@ export const VisitorList = () => {
         },
     ];
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
+    if (loading) return <p className="loading-text">Loading...</p>;
+    if (error) return <p className="error-text">{error}</p>;
 
     return (
         <>

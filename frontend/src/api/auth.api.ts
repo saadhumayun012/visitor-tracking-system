@@ -1,4 +1,4 @@
-import type { LoginFormData, User } from "../utils/types";
+import type { LoginFormData, User } from "../types";
 import { api }from "./axios";
 
 // ==========+++++==========+++++==========

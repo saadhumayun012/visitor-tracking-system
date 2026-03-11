@@ -5,7 +5,7 @@ import React, {
     useState,
 } from "react";
 import { getCurrentUser, login, logout } from "../api/auth.api";
-import type { AuthContextType, User } from '../utils/types'
+import type { AuthContextType, User } from "../types"
 
 export const AuthContext = createContext<AuthContextType | undefined>(
     undefined

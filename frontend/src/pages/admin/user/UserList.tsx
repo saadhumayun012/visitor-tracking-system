@@ -1,7 +1,7 @@
 import { getUsers } from "../../../api";
 import { usePagination } from "../../../hooks/usePagination";
 import { DataTable, Pagination } from "../../../components";
-import type { UserListType } from "../../../utils/types";
+import type { UserListType } from "../../../types";
 import { formatDateTime } from "../../../utils/formatDateTime";
 
 export const UserList = () => {
@@ -36,8 +36,8 @@ export const UserList = () => {
         },
 ];
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
+    if (loading) return <p className="loading-text">Loading...</p>;
+    if (error) return <p className="error-text">{error}</p>;
 
     return (
         <>

@@ -12,7 +12,9 @@ type Variant =
    | "logout"
    | "find"
    | "submit"
-   | "page";
+   | "page"
+   | "checkout"
+   | "warning";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
    variant?: Variant;
@@ -34,6 +36,8 @@ const variantClasses: Record<Variant, string> = {
   logout: "bg-red-600 hover:bg-red-700 text-white",
   submit: "bg-blue-600 hover:bg-blue-700 text-white",
   page: "bg-white text-gray-600 border border-gray-300 hover:bg-gray-100 hover:text-gray-900 !rounded-full",
+  checkout: "bg-teal-600 hover:bg-teal-700 text-white",
+  warning: "bg-gray-50 text-gray-600 border border-gray-300 hover:bg-gray-100 hover:text-gray-800 hover:border-gray-400",
 };
 
 export const Button = ({

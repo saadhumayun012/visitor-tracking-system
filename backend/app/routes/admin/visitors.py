@@ -1,5 +1,7 @@
 from typing import List
+from pathlib import Path
 from fastapi import APIRouter, HTTPException, status
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import joinedload
 from sqlalchemy import desc
 
@@ -43,7 +45,7 @@ def get_visitor(
 # ==========+++++==========+++++==========
 # TODO: add pagination to this endpoint as well if needed, but for now we can get all documents of visitor without pagination because it is not expected to be large number of documents for a single visitor
 # get all visits of visitor
-@router.get("/{visitor_id}/visits", response_model=PaginatedResponse[VisitResponse], status_code=status.HTTP_200_OK)
+@router.get("/{visitor_id}/visits", response_model=List[VisitResponse], status_code=status.HTTP_200_OK)
 def all_visits_of_visitor(
     db: db_dependency,
     _: require_admin_dependency,
@@ -60,6 +62,7 @@ def all_visits_of_visitor(
             joinedload(Visits.creator),
             joinedload(Visits.branch),
         )
+        .all()
     )
     return query
 
@@ -100,3 +103,19 @@ def get_visitor_documents(
         )
         for d in docs
     ]
+
+# ==========+++++==========+++++==========
+# serve a single uploaded document — admin only
+@router.get("/documents/{file_path:path}", status_code=status.HTTP_200_OK)
+def serve_document(
+    file_path: str,
+    _: require_admin_dependency,
+):
+    # prevent path traversal attacks
+    safe_path = Path("uploads") / Path(file_path).name
+    if not safe_path.exists() or not safe_path.is_file():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Document not found"
+        )
+    return FileResponse(path=str(safe_path), media_type="image/jpeg")

@@ -1,4 +1,4 @@
-import type { Badge, CreateBadge, PaginatedResponse } from "../utils/types"
+import type { Badge, CreateBadge, PaginatedResponse } from "../types"
 import { api } from "./axios"
 
 // ==========+++++==========+++++==========

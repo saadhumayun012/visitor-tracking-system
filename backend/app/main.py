@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
 from app.routes.admin import router as admin_routers
@@ -40,7 +39,5 @@ app.include_router(common_routers)
 app.include_router(branch_officer_routers)
 
 # ==========+++++==========+++++==========
-# serve uploaded documents as static files
-uploads_path = Path("uploads")
-uploads_path.mkdir(exist_ok=True)
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+# ensure uploads directory exists at startup
+Path("uploads").mkdir(exist_ok=True)

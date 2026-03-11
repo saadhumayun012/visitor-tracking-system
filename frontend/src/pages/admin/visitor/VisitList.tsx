@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-import type { Visit } from "../../../utils/types";
+import type { Visit } from "../../../types";
 import { formatDateTime } from "../../../utils/formatDateTime";
 import { DataTable } from "../../../components";
 

@@ -1,5 +1,5 @@
 import { api } from "./axios";
-import type { Branch, CreateBranch } from "../utils/types";
+import type { Branch, CreateBranch } from "../types";
 
 // ==========+++++==========+++++==========
 export const getBranches = async (): Promise<Branch[]> => {

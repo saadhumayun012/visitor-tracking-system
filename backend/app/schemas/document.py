@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
 
 # ==========+++++==========+++++==========
@@ -12,6 +13,7 @@ class DocumentTypeResponse(BaseModel):
     document_code: str
     document_name: str
     is_required: bool
+    created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
 

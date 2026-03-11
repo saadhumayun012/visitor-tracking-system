@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { DocumentSlot } from "../../utils/types";
+import type { DocumentSlot } from "../../types";
 import { extractCnicOcr } from "../../api";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { DocumentSlotUploader } from "./DocumentSlotUploader";
@@ -78,7 +78,7 @@ export const OcrExtractPanel = ({ slots, onUpdateSlot, slotsError }: Props) => {
                     {isExtracting ? "Extracting..." : "Extract & Continue →"}
                 </Button>
                 <Button
-                    variant="get"
+                    variant="primary"
                     onClick={() => navigate("/receptionist/visitors-form")}
                 >
                     Manual Entry

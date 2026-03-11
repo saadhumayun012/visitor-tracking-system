@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import type { DocumentSlot } from "../../utils/types";
+import type { DocumentSlot } from "../../types";
 import Webcam from "react-webcam";
 import { Button } from "../ui/Button";
 
@@ -85,7 +85,7 @@ export const DocumentSlotUploader = ({ slot, index, onUpdate }: Props) => {
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
                         videoConstraints={{ facingMode: "environment" }}
-                        className="w-full max-w-md rounded-lg border"
+                        className="w-full max-w-md rounded-sm border border-gray-300"
                     />
                     <div className="flex gap-2">
                         <Button
@@ -95,7 +95,7 @@ export const DocumentSlotUploader = ({ slot, index, onUpdate }: Props) => {
                             Capture
                         </Button>
                         <Button
-                            variant="delete"
+                            variant="warning"
                             onClick={() =>
                                 onUpdate(index, { showCamera: false })
                             }
@@ -112,7 +112,7 @@ export const DocumentSlotUploader = ({ slot, index, onUpdate }: Props) => {
                     <img
                         src={slot.previewUrl!}
                         alt="preview"
-                        className="w-full max-w-md rounded-lg border"
+                        className="w-full max-w-md rounded-sm border border-gray-300"
                     />
                     <div className="flex gap-2 items-center">
                         <span className="text-green-600 text-sm">

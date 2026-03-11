@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-import type { VisitorDocument } from "../../../utils/types";
+import type { VisitorDocument } from "../../../types";
 import { DataTable } from "../../../components";
 import { formatDateTime } from "../../../utils/formatDateTime";
 
@@ -36,7 +36,7 @@ export const VisitorDocuments = () => {
             header: "View",
             accessor: (doc: VisitorDocument) => (
                 <a
-                    href={`${API_BASE_URL}/${doc.file_path}`}
+                    href={`${API_BASE_URL}/admin/visitors/documents/${doc.file_path}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-view-text"
@@ -50,7 +50,7 @@ export const VisitorDocuments = () => {
     return (
         <DataTable
             title="Visitor Documents"
-            backLink="/admin/visitors-list"
+            backLink="/admin"
             backText="← BACK TO VISITORS"
             columns={columns}
             data={documents}

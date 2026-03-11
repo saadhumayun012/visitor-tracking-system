@@ -33,5 +33,5 @@ export {
     extractCnicOcr,
     getDocumentTypes,
     createDocumentType,
-    resetUserPassword
+    resetUserPassword,
 }

@@ -1,4 +1,4 @@
-import type { AllDocumentType, DocumentType } from "../utils/types";
+import type { AllDocumentType, DocumentType } from "../types";
 import { api } from "./axios";
 
 // ==========+++++==========+++++==========
@@ -15,3 +15,4 @@ export const createDocumentType = async (payload: DocumentType) => {
         is_required: payload.is_required,
     });
 };
+

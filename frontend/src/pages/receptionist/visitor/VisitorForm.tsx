@@ -1,5 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { CreateVisitor } from "../../../utils/types";
+import type { CreateVisitor } from "../../../types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, FormInput, FormSelect } from "../../../components";

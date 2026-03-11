@@ -7,7 +7,7 @@ import type {
     VisitorInformation,
     AllDocumentType,
     DocumentSlot,
-} from "../../../utils/types";
+} from "../../../types";
 
 export const RegisteredVisitor = () => {
     const navigate = useNavigate();

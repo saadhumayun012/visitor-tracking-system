@@ -3,7 +3,7 @@ import type {
     PaginatedResponse,
     UserListType,
     UserPasswordReset,
-} from "../utils/types";
+} from "../types";
 import { api } from "./axios";
 
 // ==========+++++==========+++++==========

@@ -14,7 +14,7 @@ class CreateVisitorRequest(BaseModel):
     cnic_number: str = Field(..., pattern=r"^\d{5}-\d{7}-\d$")
     cnic_date_of_issue: date | None = None
     cnic_date_of_expiry: date | None = None
-    current_address: str = Field(..., min_length=10, max_length=300)
+    current_address: str = Field(..., min_length=3, max_length=300)
     permanent_address: str | None = Field(None, max_length=300)
     phone_number: str = Field(..., min_length=10, max_length=15)
 
@@ -81,22 +81,6 @@ class VisitorIdResponse(BaseModel):
     cnic_number: str
 
     model_config = ConfigDict(from_attributes=True)
-
-# ==========+++++==========+++++==========
-# class VisitorCnicResponse(BaseModel):
-#     visitor_id: int
-#     visitor_name: str
-#     father_name: str | None = None
-#     gender: GenderType
-#     date_of_birth: date
-#     cnic_number: str
-#     cnic_date_of_issue: date | None = None
-#     cnic_date_of_expiry: date | None = None
-#     current_address: str
-#     permanent_address: str | None = None
-#     phone_number: str
-
-#     model_config = ConfigDict(from_attributes=True)
 
 # ==========+++++==========+++++==========
 class FoundVisitorResponse(BaseModel):

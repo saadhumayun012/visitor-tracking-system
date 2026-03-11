@@ -42,3 +42,4 @@ def add_documents_types(
     return {
         "message": "Document Type added successfully"
     }
+

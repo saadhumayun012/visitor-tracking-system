@@ -1,6 +1,7 @@
 import { useLoaderData } from "react-router-dom";
-import type { AllDocumentType } from "../../../utils/types";
+import type { AllDocumentType } from "../../../types";
 import { DataTable } from "../../../components";
+import { formatDateTime } from "../../../utils/formatDateTime";
 
 export const DocumentTypesList = () => {
     const { documentTypes } = useLoaderData() as {
@@ -26,6 +27,10 @@ export const DocumentTypesList = () => {
             accessor: (docType: AllDocumentType) =>
                 docType.is_required ? "Yes" : "No",
         },
+        {
+            header: "Created At",
+            accessor: (docType: AllDocumentType) => formatDateTime(docType.created_at),
+        },
     ];
 
     return (
@@ -34,7 +39,7 @@ export const DocumentTypesList = () => {
             backLink="/admin"
             backText="← BACK TO ADMIN DASHBOARD"
             columns={columns}
-            data={documentTypes}
+            data={documentTypes ?? []}
             getRowKey={(docType) => docType.document_type_id}
         />
     );

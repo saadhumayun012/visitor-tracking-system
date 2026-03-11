@@ -1,5 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { DocumentType } from "../../../utils/types";
+import type { DocumentType } from "../../../types";
 import { createDocumentType } from "../../../api";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { useNavigate } from "react-router-dom";

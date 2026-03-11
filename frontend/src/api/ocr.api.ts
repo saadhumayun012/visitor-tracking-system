@@ -1,4 +1,4 @@
-import type { OcrResponse } from "../utils/types";
+import type { OcrResponse } from "../types";
 import { api } from "./axios";
 
 // ==========+++++==========+++++==========

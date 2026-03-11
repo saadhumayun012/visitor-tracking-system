@@ -46,7 +46,7 @@ export const NavBar = () => {
             </nav>
 
             {/* Main Content Area */}
-            <main className="min-h-[calc(100-3.5rem)] bg-gray-50">
+            <main className="min-h-[calc(100vh-3.5rem)] bg-gray-50">
                 <Outlet />
             </main>
         </>

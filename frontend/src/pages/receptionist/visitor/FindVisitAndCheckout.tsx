@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { VisitInformation } from "../../../utils/types";
+import type { VisitInformation } from "../../../types";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { Button } from "../../../components";
 import { checkoutVisit, findVisitByBadge } from "../../../api";
@@ -114,7 +114,7 @@ export const FindVisitAndCheckout = () => {
                         <Button
                             onClick={handleCheckout}
                             isLoading={isCheckout}
-                            variant="found"
+                            variant="checkout"
                         >
                             Check Out
                         </Button>

@@ -67,7 +67,7 @@ export const AdminDashboard = () => {
                 </Button>
                  <Button
                     onClick={() => navigate("/admin/reset-password")}
-                    variant="post"
+                    variant="put"
                 >
                     CHANGE PASSWORD
                 </Button>

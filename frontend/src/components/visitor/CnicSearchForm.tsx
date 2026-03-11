@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import type { VisitorInformation } from "../../utils/types";
+import type { VisitorInformation } from "../../types";
 import { Button } from "../ui/Button";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { getVisitorByCnic } from "../../api";

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import type { LoginFormData } from "../../utils/types";
+import type { LoginFormData } from "../../types";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { roleToPath } from "../../utils/roleToPath";
 import { Button, FormInput } from "../../components";

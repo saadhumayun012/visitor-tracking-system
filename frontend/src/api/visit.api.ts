@@ -1,4 +1,4 @@
-import type { Visit, CreateVisit, VisitInformation } from "../utils/types";
+import type { Visit, CreateVisit, VisitInformation } from "../types";
 import { api } from "./axios";
 
 // ==========+++++==========+++++==========

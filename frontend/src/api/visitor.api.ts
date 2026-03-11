@@ -3,7 +3,7 @@ import type {
     CreateVisitor,
     VisitorInformation,
     PaginatedResponse,
-} from "../utils/types";
+} from "../types";
 import { api } from "./axios";
 
 // get all visitors

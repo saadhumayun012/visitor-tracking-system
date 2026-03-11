@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { PaginatedResponse } from "../utils/types";
+import type { PaginatedResponse } from "../types";
 
 export const usePagination = <T>(
     fetchFn: (page: number, limit: number) => Promise<PaginatedResponse<T>>,
