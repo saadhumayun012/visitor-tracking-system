@@ -44,25 +44,25 @@ class Users(Base, TimestampMixin):
         return self.branch.branch_name if self.branch else None
 
 
-class AuditLogs(Base, CreatedAtMixin):
-    __tablename__ = "audit_logs"
+# class AuditLogs(Base, CreatedAtMixin):
+#     __tablename__ = "audit_logs"
 
-    audit_log_id = Column(
-        Integer,
-        Identity(always=True),
-        primary_key=True,
-        index=True
-    )
-    role_at_time = Column(Enum(UserRoles), nullable=False)
-    action = Column(String(20))
-    entity = Column(String(20))
-    entity_id = Column(Integer)
-    old_value = Column(String)
-    new_value = Column(String)
-    ip_address = Column(String(45))
-    # foreign key
-    user_id = Column(
-        Integer,
-        ForeignKey("users.user_id"),
-        nullable=False
-    )
+#     audit_log_id = Column(
+#         Integer,
+#         Identity(always=True),
+#         primary_key=True,
+#         index=True
+#     )
+#     role_at_time = Column(Enum(UserRoles), nullable=False)
+#     action = Column(String(20))
+#     entity = Column(String(20))
+#     entity_id = Column(Integer)
+#     old_value = Column(String)
+#     new_value = Column(String)
+#     ip_address = Column(String(45))
+#     # foreign key
+#     user_id = Column(
+#         Integer,
+#         ForeignKey("users.user_id"),
+#         nullable=False
+#     )

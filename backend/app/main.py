@@ -15,6 +15,7 @@ from app.core.config import settings
 
 app = FastAPI(title="Visitor Tracking System")
 
+# Create database tables
 Base.metadata.create_all(bind=engine)
 
 # ==========+++++==========+++++==========
